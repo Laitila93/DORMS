@@ -10,6 +10,46 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/challenges',
+      name: 'challenges',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ChallengesView.vue'),
+    },
+    {
+      path: '/leaderboard',
+      name: 'leaderboard',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/LeaderboardView.vue'),
+    },
+    {
+      path: '/shop',
+      name: 'shop',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ShopView.vue'),
+    },
+    {
+      path: '/stats',
+      name: 'stats',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/StatsView.vue'),
+    },
+    {
+      path: '/tank',
+      name: 'tank',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/TankView.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -17,6 +57,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
+    
   ],
 })
 
