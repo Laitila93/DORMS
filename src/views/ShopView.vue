@@ -1,8 +1,8 @@
 <template>
-<div class="container mx-auto mt-16 p-4">
+
     <VerticalmenuCompnent :menu="menuType" @menu-select="handleMenuSelect" />
     <NavComponent :menu="navMenuType" />
-
+    <div class="container mx-auto mt-16 p-4 flex items-center justify-center min-h-screen">
      
       <!-- Conditional Content -->
       <div v-if="selectedContent === 'Hats'">
@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import VerticalmenuCompnent from '@/components/VerticalmenuCompnent.vue';
+import VerticalmenuCompnent from '@/components/VerticalMenuComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
 import { ref } from 'vue';
 import fishData from '@/assets/fish.json';
