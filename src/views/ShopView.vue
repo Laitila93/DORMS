@@ -39,7 +39,7 @@
           <img
             :src="getImageUrl(fish.image)"
             :alt="fish.name"
-            class="w-full h-40 object-contain rounded-md mb-4"
+            class="w-full h-40 object-contain rounded-md mb-4 fish-wiggle"
           />
           <h3 class="text-xl text-gray-800 font-semibold mb-2">{{ fish.name }}</h3>
           <p class="text-gray-600">Description: {{ fish.description }}</p>
@@ -98,7 +98,33 @@ const selectedContent = ref('');
 function handleMenuSelect(option: string) {
   selectedContent.value = option;
 }
+// Function to generate random values for rotation and skew
+function getRandomWiggleClass() {
+  const rotateValue = (Math.random() * 4 - 2).toFixed(2); // Random rotate between -2deg and +2deg
+  const skewValue = (Math.random() * 6 - 3).toFixed(2); // Random skew between -3deg and +3deg
+  const duration = (Math.random() * 1.5 + 1).toFixed(2); // Random duration between 1 and 2.5 seconds
+  
+  return `fish-wiggle-${rotateValue}-${skewValue}-${duration}`;
+}
 </script>
 
 <style scoped>
+@keyframes swim-wiggle {
+  0%, 100% {
+    transform: rotate(0deg) skewX(0deg) translateY(0px);
+  }
+  25% {
+    transform: rotate(2deg) skewX(3deg) translateY(-3px);
+  }
+  50% {
+    transform: rotate(0deg) skewX(0deg) translateY(0px);
+  }
+  75% {
+    transform: rotate(-2deg) skewX(-3deg) translateY(3px);
+  }
+}
+
+.fish-wiggle {
+  animation: swim-wiggle 3s infinite ease-in-out;
+}
 </style>
