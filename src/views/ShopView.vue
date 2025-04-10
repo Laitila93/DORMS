@@ -71,7 +71,9 @@
     <div v-else>
       <p class="text-lg">Please select an option from the menu.</p>
     </div>
+    <FishComponent :fishType="selectedFish" :hatType="selectedHat" />
   </div>
+  
 </div>
 
  
@@ -80,16 +82,18 @@
 <script setup lang="ts">
 import VerticalmenuCompnent from '@/components/VerticalMenuComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
+import FishComponent from '@/components/FishComponent.vue';
 import { ref } from 'vue';
 import shopData from '@/assets/shopData.json';
 
   const getImageUrl = (imageName: string) => {
-    const images = import.meta.glob('@/assets/images/*');
     return new URL(`../assets/images/${imageName}`, import.meta.url).href;
   };
 
 const menuType = ref('shop');
 const navMenuType = ref('main'); // This can be changed to any other menu type as needed
+const selectedFish = ref('Mört'); // Initialize selected fish type
+const selectedHat = ref('Moose hat'); // Initialize selected hat type
 
 // Reactive variable to track selected content
 const selectedContent = ref('');
@@ -98,33 +102,9 @@ const selectedContent = ref('');
 function handleMenuSelect(option: string) {
   selectedContent.value = option;
 }
-// Function to generate random values for rotation and skew
-function getRandomWiggleClass() {
-  const rotateValue = (Math.random() * 4 - 2).toFixed(2); // Random rotate between -2deg and +2deg
-  const skewValue = (Math.random() * 6 - 3).toFixed(2); // Random skew between -3deg and +3deg
-  const duration = (Math.random() * 1.5 + 1).toFixed(2); // Random duration between 1 and 2.5 seconds
-  
-  return `fish-wiggle-${rotateValue}-${skewValue}-${duration}`;
-}
+
 </script>
 
 <style scoped>
-@keyframes swim-wiggle {
-  0%, 100% {
-    transform: rotate(0deg) skewX(0deg) translateY(0px);
-  }
-  25% {
-    transform: rotate(2deg) skewX(3deg) translateY(-3px);
-  }
-  50% {
-    transform: rotate(0deg) skewX(0deg) translateY(0px);
-  }
-  75% {
-    transform: rotate(-2deg) skewX(-3deg) translateY(3px);
-  }
-}
 
-.fish-wiggle {
-  animation: swim-wiggle 3s infinite ease-in-out;
-}
 </style>
