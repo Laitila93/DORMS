@@ -12,9 +12,11 @@
       :class="{ 'translate-x-0': isOpen, 'translate-x-full': !isOpen }">
         <ul class="menu-items">  
           <li v-for="item in menuItems" :key="item.name">
-            <div class="bg-gray-200 w-full p-3 rounded-lg hover:bg-gray-400 transition duration-200">
-              <router-link :to="item.link" @click="closeMenu">{{ item.name }}</router-link>
-            </div>
+              <router-link :to="item.link" @click="closeMenu">
+                <div class="bg-gray-200 w-full p-3 rounded-lg hover:bg-gray-400 transition duration-200">
+                  {{ item.name }}
+                </div>
+              </router-link>
           </li>
         </ul>
       </div>

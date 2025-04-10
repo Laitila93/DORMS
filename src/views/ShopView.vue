@@ -1,50 +1,87 @@
 <template>
-
+      <NavComponent :menu="navMenuType" />
+      <div class="grid grid-cols-[168px_1fr] h-screen">
+  <!-- Sidebar -->
+  <div class="p-4">
     <VerticalmenuCompnent :menu="menuType" @menu-select="handleMenuSelect" />
-    <NavComponent :menu="navMenuType" />
-    <div class="container mx-auto mt-16 p-4 flex items-center justify-center min-h-screen">
-     
-      <!-- Conditional Content -->
-      <div v-if="selectedContent === 'Hats'">
-        <p class="text-lg">Here you can browse hats.</p>
-      </div>
-      <div v-else-if="selectedContent === 'Fish'">
-  <p class="text-lg mb-4">Here is all the fish:</p>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div
-      v-for="fish in fishData"
-      :key="fish.name"
-      class="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
-    >
-      <!-- Fish Image -->
-      <!-- use `getImageUrl` method to dynamically generate the image path -->
-      <img
-        :src="getImageUrl(fish.image)"
-        :alt="fish.name"
-        class="w-full h-40 object-cover rounded-md mb-4"
-        />
+  </div>
 
-      <!-- Fish Details -->
-      <h3 class="text-xl text-gray-800 font-semibold mb-2">{{ fish.name }}</h3>
-      <p class="text-gray-600">Description: {{ fish.description }}</p>
-      <p class="text-gray-800 font-bold mt-2">Price: ${{ fish.price }}</p>
+  <!-- Main Content Area -->
+  <div class="p-4 overflow-y-auto">
+    <div v-if="selectedContent === 'Hats'">
+      <p class="text-lg">Here you can browse hats.</p>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
+        <div
+          v-for="hat in shopData.hats"
+          :key="hat.name"
+          class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
+        >
+          <img
+            :src="getImageUrl(hat.image)"
+            :alt="hat.name"
+            class="w-full h-40 object-contain rounded-md mb-4"
+          />
+          <h3 class="text-xl text-gray-800 font-semibold mb-2">{{ hat.name }}</h3>
+          <p class="text-gray-600">Description: {{ hat.description }}</p>
+          <p class="text-gray-800 font-bold mt-2">Price: ${{ hat.price }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="selectedContent === 'Fish'">
+      <p class="text-lg mb-4">Here is all the fish:</p>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
+        <div
+          v-for="fish in shopData.fish"
+          :key="fish.name"
+          class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
+        >
+          <img
+            :src="getImageUrl(fish.image)"
+            :alt="fish.name"
+            class="w-full h-40 object-contain rounded-md mb-4"
+          />
+          <h3 class="text-xl text-gray-800 font-semibold mb-2">{{ fish.name }}</h3>
+          <p class="text-gray-600">Description: {{ fish.description }}</p>
+          <p class="text-gray-800 font-bold mt-2">Price: ${{ fish.price }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="selectedContent === 'Special'">
+      <p class="text-lg">special items i guess?.</p>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
+        <div
+          v-for="special in shopData.specials"
+          :key="special.name"
+          class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
+        >
+          <img
+            :src="getImageUrl(special.image)"
+            :alt="special.name"
+            class="w-full h-40 object-contain rounded-md mb-4"
+          />
+          <h3 class="text-xl text-gray-800 font-semibold mb-2">{{ special.name }}</h3>
+          <p class="text-gray-600">Description: {{ special.description }}</p>
+          <p class="text-gray-800 font-bold mt-2">Price: ${{ special.price }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <p class="text-lg">Please select an option from the menu.</p>
     </div>
   </div>
 </div>
-      <div v-else-if="selectedContent === 'Special'">
-        <p class="text-lg">special items i guess?.</p>
-      </div>
-      <div v-else>
-        <p class="text-lg">Please select an option from the menu.</p>
-      </div>
-    </div> 
+
+ 
 </template>
 
 <script setup lang="ts">
 import VerticalmenuCompnent from '@/components/VerticalMenuComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
 import { ref } from 'vue';
-import fishData from '@/assets/fish.json';
+import shopData from '@/assets/shopData.json';
 
   const getImageUrl = (imageName: string) => {
     const images = import.meta.glob('@/assets/images/*');
