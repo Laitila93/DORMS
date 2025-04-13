@@ -25,7 +25,7 @@
       <div
         v-if="isOpen"
         @click="closeMenu"
-        class="fixed inset-0 z-40"
+        class="fixed inset-0 z-40 bg-black opacity-50"
       />
     </div>
   </template>
@@ -71,6 +71,10 @@
     background: #333;
     transition: all 0.3s ease;
     border-radius: 2px;
+  }
+  /* Change color on hover */
+  .hamburger:hover span {
+    background: #42b983; /* Change to your desired hover color */
   }
   .hamburger span.open:nth-child(1) {
     transform: translateY(9px) rotate(45deg);

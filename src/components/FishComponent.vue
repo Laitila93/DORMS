@@ -1,7 +1,7 @@
 <template>
     <!-- Fish container -->
     <div
-      class="absolute transition-all duration-300"
+      class="absolute transition-all duration-2000 ease-in-out"
       :style="{ top: `${fishY}px`, left: `${fishX}px` }"
     >
     <!-- Fish image -->
@@ -28,7 +28,7 @@
 
     <!-- Button to move fish -->
     <button
-      class="absolute bottom-5 left-5 bg-blue-500 text-white p-2 rounded"
+      class="absolute bottom-5 left-5 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 cursor-pointer"
       @click="moveFish"
     >
       Move Fish
@@ -61,7 +61,7 @@ const hat = ref<{ name: string; description: string; price: number; image: strin
 
 function findFish() {
     // Find the fish in the shop data
-    fish.value = shopData.fish.find(f => f.name === props.fishType); // Handle undefined case
+    fish.value = shopData.fish.find(f => f.name === props.fishType) || undefined; // Handle undefined case
 }
     function findHat() {
     // Find the hat in the shop data
@@ -71,8 +71,8 @@ function findFish() {
 
 function moveFish() {
     // Move to random position
-    fishX.value = Math.random() * 500
-    fishY.value = Math.random() * 300
+    fishX.value = Math.random() * 800
+    fishY.value = Math.random() * 600
 }
 </script>
 

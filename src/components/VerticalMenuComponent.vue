@@ -34,9 +34,9 @@
     left: 0;
     height: 100%;
     width: 200px;
-    background-color: #145fb6;
+
     padding: 1rem;
-    border: 1px solid #e9e511;
+
   }
   
   .vertical-menu ul {
