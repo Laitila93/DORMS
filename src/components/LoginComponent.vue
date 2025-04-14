@@ -20,7 +20,7 @@
       />
 
     <router-link
-      to="/tank/" 
+      to= "/tank/"
       class=" bg-green-500 text-white p-2 rounded block w-full text-center">
       Log in
     </router-link>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps<{
@@ -45,10 +45,16 @@ const username = ref('');
 const router = useRouter();
 const password = ref('');
 
+//Computed property to check if the form is valid, 
+// placeholder for actual validation logic to be implemented later
+const isFormValid = computed(() => {
+  return username.value.trim() !== '' && password.value.trim() !== '';
+});
+
 const redirectToTank = () => {
-  if (username.value.trim() && password.value.trim()) //Ensure the input is not empty TBD: need to implement so that it checks validity of username and password
+  if (isFormValid.value) 
   {
-    router.push('/tank/'); //To be changed to route to correct corridor tank when server/database and API are set up
+    router.push('/tank/'); //Placeholder for correct routing to be implemented later
   } else {
     alert('Please enter a valid corridor ID.');
   }
