@@ -8,6 +8,7 @@
       :placeholder="usernamePlaceholder"
       v-model ="username"
       @keyup.enter="redirectToTank"
+      autocomplete="off"
     />
 
     <input
@@ -19,9 +20,16 @@
       @keyup.enter="redirectToTank"
       />
 
+    <!--property "aira-disabled" for accessibility, it
+    signals to assistive technologies that link is disabled-->  
     <router-link
       to= "/tank/"
-      class=" bg-green-500 text-white p-2 rounded block w-full text-center">
+      :class="[
+        'p-2 rounded block w-full text-center',
+        isFormValid ? 'bg-emerald-500 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed pointer-events-none'
+      ]"
+      :aria-disabled="!isFormValid"  
+      >
       Log in
     </router-link>
 
