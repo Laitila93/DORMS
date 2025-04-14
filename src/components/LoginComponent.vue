@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-col space-y-4">
+
+  <div class="grid gap-8">
     <input
       type="text"
       :id= "usernameID"
@@ -20,14 +21,11 @@
 
     <router-link
       to="/tank/" 
-      class="bg-amber-500 hover:bg-amber-600 
-      transition-colors duration-200 text-white p-2 
-      rounded block w-full text-center">
+      class=" bg-green-500 text-white p-2 rounded block w-full text-center">
       Log in
     </router-link>
 
   </div>
-
 
 </template>
 
@@ -48,9 +46,9 @@ const router = useRouter();
 const password = ref('');
 
 const redirectToTank = () => {
-  if (username.value.trim() && password.value.trim()) //Ensure the input is not empty 
+  if (username.value.trim() && password.value.trim()) //Ensure the input is not empty TBD: need to implement so that it checks validity of username and password
   {
-    router.push('/tank/');
+    router.push('/tank/'); //To be changed to route to correct corridor tank when server/database and API are set up
   } else {
     alert('Please enter a valid corridor ID.');
   }
@@ -58,8 +56,3 @@ const redirectToTank = () => {
 
 
 </script>
-
-<style scoped>
-
-
-</style>
