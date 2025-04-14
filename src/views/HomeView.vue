@@ -5,6 +5,7 @@
     <header class=" text-white p-4 text-center">
       <h1 class="text-2xl font-bold">Welcome to DORMS</h1>
       <p class="text-lg">Please enter your corridor ID below</p>
+      <p class="text-sm text-emerald-500">(This is a test version so just type any character in both fields)</p>
     </header>
     
     <main class="flex flex-col flex-1 justify-center items-center px-4">
