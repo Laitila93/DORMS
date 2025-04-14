@@ -1,35 +1,35 @@
 <template>
 
-  <div class="flex flex-col justify-center">
+  <div class="flex flex-col min-h-screen w-screen">
 
-    <header class="bg-gray-800 text-white p-4 text-center">
-      <h1 class="text-2xl font-bold">Welcome to the HomeView</h1>
-      <p class="text-lg">This is the home view of our application.</p>
+    <header class=" text-white p-4 text-center">
+      <h1 class="text-2xl font-bold">Welcome to DORMS</h1>
+      <p class="text-lg">Please enter your corridor ID below</p>
     </header>
     
-    <section class="bg-gray-700 text-white p-4 text-center">
-      <label for="corridor-ID">Enter your corridor ID:</label>>
-      <input
-        type="text"
-        id="corridor-ID"
-        class="border border-gray-300 rounded p-2 mt-2"
-        placeholder="Enter corridor ID"/>
-      <router-link to="/tank/" class="bg-blue-500 text-white p-2 rounded mt-2 inline-block">
-        Go to Tank
-      </router-link>  
-    </section>
+    <main class="flex flex-col flex-1 justify-center items-center px-4">
+      <section class="rounded-lg bg-gray-800 flex flex-col text-white p-4 text-center w-full max-w-md">
+        <LoginComponent
+          usernameID="username"
+          usernamePlaceholder="Enter your corridor ID"
+          passwordID="password"
+          passwordPlaceholder="Enter your password"
+        />
+      </section>
+    </main>
 
   
   <NavComponent :menu="menuType" />
 
   </div>
-  
+
 </template>
 
 <script setup lang="ts">
+import LoginComponent from '@/components/LoginComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
 import { ref } from 'vue';
-const menuType = ref('tank');
+const menuType = ref('main');
 </script>
 
 <style scoped>
