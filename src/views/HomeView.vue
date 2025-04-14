@@ -8,7 +8,7 @@
     </header>
     
     <main class="flex flex-col flex-1 justify-center items-center px-4">
-      <section class="rounded-lg bg-gray-800 flex flex-col text-white p-4 text-center w-full max-w-md">
+      <section class="rounded-lg flex flex-col text-white p-4 text-center w-full max-w-md">
         <LoginComponent
           usernameID="username"
           usernamePlaceholder="Enter your corridor ID"
