@@ -1,5 +1,5 @@
 <template>
-    <NavComponent :menu="menuType" />
+    <NavComponent :socket="socket" :menu="menuType" />
     Number of fish: {{ numberOfFish }}
     <div class="tank-container">
       <TankComponent :onWaterLevelChange="updateWaterLevel" />
@@ -9,13 +9,12 @@
   <script setup lang="ts">
   import NavComponent from '@/components/NavComponent.vue';
   import { ref } from 'vue';
-  const menuType = ref('tank');
   import TankComponent from '@/components/TankComponent.vue';
   import { io } from 'socket.io-client';
 
   const serverIP = sessionStorage.getItem("serverIP") || "http://localhost:3000";
   const socket = io(serverIP);
-  
+  const menuType = ref('tank');
   socket.on('connect', () => {
     console.log('Connected to the server');
   });

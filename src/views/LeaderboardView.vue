@@ -13,7 +13,7 @@
       </main>
   
     
-    <NavComponent :menu="menuType" />
+    <NavComponent :socket="socket" :menu="menuType" />
   
     </div>
   
@@ -23,7 +23,11 @@
   import LoginComponent from '@/components/LoginComponent.vue';
   import NavComponent from '@/components/NavComponent.vue';
   import { ref } from 'vue';
-  const menuType = ref('main');
+  import { io } from 'socket.io-client';
+
+  const serverIP = sessionStorage.getItem("serverIP") || "http://localhost:3000";
+  const socket = io(serverIP);
+  const menuType = ref('tank');
   </script>
   
   <style scoped>
