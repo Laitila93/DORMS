@@ -8,7 +8,7 @@
         <img
             v-if="fish"
             :key="fish.name"
-            :src="getImageUrl(fish.image)"
+            :src="fish.image"
             :alt="fish.name"
             class="w-full h-40 object-contain rounded-md mb-4 fish-wiggle"
         />
@@ -16,7 +16,7 @@
       <img
         v-if="hat"
         :key="hat.name"
-        :src="getImageUrl(hat.image)"
+        :src="hat.image"
         :alt="hat.name"
         class="w-17 absolute fish-wiggle"
         :style="{
@@ -65,10 +65,6 @@
   const fishY = ref(100);
   const fish = ref<{ name: string; description: string; price: number; image: string } | undefined>(undefined);
   const hat = ref<{ name: string; description: string; price: number; image: string } | null>(null); // Initialize hat as null
-
-  const getImageUrl = (imageName: string) => {
-    return new URL(`../assets/images/${imageName}`, import.meta.url).href;
-  };
 
 
   function findFish() {

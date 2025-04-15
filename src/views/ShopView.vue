@@ -16,7 +16,7 @@
             class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
           >
             <img
-              :src="getImageUrl(hat.image)"
+              :src="hat.image"
               :alt="hat.name"
               class="w-full h-40 object-contain rounded-md mb-4"
             />
@@ -36,7 +36,7 @@
             class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
           >
             <img
-              :src="getImageUrl(fish.image)"
+              :src="fish.image"
               :alt="fish.name"
               class="w-full h-40 object-contain rounded-md mb-4 fish-wiggle"
             />
@@ -56,7 +56,7 @@
             class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
           >
             <img
-              :src="getImageUrl(special.image)"
+              :src="special.image"
               :alt="special.name"
               class="w-full h-40 object-contain rounded-md mb-4"
             />
@@ -100,7 +100,7 @@
     });
   });
 
-  const getImageUrl = (imageName: string) => {
+  const getImage = (imageName: string) => {
     return new URL(`../assets/images/${imageName}`, import.meta.url).href;
   };
 

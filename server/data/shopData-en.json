@@ -1,18 +1,18 @@
 {
   "fish": [
-    { "name": "Mört", "description": "sdfsdf","price": 500, "image": "goldfish.png" },
-    { "name": "Harr", "description": "sdfsdf","price": 600,"image": "goldfish.png" },
-    { "name": "Fimsh", "description": "sdfsdf","price": 300,"image": "goldfish.png" },
-    { "name": "Abborre", "description": "sdfsdf","price": 100,"image": "goldfish.png" },
-    { "name": "Abborre", "description": "sdfsdf","price": 100,"image": "goldfish.png" }
+    { "name": "Mört", "description": "sdfsdf","price": 500, "image": "https://imgur.com/w0xopc5.png" },
+    { "name": "Harr", "description": "sdfsdf","price": 600,"image": "https://imgur.com/w0xopc5.png" },
+    { "name": "Fimsh", "description": "sdfsdf","price": 300,"image": "https://imgur.com/w0xopc5.png" },
+    { "name": "Abborre", "description": "sdfsdf","price": 100,"image": "https://imgur.com/w0xopc5.png" },
+    { "name": "Abborre", "description": "sdfsdf","price": 100,"image": "https://imgur.com/w0xopc5.png" }
   ],
   "hats": [
-    { "name": "Moose hat", "description": "sdfsdf","price": 500, "image": "hornyHat.png" },
-    { "name": "Tall moose hat", "description": "sdfsdf","price": 600,"image": "tallHornyHat.png" }
+    { "name": "Moose hat", "description": "sdfsdf","price": 500, "image": "https://imgur.com/3b3EdNI.png" },
+    { "name": "Tall moose hat", "description": "sdfsdf","price": 600,"image": "https://imgur.com/TWk8kwQ.png" }
   ],
   "specials": [
-    { "name": "Raft", "description": "sdfsdf","price": 500, "image": "raft.png" },
-    { "name": "Raft 2", "description": "sdfsdf","price": 800, "image": "raft.png" }
+    { "name": "Raft", "description": "sdfsdf","price": 500, "image": "https://imgur.com/v7OkFvu.png" },
+    { "name": "Raft 2", "description": "sdfsdf","price": 800, "image": "https://imgur.com/v7OkFvu.png" }
   ]
 
 }
