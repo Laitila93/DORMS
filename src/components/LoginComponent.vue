@@ -12,12 +12,13 @@
     />
 
     <input
-      type="text"
+      type="password"
       :id = "passwordID"
       class="border border-gray-300 rounded p-2 w-full"
       :placeholder="passwordPlaceholder"
       v-model = "password"
       @keyup.enter="redirectToTank"
+      autocomplete="off"
       />
 
     <!--property "aira-disabled" for accessibility, it
