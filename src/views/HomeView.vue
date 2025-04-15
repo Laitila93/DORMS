@@ -1,5 +1,4 @@
-<template>
-
+<template> 
   <div class="flex flex-col min-h-screen w-screen">
 
     <header class=" text-white p-4 text-center">
@@ -19,8 +18,8 @@
       </section>
     </main>
 
-  
-  <NavComponent :menu="menuType" />
+
+  <NavComponent :socket="socket" :menu="menuType" />
 
   </div>
 
@@ -30,7 +29,17 @@
 import LoginComponent from '@/components/LoginComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
 import { ref } from 'vue';
-const menuType = ref('main');
+import { io } from 'socket.io-client';
+sessionStorage.setItem("serverIP", "http://192.168.50.97:3000"); //Must be changed to your local IP-address
+
+const serverIP = sessionStorage.getItem("serverIP") || "http://localhost:3000";
+const socket = io(serverIP);
+
+socket.on('connect', () => {
+  console.log('Connected to the server');
+});
+const menuType = ref('tank');
+
 </script>
 
 <style scoped>
