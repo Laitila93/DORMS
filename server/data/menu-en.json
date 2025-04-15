@@ -19,6 +19,16 @@
     { "name": "Fish", "link": "/challenges" },
     { "name": "Special", "link": "/about" }
 
+],
+"home": [
+    { "name": "About", "link": "/about" },
+    { "name": "Leaderboard", "link": "/leaderboard" },
+    { "name": "Stats", "link": "/stats" }
+],
+"leaderboard": [
+    { "name": "Home", "link": "/" },
+    { "name": "About", "link": "/about" },
+    { "name": "Stats", "link": "/stats" }
 ]
 
 }
