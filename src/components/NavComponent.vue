@@ -20,7 +20,6 @@
           </li>
         </ul>
       </div>
-  
       <!-- Overlay -->
       <div
         v-if="isOpen"
@@ -28,29 +27,48 @@
         class="fixed inset-0 z-40 bg-black opacity-50"
       />
     </div>
-  </template>
+</template>
   
-  <script setup lang="ts">
-    import { ref, watch } from 'vue';
-    import menuData from '@/assets/menu.json';
+<script setup lang="ts">
+  import { ref, watch, onMounted } from 'vue';
 
-    const props = defineProps<{
-      menu: string;
-    }>();
+  onMounted(() => {
+    props.socket.emit("getMenuData", "en"); // Replace "en" with the desired language
+    props.socket.on("menuData", (labels: Record<string, MenuItem[]>) => {
+    menuData.value = labels;
+    menuItems.value = (menuData.value[props.menu as keyof typeof menuData.value] || []) as MenuItem[];
+    console.log("Received menu data:", labels);
+  });
+      // Handle errors
+      props.socket.on("error", (error: { message: string }) => {
+      console.error("Error from server:", error.message);
+    });
+  });
 
-    const menuItems = ref(
-      menuData[props.menu as keyof typeof menuData] || []
-    );
-    watch(
-      () => props.menu,
-      (newMenu) => {
-        menuItems.value = menuData[newMenu as keyof typeof menuData] || [];
-      }
-    );
-      const isOpen = ref(false);
-      const toggleMenu = () => (isOpen.value = !isOpen.value);
-      const closeMenu = () => (isOpen.value = false);
-  </script>
+  const props = defineProps<{
+    menu: string;
+    socket: any;
+  }>();
+
+  watch(
+    () => props.menu,
+    (newMenu) => {
+      menuItems.value = menuData.value[newMenu] || [];
+    }
+  );
+  
+  type MenuItem = {
+    name: string;
+    link: string;
+  };
+
+  const menuItems = ref<MenuItem[]>([]); // Starts empty, filled later
+  const menuData = ref<Record<string, MenuItem[]>>({});
+  const isOpen = ref(false);
+  const toggleMenu = () => (isOpen.value = !isOpen.value);
+  const closeMenu = () => (isOpen.value = false);
+  
+</script>
   
   <style scoped>
   .hamburger {
@@ -110,4 +128,3 @@
     font-weight: 500;
   }
   </style>
-  

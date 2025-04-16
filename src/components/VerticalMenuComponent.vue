@@ -1,28 +1,48 @@
 <template>
-    <div class="vertical-menu">
-      <ul>
-        <li v-for="item in menuItems" :key="item.name">
-            <button class="cursor-pointer inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 w-full rounded-xl shadow-md transition-colors duration-300" @click="$emit('menu-select', item.name)">{{ item.name }}</button>
-        </li>
-      </ul>
-    </div>
-  </template>
+  <div class="vertical-menu">
+    <ul>
+      <li v-for="item in menuItems" :key="item.name">
+          <button class="cursor-pointer inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 w-full rounded-xl shadow-md transition-colors duration-300" @click="$emit('menu-select', item.name)">{{ item.name }}</button>
+      </li>
+    </ul>
+  </div>
+</template>
   
-  <script setup lang="ts">
-    import { ref, watch } from 'vue';
-    import menuData from '@/assets/menu.json';
+<script setup lang="ts">
+  import { ref, watch, onMounted } from 'vue';
 
-    const props = defineProps<{
-      menu: string;
-    }>();
+  type MenuItem = {
+  name: string;
+  link: string;
+  };
+  const menuItems = ref<MenuItem[]>([]);
+  const menuData = ref<Record<string, MenuItem[]>>({});
 
-    const menuItems = ref(
-      menuData[props.menu as keyof typeof menuData] || []
-    );
+  const props = defineProps<{
+    menu: string;
+    socket: any;
+  }>();
+
+  onMounted(() => {
+    props.socket.emit("getMenuData", "en"); // Replace "en" with the desired language
+    props.socket.on("menuData", (labels: Record<string, MenuItem[]>) => {
+      menuData.value = labels;
+      console.log("Received menu data:", labels);
+
+      // Update menuItems after menuData is populated
+      menuItems.value = (menuData.value[props.menu as keyof typeof menuData.value] || []) as MenuItem[];
+    });
+      // Handle errors
+      props.socket.on("error", (error: { message: string }) => {
+        console.error("Error from server:", error.message);
+      });
+    });
+
+    // Watch for changes in the `menu` prop and update `menuItems`
     watch(
       () => props.menu,
       (newMenu) => {
-        menuItems.value = menuData[newMenu as keyof typeof menuData] || [];
+        menuItems.value = (menuData.value[newMenu as keyof typeof menuData.value] || []) as MenuItem[];
       }
     );
   </script>

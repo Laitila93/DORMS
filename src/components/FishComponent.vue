@@ -8,7 +8,7 @@
         <img
             v-if="fish"
             :key="fish.name"
-            :src="getImageUrl(fish.image)"
+            :src="fish.image"
             :alt="fish.name"
             class="w-full h-40 object-contain rounded-md mb-4 fish-wiggle"
         />
@@ -16,7 +16,7 @@
       <img
         v-if="hat"
         :key="hat.name"
-        :src="getImageUrl(hat.image)"
+        :src="hat.image"
         :alt="hat.name"
         class="w-17 absolute fish-wiggle"
         :style="{
@@ -36,44 +36,51 @@
 </template>
 
 <script setup lang="ts">
+  import { ref, onMounted } from 'vue';
 
-const props = defineProps<{
+  const props = defineProps<{
     fishType: string;
     hatType: string;
-}>();
+    socket: any;
+  }>();
 
-// Run findFish when the component is mounted
-onMounted(() => {
-  findFish();
-  findHat(); // Call findHat to ensure it is used
-});
+  onMounted(() => {
+    // Use props.socket instead of socket
+    props.socket.emit("getShopData", "en"); // Replace "en" with the desired language
+    props.socket.on("shopData", (data: ShopData) => {
+    shopData.value = data;
+    findFish(); // Call findFish after receiving data
+    findHat(); // Call findHat after receiving data
+    });
+  });
 
-import { ref, onMounted } from 'vue';
-import shopData from '@/assets/shopData.json';
-const getImageUrl = (imageName: string) => {
-    return new URL(`../assets/images/${imageName}`, import.meta.url).href;
+  // Define the structure of shop data
+  type ShopData = {
+    fish: { name: string; description: string; price: number; image: string }[];
+    hats: { name: string; description: string; price: number; image: string }[];
   };
 
-const fishX = ref(100)
-const fishY = ref(100)
-const fish = ref<{ name: string; description: string; price: number; image: string } | undefined>(undefined); // Initialize fish as undefined
-const hat = ref<{ name: string; description: string; price: number; image: string } | null>(null); // Initialize hat as null
-
-function findFish() {
-    // Find the fish in the shop data
-    fish.value = shopData.fish.find(f => f.name === props.fishType) || undefined; // Handle undefined case
-}
-    function findHat() {
-    // Find the hat in the shop data
-    hat.value = shopData.hats.find(h => h.name === props.hatType) || null; // Assign null if undefined
-}
+  const shopData = ref<ShopData | null>(null);
+  const fishX = ref(100);
+  const fishY = ref(100);
+  const fish = ref<{ name: string; description: string; price: number; image: string } | undefined>(undefined);
+  const hat = ref<{ name: string; description: string; price: number; image: string } | null>(null); // Initialize hat as null
 
 
-function moveFish() {
-    // Move to random position
-    fishX.value = Math.random() * 800
-    fishY.value = Math.random() * 600
-}
+  function findFish() {
+      // Find the fish in the shop data
+      fish.value = shopData.value?.fish.find(f => f.name === props.fishType) || undefined; // Handle undefined case
+  }
+  function findHat() {
+      // Find the hat in the shop data
+      hat.value = shopData.value?.hats.find(h => h.name === props.hatType) || null; // Assign null if undefined
+  }
+
+  function moveFish() {
+      // Move to random position
+      fishX.value = Math.random() * 800
+      fishY.value = Math.random() * 600
+  }
 </script>
 
 <style scoped>
