@@ -30,6 +30,17 @@ function sockets(io, socket, data) {
     }
   }
   );
+  socket.on("getWaterData", ()=>{
+    console.log('Request for water data');
+    try {
+      const waterLogData = data.getWaterData(); // Fetch testdata
+      socket.emit("waterData", waterLogData); // Send testdata back to the client
+    } catch (error) {
+      console.error("Error fetching water data:", error);
+      socket.emit("error", { message: "Failed to fetch water data." });
+    }
+
+  });
 }
 
 export { sockets };

@@ -1,5 +1,6 @@
 'use strict';
 import { readFileSync } from "fs";
+import { server } from "typescript";
 
 function Data() {
   this.games = {};
@@ -37,7 +38,20 @@ Data.prototype.getShopData = function (lang) {
     console.error(`Error reading labels file (${labelsPath}):`, error);
     throw new Error("Failed to load labels.");
   }
+};
+
+Data.prototype.getWaterData =function() {
+  const waterDataPath = './server/data/testData.json';
+  try {
+    const waterLogData = readFileSync(waterDataPath, 'utf-8');
+    return JSON.parse(waterLogData);
+  } catch (error) {
+    console.error(`Error reading test data file (${waterDataPath}):`, error);
+    throw new Error('Failed to load water data.');
+  }
 }
+
+
 
 export { Data };
 
