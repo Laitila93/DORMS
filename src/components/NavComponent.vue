@@ -1,7 +1,7 @@
 <template>
     <div>
       <!-- Hamburger Icon -->
-      <button @click="toggleMenu" class="hamburger z-50">
+      <button @click="toggleMenu()" class="hamburger z-50">
         <span :class="{ open: isOpen }"></span>
         <span :class="{ open: isOpen }"></span>
         <span :class="{ open: isOpen }"></span>
@@ -10,7 +10,10 @@
       <!-- Slide-out Menu -->
       <div class="menu transform transition-transform duration-300 ease-in-out" 
       :class="{ 'translate-x-0': isOpen, 'translate-x-full': !isOpen }">
-        <ul class="menu-items">  
+        <ul class="menu-items">
+          <li class="mb-4">
+            <button @click="logout" class="bg-red-500 text-white p-2 rounded-lg w-full">Logout</button>
+          </li>  
           <li v-for="item in menuItems" :key="item.name">
               <router-link :to="item.link" @click="closeMenu">
                 <div class="bg-gray-200 w-full p-3 rounded-lg hover:bg-gray-400 transition duration-200">
@@ -30,44 +33,37 @@
 </template>
   
 <script setup lang="ts">
-  import { ref, watch, onMounted } from 'vue';
-
+  import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { socket } from '@/composables/socket'; // Adjust the path as necessary
+const menuData = ref<Record<string, MenuItem[]>>({});
+const menuItems = ref<MenuItem[]>([]);
+type MenuItem = {
+    name: string;
+    link: string;
+  };
   onMounted(() => {
-    props.socket.emit("getMenuData", "en"); // Replace "en" with the desired language
-    props.socket.on("menuData", (labels: Record<string, MenuItem[]>) => {
-    menuData.value = labels;
+    menuData.value = JSON.parse(localStorage.getItem("menuData") || '{}');
     menuItems.value = (menuData.value[props.menu as keyof typeof menuData.value] || []) as MenuItem[];
-    console.log("Received menu data:", labels);
   });
       // Handle errors
-      props.socket.on("error", (error: { message: string }) => {
+      socket.on("error", (error: { message: string }) => {
       console.error("Error from server:", error.message);
     });
-  });
 
   const props = defineProps<{
     menu: string;
     socket: any;
   }>();
 
-  watch(
-    () => props.menu,
-    (newMenu) => {
-      menuItems.value = menuData.value[newMenu] || [];
-    }
-  );
-  
-  type MenuItem = {
-    name: string;
-    link: string;
-  };
-
-  const menuItems = ref<MenuItem[]>([]); // Starts empty, filled later
-  const menuData = ref<Record<string, MenuItem[]>>({});
   const isOpen = ref(false);
   const toggleMenu = () => (isOpen.value = !isOpen.value);
   const closeMenu = () => (isOpen.value = false);
-  
+const router = useRouter();
+const logout = () => {
+  sessionStorage.removeItem('authToken'); // Remove the token
+  router.push({ name: 'home' }); // Redirect to home
+};
 </script>
   
   <style scoped>

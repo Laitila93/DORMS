@@ -11,10 +11,7 @@
 <script setup lang="ts">
   import NavComponent from '@/components/NavComponent.vue';
   import { ref } from 'vue';
-  import { io } from 'socket.io-client';
-
-  const serverIP = sessionStorage.getItem("serverIP") || "http://localhost:3000";
-  const socket = io(serverIP);
+  import { socket } from '@/composables/socket';
 
   const navMenuType = ref('tank'); // This can be changed to any other menu type as needed
 </script>

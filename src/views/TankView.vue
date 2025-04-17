@@ -10,10 +10,8 @@
   import NavComponent from '@/components/NavComponent.vue';
   import { ref } from 'vue';
   import TankComponent from '@/components/TankComponent.vue';
-  import { io } from 'socket.io-client';
-
-  const serverIP = sessionStorage.getItem("serverIP") || "http://localhost:3000";
-  const socket = io(serverIP);
+  import { socket } from '@/composables/socket';
+  
   const menuType = ref('tank');
   socket.on('connect', () => {
     console.log('Connected to the server');

@@ -1,73 +1,77 @@
 <template>
-
   <div class="grid gap-8">
     <input
       type="text"
-      :id= "usernameID"
+      :id="usernameID"
       class="border border-gray-300 rounded p-2 w-full"
       :placeholder="usernamePlaceholder"
-      v-model ="username"
-      @keyup.enter="redirectToTank"
+      v-model="username"
       autocomplete="off"
     />
 
     <input
       type="password"
-      :id = "passwordID"
+      :id="passwordID"
       class="border border-gray-300 rounded p-2 w-full"
       :placeholder="passwordPlaceholder"
-      v-model = "password"
-      @keyup.enter="redirectToTank"
+      v-model="password"
       autocomplete="off"
-      />
+    />
 
-    <!--property "aira-disabled" for accessibility, it
-    signals to assistive technologies that link is disabled-->  
-    <router-link
-      to= "/tank/"
-      :class="[
-        'p-2 rounded block w-full text-center',
-        isFormValid ? 'bg-emerald-500 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed pointer-events-none'
-      ]"
-      :aria-disabled="!isFormValid"  
-      >
+    <button
+      class="p-2 rounded block w-full text-center bg-emerald-500 text-white hover:bg-emerald-600 cursor-pointer"
+      @click=""
+    >
       Log in
-    </router-link>
-
+    </button>
   </div>
-
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+
 
 const props = defineProps<{
   usernameID: string;
   usernamePlaceholder: string;
   passwordID: string;
   passwordPlaceholder: string;
-
 }>();
 
 const username = ref('');
-const router = useRouter();
 const password = ref('');
+const router = useRouter();
+/*
+                          const login = async () => {
+                            try {
+                              const response = await fetch(`http://localhost:3000/api/login`, {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                  name: username.value,
+                                  password: password.value,
+                                }),
+                              });
 
-//Computed property to check if the form is valid, 
-// placeholder for actual validation logic to be implemented later
-const isFormValid = computed(() => {
-  return username.value.trim() !== '' && password.value.trim() !== '';
-});
+                              if (!response.ok) {
+                                const errorData = await response.json();
+                                throw new Error(errorData.error || 'Login failed');
+                              }
 
-const redirectToTank = () => {
-  if (isFormValid.value) 
-  {
-    router.push('/tank/'); //Placeholder for correct routing to be implemented later
-  } else {
-    alert('Please enter a valid corridor ID.');
-  }
-};
+                              const data = await response.json();
 
+                              // Save the token in sessionStorage
+                              sessionStorage.setItem('authToken', data.token);
 
+                              // Redirect to the tank view
+                              router.push('/tank');
+                            } catch (error) {
+                              const errorMessage = error instanceof Error ? error.message : 'Login failed. Please try again.';
+                              alert(errorMessage);
+                            }
+                          };
+*/
 </script>
