@@ -73,6 +73,10 @@
         <p class="text-lg">Please select an option from the menu.</p>
       </div>
       <FishComponent :key="steve":fishType="selectedFish" :hatType="selectedHat" :socket="socket" />
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
+      <FishComponent :key="steve":fishType="selectedFish" :hatType="'Pirate Hat'" :socket="socket" />
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
     </div>
   </div>
 </template>

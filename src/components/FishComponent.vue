@@ -1,38 +1,34 @@
 <template>
-    <!-- Fish container -->
-    <div
-      class="absolute transition-all duration-2000 ease-in-out fish-wiggle"
-      :style="{ top: `${fishY}px`, left: `${fishX}px` }"
-    >
-    <!-- Fish image -->
-        <img
-            v-if="fish"
-            :key="fish.name"
-            :src="fish.image"
-            :alt="fish.name"
-            class="w-full h-40 object-contain rounded-md mb-4"
-        />
-      <!-- Hat image positioned relative to the fish -->
-      <img
-        v-if="hat"
-        :key="hat.name"
-        :src="hat.image"
-        :alt="hat.name"
-        class="w-17 absolute"
-        :style="{
-          top: '-15px',   // adjust as needed
-          left: '70px', // adjust to align with fish's head
-        }"
-      />
-    </div>
+  <div
+    class="absolute transition-all duration-5000 ease-in-out fish-wiggle"
+    :style="{
+      top: `${fishY}px`,
+      left: `${fishX}px`
+    }"
+  >
+  <img
+  v-if="fish"
+  :key="fish.name"
+  :src="fish.image"
+  :alt="fish.name"
+  class="w-full h-40 object-contain rounded-md mb-4"
+  :style="{ transform: isFlipped ? 'scaleX(-1)' : 'scaleX(1)' }"
+/>
 
-    <!-- Button to move fish -->
-    <button
-      class="absolute bottom-5 left-5 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 cursor-pointer"
-      @click="moveFish"
-    >
-      Move Fish
-    </button>
+<img
+  v-if="hat"
+  :key="hat.name"
+  :src="hat.image"
+  :alt="hat.name"
+  class="w-17 absolute"
+  :style="{
+    top: '-15px',
+    left: '50%', // Center the hat horizontally
+    transform: 'translateX(-50%)', // Adjust to center relative to the fish
+  }"
+/>
+
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -54,6 +50,7 @@ type ShopData = {
 const shopData = ref<ShopData | null>(null);
 const fishX = ref(100);
 const fishY = ref(100);
+const isFlipped = ref(false); // Tracks whether the fish is flipped
 const fish = ref<{ name: string; description: string; price: number; image: string } | undefined>(undefined);
 const hat = ref<{ name: string; description: string; price: number; image: string } | null>(null);
 
@@ -75,6 +72,8 @@ onMounted(() => {
   } else {
     console.warn("⚠️ No shop data found in sessionStorage.");
   }
+
+  scheduleMoveFish(); // Start the random movement
 });
 
 // Watch for changes in props
@@ -90,8 +89,26 @@ function findHat() {
 }
 
 function moveFish() {
-  fishX.value = Math.random() * 800;
-  fishY.value = Math.random() * 600;
+  const newX = Math.random() * (window.innerWidth - 200); // 100 is the width of the fish image
+  const newY = Math.random() * (window.innerHeight - 200); // 100 is the height of the fish image
+
+  // Flip the fish if it moves to the left
+  if (newX < fishX.value) {
+    isFlipped.value = true; // Flip the fish
+  } else {
+    isFlipped.value = false; // Reset to normal
+  }
+
+  fishX.value = newX; // Update fishX with the new random value
+  fishY.value = newY; // Update fishY with the new random value
+}
+
+function scheduleMoveFish() {
+  const randomDelay = Math.random() * 9000 + 2000; // Random delay between 2s and 5s
+  setTimeout(() => {
+    moveFish(); // Move the fish
+    scheduleMoveFish(); // Schedule the next move
+  }, randomDelay);
 }
 </script>
 
