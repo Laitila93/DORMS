@@ -24,11 +24,15 @@
 import { ref } from 'vue';
 import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
-import challengesData from '@assets/challengesData.json';
+import { socket } from '@/composables/socket';
 
 const menuType = ref('challenges');
 const navMenuType = ref('main');
 const selectedContent = ref('active');
+
+function handleMenuSelect(option: string) {
+    selectedContent.value = option;
+  }
 </script>
 
 <style scoped>
