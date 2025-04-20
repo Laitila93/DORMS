@@ -14,14 +14,20 @@ to the other corridors in the building. It contains a LoginComponent with login 
 
 
 <template>
+
+  <!--Side menu component, currently styled with position:fixed, therefore I've placed it here-->
   <NavComponent :key="navKey" :menu="menuType" :socket="socket"/>
+
+  <!--Body -->
   <div class="flex flex-col min-h-screen w-screen">
+    <!--Header with prompt to fill in username and password-->
     <header class="text-white p-4 text-center">
       <h1 class="text-2xl font-bold">Welcome to DORMS</h1>
       <p class="text-lg">Please enter your corridor ID and password below</p>
       <p class="text-sm text-emerald-500">(This is a test version so just type any character in both fields)</p>
     </header>
 
+    <!--Main content area with login fields-->
     <main class="flex flex-col flex-1 justify-center items-center px-4">
       <section class="rounded-lg flex flex-col text-white p-4 text-center w-full max-w-md">
         <LoginComponent
@@ -46,7 +52,7 @@ type MenuItem = {
   link: string;
 };
 
-const menuType = ref('tank');
+const menuType = ref('tank'); // Menu version for the NavComponent (side menu). Can be changed to other menu types in the future.
 const navKey = ref(0); // Reactive key for NavComponent
 
 const refreshNav = () => {
@@ -54,10 +60,10 @@ const refreshNav = () => {
 };
 
 onMounted(() => {
-  socket.emit("getMenuData", "en"); // Replace "en" with the desired language
+  socket.emit("getMenuData", "en"); // Fetch menu items from server, switch between "sv" and "en" for desired language
   socket.on("menuData", (labels: Record<string, MenuItem[]>) => {
     localStorage.setItem("menuData", JSON.stringify(labels));
-    refreshNav(); // Refresh NavComponent when new data is received
+    refreshNav(); // Refresh NavComponent when new menu data is received
   });
 
   // Handle errors
@@ -67,7 +73,7 @@ onMounted(() => {
 });
 
 socket.on('connect', () => {
-  console.log('Connected to the server');
+  console.log('Connected to the server'); // Verify connection for error detection
 });
 </script>
 
