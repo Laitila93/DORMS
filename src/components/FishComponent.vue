@@ -89,6 +89,9 @@ function findHat() {
 }
 
 function moveFish() {
+
+  /*Add z-axis that changes size and makes fishes darker*/ 
+  
   const newX = Math.random() * (window.innerWidth - 200); // 100 is the width of the fish image
   const newY = Math.random() * (window.innerHeight - 200); // 100 is the height of the fish image
 
