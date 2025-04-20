@@ -1,86 +1,115 @@
 <template>
-    <!-- Fish container -->
-    <div
-      class="absolute transition-all duration-2000 ease-in-out"
-      :style="{ top: `${fishY}px`, left: `${fishX}px` }"
-    >
-    <!-- Fish image -->
-        <img
-            v-if="fish"
-            :key="fish.name"
-            :src="fish.image"
-            :alt="fish.name"
-            class="w-full h-40 object-contain rounded-md mb-4 fish-wiggle"
-        />
-      <!-- Hat image positioned relative to the fish -->
-      <img
-        v-if="hat"
-        :key="hat.name"
-        :src="hat.image"
-        :alt="hat.name"
-        class="w-17 absolute fish-wiggle"
-        :style="{
-          top: '-15px',   // adjust as needed
-          left: '70px', // adjust to align with fish's head
-        }"
-      />
-    </div>
+  <div
+    class="absolute transition-all duration-5000 ease-in-out fish-wiggle"
+    :style="{
+      top: `${fishY}px`,
+      left: `${fishX}px`
+    }"
+  >
+  <img
+  v-if="fish"
+  :key="fish.name"
+  :src="fish.image"
+  :alt="fish.name"
+  class="w-full h-40 object-contain rounded-md mb-4"
+  :style="{ transform: isFlipped ? 'scaleX(-1)' : 'scaleX(1)' }"
+/>
 
-    <!-- Button to move fish -->
-    <button
-      class="absolute bottom-5 left-5 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300 cursor-pointer"
-      @click="moveFish"
-    >
-      Move Fish
-    </button>
+<img
+  v-if="hat"
+  :key="hat.name"
+  :src="hat.image"
+  :alt="hat.name"
+  class="w-17 absolute"
+  :style="{
+    top: '-15px',
+    left: '50%', // Center the hat horizontally
+    transform: 'translateX(-50%)', // Adjust to center relative to the fish
+  }"
+/>
+
+  </div>
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
-  const props = defineProps<{
-    fishType: string;
-    hatType: string;
-    socket: any;
-  }>();
+const props = defineProps<{
+  fishType: string;
+  hatType: string;
+  socket: any; // optional now, unused
+}>();
 
-  onMounted(() => {
-    // Use props.socket instead of socket
-    props.socket.emit("getShopData", "en"); // Replace "en" with the desired language
-    props.socket.on("shopData", (data: ShopData) => {
-    shopData.value = data;
-    findFish(); // Call findFish after receiving data
-    findHat(); // Call findHat after receiving data
-    });
-  });
+// Define the structure of shop data
+type ShopData = {
+  fish: { name: string; description: string; price: number; image: string }[];
+  hats: { name: string; description: string; price: number; image: string }[];
+  specials?: any[];
+};
 
-  // Define the structure of shop data
-  type ShopData = {
-    fish: { name: string; description: string; price: number; image: string }[];
-    hats: { name: string; description: string; price: number; image: string }[];
-  };
+const shopData = ref<ShopData | null>(null);
+const fishX = ref(100);
+const fishY = ref(100);
+const isFlipped = ref(false); // Tracks whether the fish is flipped
+const fish = ref<{ name: string; description: string; price: number; image: string } | undefined>(undefined);
+const hat = ref<{ name: string; description: string; price: number; image: string } | null>(null);
 
-  const shopData = ref<ShopData | null>(null);
-  const fishX = ref(100);
-  const fishY = ref(100);
-  const fish = ref<{ name: string; description: string; price: number; image: string } | undefined>(undefined);
-  const hat = ref<{ name: string; description: string; price: number; image: string } | null>(null); // Initialize hat as null
-
-
-  function findFish() {
-      // Find the fish in the shop data
-      fish.value = shopData.value?.fish.find(f => f.name === props.fishType) || undefined; // Handle undefined case
+// Load from sessionStorage
+onMounted(() => {
+  const cached = sessionStorage.getItem('shopData');
+  if (cached) {
+    try {
+      const parsed = JSON.parse(cached);
+      shopData.value = {
+        fish: parsed.fish,
+        hats: parsed.hats,
+      };
+      findFish();
+      findHat();
+    } catch (err) {
+      console.error("❌ Failed to parse sessionStorage shopData:", err);
+    }
+  } else {
+    console.warn("⚠️ No shop data found in sessionStorage.");
   }
-  function findHat() {
-      // Find the hat in the shop data
-      hat.value = shopData.value?.hats.find(h => h.name === props.hatType) || null; // Assign null if undefined
+
+  scheduleMoveFish(); // Start the random movement
+});
+
+// Watch for changes in props
+watch(() => props.fishType, findFish);
+watch(() => props.hatType, findHat);
+
+function findFish() {
+  fish.value = shopData.value?.fish.find(f => f.name === props.fishType);
+}
+
+function findHat() {
+  hat.value = shopData.value?.hats.find(h => h.name === props.hatType) || null;
+}
+
+function moveFish() {
+  const newX = Math.random() * (window.innerWidth - 200); // 100 is the width of the fish image
+  const newY = Math.random() * (window.innerHeight - 200); // 100 is the height of the fish image
+
+  // Flip the fish if it moves to the left
+  if (newX < fishX.value) {
+    isFlipped.value = true; // Flip the fish
+  } else {
+    isFlipped.value = false; // Reset to normal
   }
 
-  function moveFish() {
-      // Move to random position
-      fishX.value = Math.random() * 800
-      fishY.value = Math.random() * 600
-  }
+  fishX.value = newX; // Update fishX with the new random value
+  fishY.value = newY; // Update fishY with the new random value
+}
+
+function scheduleMoveFish() {
+  const randomDelay = Math.random() * 9000 + 2000; // Random delay between 2s and 5s
+  setTimeout(() => {
+    moveFish(); // Move the fish
+    scheduleMoveFish(); // Schedule the next move
+  }, randomDelay);
+}
 </script>
 
 <style scoped>

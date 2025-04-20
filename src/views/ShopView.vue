@@ -13,7 +13,8 @@
           <div
             v-for="hat in shopData.hats"
             :key="hat.name"
-            class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
+            @click="handleHatSelect(hat.name)"
+            class="bg-gray-400 shadow-md rounded-lg p-4 hover:bg-gray-600 transition-shadow duration-300 cursor-pointer"
           >
             <img
               :src="hat.image"
@@ -33,7 +34,8 @@
           <div
             v-for="fish in shopData.fish"
             :key="fish.name"
-            class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
+            @click="handleFishSelect(fish.name)"
+            class="bg-gray-400 shadow-md rounded-lg p-4 hover:bg-gray-600 transition-shadow duration-300 cursor-pointer"
           >
             <img
               :src="fish.image"
@@ -53,7 +55,7 @@
           <div
             v-for="special in shopData.specials"
             :key="special.name"
-            class="bg-gray-400 shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
+            class="bg-gray-400 shadow-md rounded-lg p-4 hover:bg-gray-600 transition-shadow duration-300 cursor-pointer"
           >
             <img
               :src="special.image"
@@ -70,7 +72,11 @@
       <div v-else>
         <p class="text-lg">Please select an option from the menu.</p>
       </div>
-      <FishComponent :fishType="selectedFish" :hatType="selectedHat" :socket="socket" />
+      <FishComponent :key="steve":fishType="selectedFish" :hatType="selectedHat" :socket="socket" />
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
+      <FishComponent :key="steve":fishType="selectedFish" :hatType="'Pirate Hat'" :socket="socket" />
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
     </div>
   </div>
 </template>
@@ -80,17 +86,32 @@
   import NavComponent from '@/components/NavComponent.vue';
   import FishComponent from '@/components/FishComponent.vue';
   import { ref, onMounted } from 'vue';
-  import { io } from 'socket.io-client';
-
-  const serverIP = sessionStorage.getItem("serverIP") || "http://localhost:3000";
-  const socket = io(serverIP);
-
+  import { socket } from '@/composables/socket';
+  //const isAuthenticated = !!sessionStorage.getItem('authToken');
+  const cachedData = sessionStorage.getItem('shopData');
   onMounted(() => {
-    socket.emit("getShopData", "en"); // Replace "en" with the desired language
+    // 1. Try to load from sessionStorage
+    if (cachedData) {
+      shopData.value = JSON.parse(cachedData);
+      refreshSteve(); // Refresh FishComponent when new data is received
+    } else {
+      // 2. Request from server if not cached
+      socket.emit("getShopData", "en");
+    }
     socket.on("shopData", (data) => {
-      shopData.value = data;
-      console.log("Received shop data:", data);
+      // Transform server keys to match component expectations
+      const normalizedData = {
+        fish: data.fishes,     // ✅ rename
+        hats: data.hats,
+        specials: data.specials
+      };
+      console.log("Received shop data:", normalizedData);
+      shopData.value = normalizedData;
+
+      sessionStorage.setItem('shopData', JSON.stringify(normalizedData));
+      refreshSteve(); // Refresh FishComponent when new data is received
     });
+
     // Handle errors
     socket.on("error", (error) => {
       console.error("Error from server:", error.message);
@@ -99,10 +120,6 @@
     console.log('Connected to the server');
     });
   });
-
-  const getImage = (imageName: string) => {
-    return new URL(`../assets/images/${imageName}`, import.meta.url).href;
-  };
 
   interface ShopItem {
     name: string;
@@ -122,14 +139,25 @@
   });
   const menuType = ref('shop');
   const navMenuType = ref('main'); // This can be changed to any other menu type as needed
-  const selectedFish = ref('Mört'); // Initialize selected fish type
-  const selectedHat = ref('Moose hat'); // Initialize selected hat type
+  const selectedFish = ref(''); // Initialize selected fish type
+  const selectedHat = ref(''); // Initialize selected hat type
+  const steve = ref(0); // Reactive key for NavComponent
+
+  const refreshSteve = () => {
+    steve.value++; // Increment the key to force re-render
+  };
 
   // Reactive variable to track selected content
   const selectedContent = ref('');
   // Function to handle menu selection
   function handleMenuSelect(option: string) {
     selectedContent.value = option;
+  }
+  function handleFishSelect(fishType: string) {
+    selectedFish.value = fishType;
+  }
+  function handleHatSelect(hatType: string) {
+    selectedHat.value = hatType;
   }
 </script>
 

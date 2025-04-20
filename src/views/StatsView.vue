@@ -87,12 +87,13 @@
     import { ref } from 'vue';
     import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
     import NavComponent from '@/components/NavComponent.vue';
-    import statsData from '@/assets/statsData.json';
+    import { socket } from '@/composables/socket';
+    //import statsData from '@/assets/statsData.json';
     
     const menuType = ref('statsTime');
     const navMenuType = ref('main');
     const selectedContent = ref('daily');
-
+/*
     const timeKeys = Object.keys(statsData);
 
     //AI generated
@@ -118,7 +119,7 @@
             }
         }
     }
-
+*/
 
     function handleMenuSelect(option: string) {
         selectedContent.value = option.toLowerCase();
