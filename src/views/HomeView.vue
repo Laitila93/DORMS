@@ -1,3 +1,18 @@
+<!--This is the Home view, the first page the user sees when they open the app.
+to the other corridors in the building. It contains a LoginComponent with login input fields and a side menu component. 
+
+----TBD-----
+
+** 1. Implement a Login system that checks database for valid user and password.
+** 2. Decide on what menu links should be in the side menu. Right now it is a placeholder.
+** 3. Maybe add an eye symbol to the password field to show/hide the password.
+
+
+------------
+
+//Emil 20th of april-->
+
+
 <template>
   <NavComponent :key="navKey" :menu="menuType" :socket="socket"/>
   <div class="flex flex-col min-h-screen w-screen">
