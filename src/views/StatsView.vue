@@ -94,6 +94,8 @@
     const selectedContent = ref('daily');
 
     const timeKeys = Object.keys(statsData);
+
+    //AI generated
     const menu = timeKeys.map(key => ({
         name: key.charAt(0).toUpperCase() + key.slice(1),
         link: ''
