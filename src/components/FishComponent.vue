@@ -38,6 +38,7 @@ const props = defineProps<{
   fishType: string;
   hatType: string;
   socket: any; // optional now, unused
+  bounds: DOMRect | null;
 }>();
 
 // Define the structure of shop data
@@ -98,19 +99,24 @@ function findHat() {
 function moveFish() {
 
   /*Add z-axis that changes size and makes fishes darker*/ 
+  
+  const waterBounds = props.bounds;
+  if (!waterBounds) return;
 
-  const newX = Math.random() * (window.innerWidth - 200); // 100 is the width of the fish image
-  const newY = Math.random() * (window.innerHeight - 200); // 100 is the height of the fish image
+  const fishWidth = 100; //theese values will probably need adjustment, weird behaivour close to bounds
+  const fishHeight = 100;
 
-  // Flip the fish if it moves to the left
+  const newX = Math.random() * (waterBounds.width - fishWidth);
+  const newY = Math.random() * (waterBounds.height - fishHeight);
+
   if (newX < fishX.value) {
-    isFlipped.value = true; // Flip the fish
+    isFlipped.value = true;
   } else {
-    isFlipped.value = false; // Reset to normal
+    isFlipped.value = false;
   }
 
-  fishX.value = newX; // Update fishX with the new random value
-  fishY.value = newY; // Update fishY with the new random value
+  fishX.value = newX;
+  fishY.value = newY;
 }
 
 function scheduleMoveFish() {

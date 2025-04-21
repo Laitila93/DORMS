@@ -6,7 +6,7 @@
       <VerticalmenuCompnent :menu="menuType" :socket="socket" @menu-select="handleMenuSelect" />
     </div>
     <!-- Main Content Area -->
-    <div class="p-4 overflow-y-auto">
+    <div ref="waterRef" class="p-4 overflow-y-auto">
       <div v-if="selectedContent === 'Hats'">
         <p class="text-lg">Here you can browse hats.</p>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
@@ -88,11 +88,11 @@
       <div v-else>
         <p class="text-lg">Please select an option from the menu.</p>
       </div>
-      <FishComponent :key="steve":fishType="selectedFish" :hatType="selectedHat" :socket="socket" />
-      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
-      <FishComponent :key="steve":fishType="selectedFish" :hatType="'Pirate Hat'" :socket="socket" />
-      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
-      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" />
+      <FishComponent :key="steve":fishType="selectedFish" :hatType="selectedHat" :socket="socket" :bounds="waterBounds" />
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" :bounds="waterBounds"/>
+      <FishComponent :key="steve":fishType="selectedFish" :hatType="'Pirate Hat'" :socket="socket" :bounds="waterBounds"/>
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" :bounds="waterBounds"/>
+      <FishComponent :key="steve":fishType="'Le poisson steve'" :hatType="''" :socket="socket" :bounds="waterBounds"/>
     </div>
   </div>
 </template>
@@ -103,6 +103,10 @@
   import FishComponent from '@/components/FishComponent.vue';
   import { ref, onMounted } from 'vue';
   import { socket } from '@/composables/socket';
+
+  const waterRef = ref<HTMLElement | null>(null);
+  const waterBounds = ref<DOMRect | null>(null);
+
   //const isAuthenticated = !!sessionStorage.getItem('authToken');
   const cachedData = sessionStorage.getItem('shopData');
   const cachedUnlocks = sessionStorage.getItem('shopUnlocks');
@@ -162,9 +166,12 @@
     socket.on("error", (error) => {
       console.error("Error from server:", error.message);
     });
-    socket.on('connect', () => {
-    console.log('Connected to the server');
+      socket.on('connect', () => {
+      console.log('Connected to the server');
     });
+    if (waterRef.value) { //sets bounds for movement 
+      waterBounds.value = waterRef.value.getBoundingClientRect();
+    }
   });
 
   interface BaseShopItem {
