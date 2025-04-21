@@ -4,7 +4,7 @@
     <div class="tank">
       <div ref="waterRef" class="water" :style="{ height: waterLevel + '%' }">
         <FishComponent
-          v-for="fish in shopData.fish"
+          v-for="(fish, index) in shopData.fish.slice(0, numberOfFish)"
           :key="fish.name"
           :fishType="fish.name"
           :hatType="''"
