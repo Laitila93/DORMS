@@ -44,15 +44,21 @@ const props = defineProps<{
 type ShopData = {
   fish: { name: string; description: string; price: number; image: string }[];
   hats: { name: string; description: string; price: number; image: string }[];
-  specials?: any[];
+  specials: { name: string; description: string; price: number; image: string }[];
+};
+type ItemData = {
+  name: string;
+  description: string;
+  price: number;
+  image: string;
 };
 
 const shopData = ref<ShopData | null>(null);
 const fishX = ref(100);
 const fishY = ref(100);
 const isFlipped = ref(false); // Tracks whether the fish is flipped
-const fish = ref<{ name: string; description: string; price: number; image: string } | undefined>(undefined);
-const hat = ref<{ name: string; description: string; price: number; image: string } | null>(null);
+const fish = ref<ItemData | undefined>(undefined);
+const hat = ref<ItemData | null>(null);
 
 // Load from sessionStorage
 onMounted(() => {
@@ -63,6 +69,7 @@ onMounted(() => {
       shopData.value = {
         fish: parsed.fish,
         hats: parsed.hats,
+        specials: parsed.specials
       };
       findFish();
       findHat();
@@ -91,7 +98,7 @@ function findHat() {
 function moveFish() {
 
   /*Add z-axis that changes size and makes fishes darker*/ 
-  
+
   const newX = Math.random() * (window.innerWidth - 200); // 100 is the width of the fish image
   const newY = Math.random() * (window.innerHeight - 200); // 100 is the height of the fish image
 
