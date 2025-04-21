@@ -2,13 +2,14 @@
     <NavComponent :socket="socket" :menu="menuType" />
     Number of fish: {{ numberOfFish }}
     <div class="tank">
-      <div class="water" :style="{ height: waterLevel + '%' }">
+      <div ref="waterRef" class="water" :style="{ height: waterLevel + '%' }">
         <FishComponent
           v-for="fish in shopData.fish"
           :key="fish.name"
           :fishType="fish.name"
           :hatType="''"
           :socket="socket"
+          :bounds="waterBounds"
         />
       </div>
     </div>
@@ -29,6 +30,8 @@
   const waterLevel = ref(50); // Initial vattennivå
   const numberOfFish = ref(0);
   const shopData = ref<{ fish: any[] }>({ fish: [] });
+  const waterRef = ref<HTMLElement | null>(null);
+  const waterBounds = ref<DOMRect | null>(null);
 
   const updateWaterLevel = () => {
     waterLevel.value = 50 + Math.floor(Math.random() * 50); // Simulera vattennivå mellan 50 och 100
@@ -51,6 +54,9 @@
       sessionStorage.setItem('shopData', JSON.stringify(normalizedData));
       shopData.value = normalizedData;
     });
+    if (waterRef.value) {
+      waterBounds.value = waterRef.value.getBoundingClientRect();
+    }
     setInterval(updateWaterLevel,1000);
   });
 
