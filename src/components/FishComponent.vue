@@ -96,7 +96,7 @@ function moveFish() {
   const waterBounds = props.bounds;
   if (!waterBounds) return;
 
-  const fishWidth = 100;
+  const fishWidth = 100; //theese values will probably need adjustment, weird behaivour close to bounds
   const fishHeight = 100;
 
   const newX = Math.random() * (waterBounds.width - fishWidth);
