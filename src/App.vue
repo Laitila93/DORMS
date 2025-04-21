@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
+import { useShopData } from '@/composables/useShopData';
+useShopData(); // kicks off fetching and stores in sessionStorage
 </script>
 
 <template>
