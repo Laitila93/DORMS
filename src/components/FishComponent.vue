@@ -1,18 +1,20 @@
 <template>
   <div
-    class="absolute transition-all duration-5000 ease-in-out fish-wiggle"
+    class="absolute"
     :style="{
       top: `${fishY}px`,
-      left: `${fishX}px`
+      left: `${fishX}px`,
+      transition: 'top 5s, left 5s'
     }"
     @click="toggleHatSelector"
   >
+  <div class="fish-wiggle">
   <img
   v-if="fish"
   :key="fish.name"
   :src="fish.image"
   :alt="fish.name"
-  class="w-full h-40 object-contain rounded-md mb-4"
+  class="w-24 h-24 object-contain "
   :style="{ transform: isFlipped ? 'scaleX(-1)' : 'scaleX(1)' }"
 />
 
@@ -21,13 +23,14 @@
   :key="hat.name"
   :src="hat.image"
   :alt="hat.name"
-  class="w-17 absolute"
+  class="w-12 absolute"
   :style="{
     top: '-15px',
     left: '50%', // Center the hat horizontally
     transform: 'translateX(-50%)', // Adjust to center relative to the fish
   }"
 />
+</div>
 <!-- Hat Selector Box -->
 <div
   v-if="showHatSelector"
@@ -131,24 +134,23 @@ function findHat() {
 }
 
 function moveFish() {
-
-  /*Add z-axis that changes size and makes fishes darker*/ 
-  
   const waterBounds = props.bounds;
   if (!waterBounds) return;
 
-  const fishWidth = 100; //theese values will probably need adjustment, weird behaivour close to bounds
+  const fishWidth = 100;
   const fishHeight = 100;
 
   const newX = Math.random() * (waterBounds.width - fishWidth);
   const newY = Math.random() * (waterBounds.height - fishHeight);
 
+  // Update the direction before changing position
   if (newX < fishX.value) {
     isFlipped.value = true;
   } else {
     isFlipped.value = false;
   }
 
+  // Update position values - the CSS transition will apply to these changes
   fishX.value = newX;
   fishY.value = newY;
 }
@@ -169,5 +171,24 @@ function scheduleMoveFish() {
   color: white;
   font-size: x-large;
   background-color: blue;
+}
+
+@keyframes swim-wiggle {
+  0%, 100% {
+    transform: rotate(0deg) skewX(0deg) translateY(0px);
+  }
+  25% {
+    transform: rotate(2deg) skewX(3deg) translateY(-3px);
+  }
+  50% {
+    transform: rotate(0deg) skewX(0deg) translateY(0px);
+  }
+  75% {
+    transform: rotate(-2deg) skewX(-3deg) translateY(3px);
+  }
+}
+
+.fish-wiggle {
+  animation: swim-wiggle 3s infinite ease-in-out;
 }
 </style>
