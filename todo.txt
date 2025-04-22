@@ -1,0 +1,18 @@
+[ ] - Hat Selector:
+[x]	1. Toggle one hat at a time from shopData. button left/right
+[ ]	2. If hat not in unlocked (look at shopview), dont show button
+[ ]    - Make isHatAvailable-function, if hat in shopUnlocks OR === -1 (deselect hat)
+[ ]	3. se till att den ändrar hat i ActiveFish
+[ ] - Fish Selector:
+[ ]	1. Gör en likadan för att välja fisk
+
+[ ]TankView:
+[ ]- ActiveFish-Array
+[ ]	1. Skapa dummy-ActiveFish som sparas i sessionstorage
+[x]- Load shopData and unlockedData as in main-shopview
+
+[ ]Serversida:
+[ ]- Skapa ActiveFish-Array.
+[ ]	- ska ha 10 platser.
+[ ]	- från start ska den ha den första fisken i shopData på alla platser.
+[ ]- Skapa SQL-table för ActiveFish
