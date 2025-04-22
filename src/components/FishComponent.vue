@@ -54,7 +54,7 @@
   <p class="mt-2 text-sm font-semibold" v-if="currentHat">
     {{ currentHat.name }}
   </p>
-  <button @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+  <button v-if="isHatAvailable" @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
     set hat
   </button>
 </div>
@@ -72,7 +72,7 @@ const props = defineProps<{
   bounds: DOMRect | null;
 }>();
 
-const { shopData,  } = useShopData();
+const { shopData, shopUnlocks } = useShopData();
 const fishX = ref(100);
 const fishY = ref(100);
 const isFlipped = ref(false); // Tracks whether the fish is flipped
@@ -92,24 +92,51 @@ const currentHat = computed(() => {
   return shopData.value.hats[currentHatIndex.value];
 });
 
+
 function prevHat() {
   if (!shopData.value || !shopData.value.hats.length) return;
+
   if (currentHatIndex.value === -1) {
     currentHatIndex.value = shopData.value.hats.length - 1;
   } else {
-    currentHatIndex.value = (currentHatIndex.value - 1 + shopData.value.hats.length) % shopData.value.hats.length;
+    currentHatIndex.value -= 1;
+    if (currentHatIndex.value < -1) {
+      currentHatIndex.value = shopData.value.hats.length - 1;
+    }
   }
 }
 
+
 function nextHat() {
   if (!shopData.value || !shopData.value.hats.length) return;
-  currentHatIndex.value = (currentHatIndex.value + 1) % shopData.value.hats.length;
+
+  currentHatIndex.value = (currentHatIndex.value + 1) % (shopData.value.hats.length + 1);
+  if (currentHatIndex.value === shopData.value.hats.length) {
+    currentHatIndex.value = -1; // Back to "no hat"
+  }
 }
 
+
 function applyHat() {
-  if (currentHat.value) hat.value = currentHat.value;
+  hat.value = currentHat.value || null;;
   showHatSelector.value = false;
 }
+
+const isHatAvailable = computed(() => {
+    for (const unlockedHat of shopUnlocks.value.hats) {
+      if (unlockedHat === currentHatIndex.value + 1 || currentHatIndex.value === -1) {
+        return true;
+      }
+    }
+    return false;
+})
+
+
+
+
+
+
+
 
 onMounted(() => {
   scheduleMoveFish(); // Start the random movement
