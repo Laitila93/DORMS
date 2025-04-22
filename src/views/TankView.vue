@@ -1,84 +1,75 @@
 <template>
-    <NavComponent :socket="socket" :menu="menuType" />
-    Number of fish: {{ numberOfFish }}
-    <div class="tank">
-      <div ref="waterRef" class="water" :style="{ height: waterLevel + '%' }">
-        <FishComponent
-          v-for="(fish, index) in shopData.fish.slice(0, numberOfFish)"
-          :key="fish.name"
-          :fishType="fish.name"
-          :hatType="''"
-          :socket="socket"
-          :bounds="waterBounds"
-        />
-      </div>
+  <NavComponent :socket="socket" :menu="menuType" />
+  Number of fish: {{ numberOfFish }}
+  <div class="tank">
+    <div ref="waterRef" class="water" :style="{ height: waterLevel + '%' }">
+      <FishComponent
+        v-for="(fish, index) in shopData.fish.slice(0, numberOfFish)"
+        :key="fish.name"
+        :fishType="fish.name"
+        :hatType="''"
+        :socket="socket"
+        :bounds="waterBounds"
+      />
     </div>
-  </template>
-  
-  <script setup lang="ts">
-  import NavComponent from '@/components/NavComponent.vue';
-  import { onMounted, ref } from 'vue';
-  import TankComponent from '@/components/TankComponent.vue';
-  import FishComponent from '@/components/FishComponent.vue';
-  import { socket } from '@/composables/socket';
-  
-  const menuType = ref('tank');
-  socket.on('connect', () => {
-    console.log('Connected to the server');
-  });
-  
-  const waterLevel = ref(50); // Initial vattennivå
-  const numberOfFish = ref(0);
-  const shopData = ref<{ fish: any[] }>({ fish: [] });
-  const waterRef = ref<HTMLElement | null>(null);
-  const waterBounds = ref<DOMRect | null>(null);
+  </div>
+</template>
 
-  const updateWaterLevel = () => {
-    waterLevel.value = 50 + Math.floor(Math.random() * 50); // Simulera vattennivå mellan 50 och 100
-    numberOfFish.value = parseInt((waterLevel.value / 10).toString()); // Beräkna antal fiskar baserat på vattennivå
-  };
-  onMounted(() => {
-    const cachedData = sessionStorage.getItem('shopData');
-    if (cachedData) {
-      shopData.value = JSON.parse(cachedData);
-    } else {
-      socket.emit("getShopData", "en");
-    }
+<script setup lang="ts">
+import NavComponent from '@/components/NavComponent.vue';
+import { onMounted, ref } from 'vue';
+import TankComponent from '@/components/TankComponent.vue';
+import FishComponent from '@/components/FishComponent.vue';
+import { socket } from '@/composables/socket';
+import { useShopData} from '@/composables/useShopData';
 
-    socket.on("shopData", (data) => {
-      const normalizedData = {
-        fish: data.fishes,
-        hats: data.hats,
-        specials: data.specials
-      };
-      sessionStorage.setItem('shopData', JSON.stringify(normalizedData));
-      shopData.value = normalizedData;
-    });
-    if (waterRef.value) {
-      waterBounds.value = waterRef.value.getBoundingClientRect();
-    }
-    setInterval(updateWaterLevel,1000);
-  });
+const menuType = ref('tank');
+socket.on('connect', () => {
+  console.log('Connected to the server');
+});
+
+const waterLevel = ref(50); // Initial vattennivå
+const numberOfFish = ref(0);
+const { shopData, shopUnlocks } = useShopData();
+
+const waterRef = ref<HTMLElement | null>(null);
+const waterBounds = ref<DOMRect | null>(null);
 
 
-  </script>
-  
-  <style scoped>
-  .tank-container {
-    position: relative;
+
+const updateWaterLevel = () => {
+  //waterLevel.value = 50 + Math.floor(Math.random() * 50); // Simulera vattennivå mellan 50 och 100
+  numberOfFish.value = parseInt((waterLevel.value / 10).toString()); // Beräkna antal fiskar baserat på vattennivå
+};
+onMounted(() => {
+  if (waterRef.value) {
+    waterBounds.value = waterRef.value.getBoundingClientRect();
   }
-  .tank {
-    width: 80vw;
-    height: 80vh;
-    border-width: 20px;
-    border-color: black;
-    border-style: solid;
-    position: relative;
+  if (waterRef.value) { //sets bounds for movement 
+    waterBounds.value = waterRef.value.getBoundingClientRect();
   }
-  .water {
-    width: 100%;
-    background-color: blue;
-    position: absolute;
-    bottom: 0;
-  }
-  </style>
+  setInterval(updateWaterLevel,1000);
+});
+
+
+</script>
+
+<style scoped>
+.tank-container {
+  position: relative;
+}
+.tank {
+  width: 80vw;
+  height: 80vh;
+  border-width: 20px;
+  border-color: black;
+  border-style: solid;
+  position: relative;
+}
+.water {
+  width: 100%;
+  background-color: blue;
+  position: absolute;
+  bottom: 0;
+}
+</style>
