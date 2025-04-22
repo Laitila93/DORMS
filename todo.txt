@@ -1,7 +1,7 @@
 [ ] - Hat Selector:
 [x]	1. Toggle one hat at a time from shopData. button left/right
-[ ]	2. If hat not in unlocked (look at shopview), dont show button
-[ ]    - Make isHatAvailable-function, if hat in shopUnlocks OR === -1 (deselect hat)
+[x]	2. If hat not in unlocked (look at shopview), dont show button
+[x]    - Make isHatAvailable-function, if hat in shopUnlocks OR === -1 (deselect hat)
 [ ]	3. se till att den ändrar hat i ActiveFish
 [ ] - Fish Selector:
 [ ]	1. Gör en likadan för att välja fisk
