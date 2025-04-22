@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-
+import { useShopData } from '@/composables/useShopData'; // Import the composable for shop data
 const props = defineProps<{
   fishType: string;
   hatType: string;
@@ -41,59 +41,34 @@ const props = defineProps<{
   bounds: DOMRect | null;
 }>();
 
-// Define the structure of shop data
-type ShopData = {
-  fish: { name: string; description: string; price: number; image: string }[];
-  hats: { name: string; description: string; price: number; image: string }[];
-  specials: { name: string; description: string; price: number; image: string }[];
-};
-type ItemData = {
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-};
-
-const shopData = ref<ShopData | null>(null);
+const { shopData,  } = useShopData();
 const fishX = ref(100);
 const fishY = ref(100);
 const isFlipped = ref(false); // Tracks whether the fish is flipped
-const fish = ref<ItemData | undefined>(undefined);
-const hat = ref<ItemData | null>(null);
+let fish = ref(shopData.value?.fish.find(f => f.name === props.fishType) || null);
+let hat = ref(shopData.value?.hats.find(h => h.name === props.hatType) || null);
 
-// Load from sessionStorage
+
 onMounted(() => {
-  const cached = sessionStorage.getItem('shopData');
-  if (cached) {
-    try {
-      const parsed = JSON.parse(cached);
-      shopData.value = {
-        fish: parsed.fish,
-        hats: parsed.hats,
-        specials: parsed.specials
-      };
-      findFish();
-      findHat();
-    } catch (err) {
-      console.error("❌ Failed to parse sessionStorage shopData:", err);
-    }
-  } else {
-    console.warn("⚠️ No shop data found in sessionStorage.");
-  }
-
   scheduleMoveFish(); // Start the random movement
 });
 
 // Watch for changes in props
-watch(() => props.fishType, findFish);
-watch(() => props.hatType, findHat);
+watch(() => props.fishType, () => {
+  fish.value = findFish() || null;
+});
+watch(() => props.hatType, () => {
+  hat.value = findHat() || null;
+});
 
 function findFish() {
-  fish.value = shopData.value?.fish.find(f => f.name === props.fishType);
+  const fishes = shopData.value?.fish.find(f => f.name === props.fishType);
+  return fishes;
 }
 
 function findHat() {
-  hat.value = shopData.value?.hats.find(h => h.name === props.hatType) || null;
+  const hat = shopData.value?.hats.find(h => h.name === props.hatType) || null;
+  return hat;
 }
 
 function moveFish() {
@@ -127,7 +102,3 @@ function scheduleMoveFish() {
   }, randomDelay);
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -21,7 +21,7 @@ to the other corridors in the building. It contains a LoginComponent with login 
   <!--Body -->
   <div class="flex flex-col min-h-screen w-screen">
     <!--Header with prompt to fill in username and password-->
-    <header class="text-white p-4 text-center">
+    <header class="text-text p-4 text-center">
       <h1 class="text-2xl font-bold">Welcome to DORMS</h1>
       <p class="text-lg">Please enter your corridor ID and password below</p>
       <p class="text-sm text-emerald-500">(This is a test version so just type any character in both fields)</p>
@@ -76,6 +76,3 @@ socket.on('connect', () => {
   console.log('Connected to the server'); // Verify connection for error detection
 });
 </script>
-
-<style scoped>
-</style>

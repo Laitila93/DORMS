@@ -135,6 +135,3 @@
     selectedHat.value = hatType;
   }
 </script>
-
-<style scoped>
-</style>

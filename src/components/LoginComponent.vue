@@ -39,7 +39,7 @@
 
     <!--Submit button-->
     <button
-      class="p-2 rounded block w-full text-center bg-emerald-500 text-white hover:bg-emerald-600 cursor-pointer"
+      class="p-2 rounded block w-full text-center bg-accent text-text hover:bg-secondary cursor-pointer"
       @click=""
     >
       Log in
