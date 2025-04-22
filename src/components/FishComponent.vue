@@ -5,6 +5,7 @@
       top: `${fishY}px`,
       left: `${fishX}px`
     }"
+    @click="toggleHatSelector"
   >
   <img
   v-if="fish"
@@ -27,12 +28,39 @@
     transform: 'translateX(-50%)', // Adjust to center relative to the fish
   }"
 />
+<!-- Hat Selector Box -->
+<div
+  v-if="showHatSelector"
+  class="absolute z-50 bg-white border border-black p-4 rounded shadow w-64 flex flex-col items-center"
+  style="top: -220px; left: -50px;"
+>
+  <div class="relative flex items-center justify-center w-full h-32">
+    <button @click.stop="prevHat"  class="toggle-button">←</button>
 
+    <img
+      v-if="currentHat"
+      :src="currentHat.image"
+      :alt="currentHat.name"
+      class="h-24 object-contain"
+    />
+    
+    <div v-else class="text-gray-500">No hat</div>
+
+    <button @click.stop="nextHat" class="toggle-button">→</button>
   </div>
+  <p class="mt-2 text-sm font-semibold" v-if="currentHat">
+    {{ currentHat.name }}
+  </p>
+  <button @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+    set hat
+  </button>
+</div>
+
+</div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useShopData } from '@/composables/useShopData'; // Import the composable for shop data
 const props = defineProps<{
   fishType: string;
@@ -48,6 +76,37 @@ const isFlipped = ref(false); // Tracks whether the fish is flipped
 let fish = ref(shopData.value?.fish.find(f => f.name === props.fishType) || null);
 let hat = ref(shopData.value?.hats.find(h => h.name === props.hatType) || null);
 
+const showHatSelector = ref(false);
+const currentHatIndex = ref<number>(-1); // -1 = no hat
+// const currentFishIndex = ref<number>(-1); // -1 = no fish
+
+const toggleHatSelector = () => {
+  showHatSelector.value = !showHatSelector.value;
+};
+
+const currentHat = computed(() => {
+  if (!shopData.value || !shopData.value.hats.length || currentHatIndex.value === -1) return null;
+  return shopData.value.hats[currentHatIndex.value];
+});
+
+function prevHat() {
+  if (!shopData.value || !shopData.value.hats.length) return;
+  if (currentHatIndex.value === -1) {
+    currentHatIndex.value = shopData.value.hats.length - 1;
+  } else {
+    currentHatIndex.value = (currentHatIndex.value - 1 + shopData.value.hats.length) % shopData.value.hats.length;
+  }
+}
+
+function nextHat() {
+  if (!shopData.value || !shopData.value.hats.length) return;
+  currentHatIndex.value = (currentHatIndex.value + 1) % shopData.value.hats.length;
+}
+
+function applyHat() {
+  if (currentHat.value) hat.value = currentHat.value;
+  showHatSelector.value = false;
+}
 
 onMounted(() => {
   scheduleMoveFish(); // Start the random movement
@@ -97,8 +156,18 @@ function moveFish() {
 function scheduleMoveFish() {
   const randomDelay = Math.random() * 9000 + 2000; // Random delay between 2s and 5s
   setTimeout(() => {
-    moveFish(); // Move the fish
+    if (!showHatSelector.value){
+      moveFish();// Move the fish if not selected
+    }
     scheduleMoveFish(); // Schedule the next move
   }, randomDelay);
 }
 </script>
+
+<style scoped>
+.toggle-button{
+  color: white;
+  font-size: x-large;
+  background-color: blue;
+}
+</style>
