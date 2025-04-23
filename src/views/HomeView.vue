@@ -18,7 +18,7 @@ to the other corridors in the building. It contains a LoginComponent with login 
   <!--Side menu component, currently styled with position:fixed, therefore I've placed it here-->
   <NavComponent :key="navKey" :menu="menuType" :socket="socket"/>
 
-  <!--Body -->
+  <!--Create layout for this page -->
   <div class="flex flex-col min-h-screen w-screen">
     <!--Header with prompt to fill in username and password-->
     <header class="p-4 text-center">
@@ -28,7 +28,7 @@ to the other corridors in the building. It contains a LoginComponent with login 
     </header>
 
     <!--Main content area with login fields-->
-    <main class="flex flex-col flex-1 justify-center items-center px-4">
+    <div class="flex flex-col flex-1 justify-center items-center px-4">
       <section class="rounded-lg flex flex-col p-4 text-center w-full max-w-md">
         <LoginComponent
           usernameID="username"
@@ -37,7 +37,7 @@ to the other corridors in the building. It contains a LoginComponent with login 
           passwordPlaceholder="Enter your password"
         />
       </section>
-    </main>
+    </div>
   </div>
 </template>
 
