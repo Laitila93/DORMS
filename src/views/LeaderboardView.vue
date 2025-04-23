@@ -22,7 +22,7 @@ graphic component. This component is named 'RaceComponent'which presents the wat
 
   <div class="flex flex-col min-h-screen w-screen">
   
-    <header class=" text-white p-4 text-center">
+    <header class="p-4 text-center">
       <h1 class="text-2xl font-bold">Welcome to DORMS Leaderboard</h1>
       <p class="text-lg">Here you can see who currently leads the race!</p>
     </header>

@@ -21,7 +21,7 @@
     <input
       type="text"
       :id="usernameID"
-      class="border border-gray-300 rounded p-2 w-full"
+      class="rounded p-2 w-full"
       :placeholder="usernamePlaceholder"
       v-model="username"
       autocomplete="off"
@@ -31,7 +31,7 @@
     <input
       type="password"
       :id="passwordID"
-      class="border border-gray-300 rounded p-2 w-full"
+      class=" rounded p-2 w-full"
       :placeholder="passwordPlaceholder"
       v-model="password"
       autocomplete="off"
@@ -39,7 +39,7 @@
 
     <!--Submit button-->
     <button
-      class="p-2 rounded block w-full text-center bg-accent text-text hover:bg-secondary cursor-pointer"
+      class="p-2 rounded block w-full text-center bg-primary dark:bg-primary-dark hover:bg-secondary dark:hover:bg-secondary-dark cursor-pointer"
       @click=""
     >
       Log in

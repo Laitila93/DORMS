@@ -3,7 +3,7 @@
     <ul class="space-y-4">
       <li v-for="item in menuItems" :key="item.name">
         <button
-          class="cursor-pointer inline-flex items-center gap-2 w-full bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-xl transition-colors duration-300"
+          class="cursor-pointer inline-flex items-center gap-2 w-full bg-secondary dark:bg-secondary-dark hover:bg-primary-dark dark:hover:bg-primary text-text dark:text-text-dark font-semibold py-2 px-4 rounded-xl transition-colors duration-300"
           @click="$emit('menu-select', item.name)"
         >
           {{ item.name }}

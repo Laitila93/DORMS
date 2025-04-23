@@ -16,14 +16,14 @@
         <li>
           <button
             @click="logout"
-            class="bg-red-500 text-white px-4 py-2 rounded-lg w-full hover:bg-red-600 transition"
+            class="bg-red-500 text-text dark:text-text-dark font-semibold py-2 px-4 rounded-xl transition-colors duration-300 w-full hover:bg-primary-dark dark:hover:bg-primary"
           >
             Logout
           </button>
         </li>
         <li v-for="item in menuItems" :key="item.name">
           <router-link :to="item.link" @click="closeMenu">
-            <div class="bg-secondary-light text-primary-dark w-full p-3 rounded-lg hover:bg-secondary transition-colors">
+            <div class="cursor-pointer inline-flex items-center gap-2 w-full bg-secondary dark:bg-secondary-dark hover:bg-primary-dark dark:hover:bg-primary text-text dark:text-text-dark font-semibold py-2 px-4 rounded-xl transition-colors duration-300">
               {{ item.name }}
             </div>
           </router-link>

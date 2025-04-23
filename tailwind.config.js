@@ -17,10 +17,10 @@ export default {
         background: {
           light: '#BEE3DB',  
           DEFAULT: '#BEE3DB', 
-          dark: '#555B6E',   
+          dark: '#3A6351',   
         },
         text: {
-          light: '#555B6E',   // neutral gray
+          light: '#3A6351',   // neutral gray
           DEFAULT: '#2B4570', //Tea green
           dark: '#BEE3DB',
         },
