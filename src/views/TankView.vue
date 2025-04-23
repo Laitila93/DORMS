@@ -1,7 +1,8 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
   Number of fish: {{ numberOfFish }}
-  <div class="tank">
+  <div class="relative w-[80vw] h-[80vh] border-[20px] border-black bg-cover bg-center"
+         style="background-image: url('https://i.imgur.com/9T34bA9.png')">
     <div class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
       <FishComponent
         v-for="(fish, index) in shopData?.fish.slice(0, numberOfFish)"
