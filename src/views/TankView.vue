@@ -2,15 +2,17 @@
   <NavComponent :socket="socket" :menu="menuType" />
   Number of fish: {{ numberOfFish }}
   <div class="tank">
-    <div ref="waterRef" class="water" :style="{ height: waterLevel + '%' }">
+    <div class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
       <FishComponent
-        v-for="(fish, index) in shopData.fish.slice(0, numberOfFish)"
+        v-for="(fish, index) in shopData?.fish.slice(0, numberOfFish)"
         :key="fish.name"
         :fishType="fish.name"
         :hatType="''"
         :socket="socket"
         :bounds="waterBounds"
       />
+    </div>
+    <div ref="waterRef" class="w-full bg-blue-400/30 absolute bottom-0 z-10" :style="{ height: waterLevel + '%' }">
     </div>
   </div>
 </template>
@@ -66,10 +68,5 @@ onMounted(() => {
   border-style: solid;
   position: relative;
 }
-.water {
-  width: 100%;
-  background-color: blue;
-  position: absolute;
-  bottom: 0;
-}
+
 </style>
