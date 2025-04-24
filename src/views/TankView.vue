@@ -12,8 +12,9 @@
         :socket="socket"
         :bounds="waterBounds"
       />
+      <RockComponent ref="rockRef"></RockComponent>
     </div>
-    <div ref="waterRef" class="w-full bg-blue-400/30 absolute bottom-0 z-10" :style="{ height: waterLevel + '%' }">
+    <div ref="waterRef" class="w-full bg-blue-400/30 absolute bottom-0 z-10 pointer-events-none" :style="{ height: waterLevel + '%' }">
     </div>
   </div>
 </template>
@@ -25,18 +26,22 @@ import TankComponent from '@/components/TankComponent.vue';
 import FishComponent from '@/components/FishComponent.vue';
 import { socket } from '@/composables/socket';
 import { useShopData} from '@/composables/useShopData';
+import RockComponent from '@/components/RockComponent.vue';
 
 const menuType = ref('tank');
 socket.on('connect', () => {
   console.log('Connected to the server');
 });
 
-const waterLevel = ref(50); // Initial vattennivå
+const waterLevel = ref(50); // Initial water level
 const numberOfFish = ref(0);
 const { shopData, shopUnlocks } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
+
+const rockRef = ref<HTMLElement | null>(null);
+const rockBounds = ref<DOMRect | null>(null);
 
 
 
@@ -48,9 +53,14 @@ onMounted(() => {
   if (waterRef.value) {
     waterBounds.value = waterRef.value.getBoundingClientRect();
   }
-  if (waterRef.value) { //sets bounds for movement 
+  if (waterRef.value) { //sets bounds for fish movement 
     waterBounds.value = waterRef.value.getBoundingClientRect();
   }
+  /* 
+  if (rockRef.value) { //fish cannot move through rock
+    rockBounds.value = rockRef.value.getBoundingClientRect();
+  }
+  */
   setInterval(updateWaterLevel,1000);
 });
 
