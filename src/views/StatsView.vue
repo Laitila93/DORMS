@@ -67,10 +67,11 @@
                 Total cold water consumption
                 </div>
 
-                <div
-                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center"
-                >
-                Total graph
+                <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
+                    <p class="text-gray-800">Total graph</p>
+                    <div class="totGraph">
+                 
+                    </div>
                 </div>
                 <div
                 class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
@@ -110,7 +111,7 @@
                 >
                 <p class="text-gray-800">Total graph</p>
                 <div class="totGraph">
-                 
+                 <canvas id="totGraph" class="w-full h-60"></canvas>
                 </div>
                 </div>
                 <div
@@ -179,43 +180,50 @@
     import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
     import NavComponent from '@/components/NavComponent.vue';
     import { socket } from '@/composables/socket';
-    //import statsData from '@/assets/statsData.json';
+    import { Chart } from 'chart.js';
     
     const menuType = ref('statsTime');
     const navMenuType = ref('main');
     const selectedContent = ref('daily');
-/*
-    const timeKeys = Object.keys(statsData);
 
-    //AI generated
-    const menu = timeKeys.map(key => ({
-        name: key.charAt(0).toUpperCase() + key.slice(1),
-        link: ''
-    }))
+    const ctx = document.getElementById(totGraph).getContext('2d');
 
-    const socket = {
-        onMenuData: (_: any) => {},
-        emit: (event: string, lang: string) => {
-            if (event === 'getMenuData') {
-                setTimeout(() =>{
-                    socket.onMenuData({
-                        statsTime: menu
-                    });
-                }, 100);
-            }
-        },
-            on: (event: string, callback: any) => {
-                if (event === 'menuData') {
-                    socket.onMenuData = callback;
+    /*placeholder info graph*/
+    const labels = ['13', '14', '15', '16', '17', '18', '19'];
+    const data = {
+        labels, datasets: [{
+        label: 'Total consumption',
+        data: [65, 59, 84, 34, 55, 50],
+        fill: false,
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 3}]
+    }; 
+
+    const config = {
+        type: 'line',
+        data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {display:true, text: 'Total Graph'},
+                legend: {position: 'bottom'}
+            },
+            scales: {
+                x: { title: {display: true, text: 'Hour'}},
+                y: { title: {display: true, text: 'Total consumption'}, suggestedMin:0, suggestedMax: 100}
             }
         }
     }
-*/
+
+
 
     function handleMenuSelect(option: string) {
         selectedContent.value = option.toLowerCase();
     }
     
+    new Chart(ctx, config);
     </script>
     
     <style scoped>
