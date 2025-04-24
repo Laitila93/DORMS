@@ -170,6 +170,7 @@ function applyFish() {
 }
 
 const isHatAvailable = computed(() => {
+    if (!shopUnlocks.value || !shopUnlocks.value.hats) return false;
     for (const unlockedHat of shopUnlocks.value.hats) {
       if (unlockedHat === currentHatIndex.value + 1 || currentHatIndex.value === -1) {
         return true;
@@ -179,8 +180,8 @@ const isHatAvailable = computed(() => {
 })
 
 const isFishAvailable = computed(() => {
-  console.log("unlocked fish: ", shopUnlocks.value.fish);
-    for (const unlockedFish of shopUnlocks.value.fish) {
+  console.log("unlocked fish: ", shopUnlocks.value?.fish || []);
+    for (const unlockedFish of (shopUnlocks.value?.fish || [])) {
       if (unlockedFish === currentFishIndex.value + 1 || currentFishIndex.value === -1) {
         return true;
       }

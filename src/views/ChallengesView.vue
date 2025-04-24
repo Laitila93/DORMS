@@ -15,7 +15,7 @@
           <div v-if="selectedContent === 'unlockables'">
             <p class="text-lg font-semibold mb-2 m-4">Unlockables</p>
             <div class="unlockList">
-              <div v-for="unlock in unlocks" :key="unlock" class="unlockBox">
+              <div v-for="unlock in unlocks" :key="unlock.name" class="unlockBox">
                 <div class="unlockName">{{unlock.name}}</div>
                   <div class="unlockDescription">{{ unlock.desc }}</div>
                   <div class="unlockLevel">{{ unlock.level }}</div>
@@ -35,7 +35,7 @@
           <div v-else-if="selectedContent === 'challenges'">
             <p class="text-lg font-semibold mb-2 m-4">Special challenges</p>
             <div class="challengesList">
-              <div v-for="challenge in challenges" :key="challenge" class="challengesBox">
+              <div v-for="challenge in challenges" :key="challenge.name" class="challengesBox">
                 <div class="challengesName">{{challenge.name}}</div>
                   <div class="challengesDescription">{{ challenge.desc }}</div>
                   <img :src="challenge.image"
@@ -56,7 +56,7 @@
             </div>
             <p class="text-lg font-semibold mb-2 m-4">Limited time challenges</p>
             <div class="limitedList">
-              <div v-for="limited in limiteds" :key="limited" class="limitedBox">
+              <div v-for="limited in limiteds" :key="limited.name" class="limitedBox">
                 <div class="limitedName">{{limited.name}}</div>
                   <div class="limitedDescription">{{ limited.desc }}</div>
                   <img :src="limited.image"
@@ -85,10 +85,28 @@ import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
 import { socket } from '@/composables/socket';
 
-const unlocks = ref([]);
+interface Unlock {
+  name: string;
+  desc: string;
+  level: number;
+  image: string;
+}
+
+const unlocks = ref<Unlock[]>([]);
 const menuType = ref('challenges');
+const challenges = ref([
+  { name: 'Special Challenge 1', desc: 'Special Description 1', image: '' },
+  { name: 'Special Challenge 2', desc: 'Special Description 2', image: '' }
+]);
+
+const limiteds = ref([
+  { name: 'Challenge 1', desc: 'Description 1', image: '', timeLeft: '2 days' },
+  { name: 'Challenge 2', desc: 'Description 2', image: '', timeLeft: '5 days' }
+]);
 const navMenuType = ref('main');
 const selectedContent = ref('active');
+const progress = ref({ percentage: '50%' }); // Example progress data
+const currentLevel = ref(1); // Example initial value for currentLevel
 
 onMounted(async () => {
   const res = await fetch('/data/unlocks.json')
