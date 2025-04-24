@@ -1,5 +1,5 @@
 <template>
-    <div class="tank">
+    <div class="relative w-[80vw] h-[80vh] border-[20px] border-black bg-cover bg-center">
       <div class="water" :style="{ height: waterLevel + '%' }"></div>
       <div class="circles">
         <CircleComponent v-for="n in numberOfFish" :key="n" :waterLevel="waterLevel" />
@@ -41,14 +41,6 @@
   </script>
   
   <style scoped>
-  .tank {
-    width: 80vw;
-    height: 80vh;
-    border-width: 20px;
-    border-color: black;
-    border-style: solid;
-    position: relative;
-  }
   
   .water {
     width: 100%;

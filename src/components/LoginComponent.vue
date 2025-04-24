@@ -1,25 +1,45 @@
+<!--This is the LoginComponent, containing the Login form. 
+  It is a simple component that takes in props for the username and password fields.
+  The component is designed to be reusable and can be used in different parts of the application.
+
+  (COMMENTED OUT)
+  The component also uses the Vue Router for navigation after a successful login.
+  The component is designed to be used with a backend API for authentication.
+
+----TBD-----
+** 1. The section at the end of the file contains a verification process. 
+      It is commented out, until final implementation of the Login function is decided.
+** 2. The button is not yet functional, as the login function is not yet implemented.
+------------
+
+//Emil 20th of april-->
+
 <template>
   <div class="grid gap-8">
+
+    <!--Username input-->
     <input
       type="text"
       :id="usernameID"
-      class="border border-gray-300 rounded p-2 w-full"
+      class="rounded p-2 w-full"
       :placeholder="usernamePlaceholder"
       v-model="username"
       autocomplete="off"
     />
 
+    <!--Password input-->
     <input
       type="password"
       :id="passwordID"
-      class="border border-gray-300 rounded p-2 w-full"
+      class=" rounded p-2 w-full"
       :placeholder="passwordPlaceholder"
       v-model="password"
       autocomplete="off"
     />
 
+    <!--Submit button-->
     <button
-      class="p-2 rounded block w-full text-center bg-emerald-500 text-white hover:bg-emerald-600 cursor-pointer"
+      class="p-2 rounded block w-full text-center bg-primary dark:bg-primary-dark hover:bg-secondary dark:hover:bg-secondary-dark cursor-pointer"
       @click=""
     >
       Log in

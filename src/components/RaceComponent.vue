@@ -1,43 +1,29 @@
 <template>
-  <div>
-    This is the RaceComponent for {{ dorm }}.
+
+  <div class="grid gap-4 w-full">
+    <div 
+      v-for="dorm in props.data"
+      :key="dorm.dormName"
+      class="flex items-center h-20 bg-blue-400 transition-all duration-500 rounded-r-full p-4 font-bold text-white uppercase"
+      :style="{ width: `${dorm.score}%`}"
+      >
+      {{ dorm.dormName }}
+    </div>
   </div>
 
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
-
-  onMounted(() => {
-    props.socket.emit("getWaterData"); 
-    props.socket.on("waterData", (records: Record<string, WaterLogItem[]>) => {
-      mainWaterLog.value = records;
-      dormWaterLog.value = (mainWaterLog.value[props.dorm as keyof typeof mainWaterLog.value] || []) as WaterLogItem[];
-      console.log("Received water data:", records);
-      console.log("Received dorm water data:", dormWaterLog.value);
-      console.log("WaterLogItem 1:", dormWaterLog.value[0]);
-      }
-    );
-      // Handle errors
-      props.socket.on("error", (error: { message: string }) => {
-        console.error("Error from server:", error.message);
-        }
-      );
-  });
 
   const props = defineProps<{
-    dorm: string;
-    socket: any;
+    data: DormScore[];
   }>();
+  console.log(props.data);
 
+  type DormScore = {
+    dormName: string;
+    score: number;
+  }
 
-  type WaterLogItem = {
-    name: string;
-    value: number;
-  };
-
-  const dormWaterLog = ref<WaterLogItem[]>([]); // Starts empty, filled later
-  const mainWaterLog = ref<Record<string, WaterLogItem[]>>({});
-  const isOpen = ref(false);
 
 </script>
