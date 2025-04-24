@@ -1,0 +1,43 @@
+[
+    {
+        "name": "Jellyfish",
+        "desc": "A wobbly fellow",
+        "level": 1,
+        "image": ""
+    },
+
+    {
+        "name": "Jellyhat",
+        "desc": "A hat made of jelly, sort of wobbly to be honest",
+        "level": 1,
+        "image": ""
+    },
+
+    {
+        "name": "Seal",
+        "desc": "A cute seal, be careful",
+        "level": 2,
+        "image": ""
+    },
+
+    {
+        "name": "The pirate's hat",
+        "desc": "'That has got to be the best pirate I have ever seen' 'So it would seem...' ",
+        "level": 2,
+        "image": ""
+    },
+
+    {
+        "name": "Clownfish",
+        "desc": "You're funny right? Tell us a joke! ",
+        "level": 3,
+        "image": ""
+    },
+
+    {
+        "name": "Anemone hat",
+        "desc": "Home of the clownfish",
+        "level": 3,
+        "image": ""
+    }
+]

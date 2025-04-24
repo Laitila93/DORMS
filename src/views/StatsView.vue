@@ -14,64 +14,155 @@
         <div class="p-4 overflow-y-auto space-y-6">
         <div v-if="selectedContent === 'hourly'">
             <p class="text-lg font-semibold mb-2 m-4">Hourly Stats</p>
-            <!-- Placeholder for hourly graph -->
-            <div class="h-full w-full items-center justify-center gap-4 p-4">
-                <div class="grid grid-cols-4 grid-rows-3 gap-10 items-center justify-center">
-                    <div class="col-start-1 bg-gray-200 text-gray-800 rounded-md">Total water consumption</div>
-                    <div class="col-start-2 bg-gray-200 text-gray-800 rounded-md">Total warm water consumption</div>
-                    <div class="col-start-3 bg-gray-200 text-gray-800 rounded-md">Total cold water consumption</div>
-                    <div class="row-span-2 col-start-1 row-start-2 bg-gray-200 text-gray-800 rounded-md">Total graph</div>
-                    <div class="row-span-2 col-start-2 row-start-2 bg-gray-200 text-gray-800 rounded-md">Warm water graph</div>
-                    <div class="col-start-3 row-start-3 bg-gray-200 text-gray-800 rounded-md">You could have saved this many bananas</div>
-                    <div class="col-start-3 row-start-2 bg-gray-200 text-gray-800 rounded-md">Average shower time</div>
+            <div
+                class="grid gap-4"
+                :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]'  
+                ]"
+            >
+                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                Total water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                Total warm water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                Total cold water consumption
+                </div>
+
+                <div
+                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center"
+                >
+                Total graph
+                </div>
+                <div
+                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
+                >
+                Warm water graph
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                Average shower time
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                You could have saved this many bananas
                 </div>
             </div>
         </div>
     
         <div v-else-if="selectedContent === 'daily'">
             <p class="text-lg font-semibold mb-2">Daily Stats</p>
-            <!-- Placeholder for daily graph -->
-            <div class="h-full w-full items-center justify-center gap-4 p-4">
-                <div class="grid grid-cols-4 grid-rows-3 gap-10 items-center justify-center">
-                    <div class="col-start-1 bg-gray-200 text-gray-800 rounded-md">Total water consumption</div>
-                    <div class="col-start-2 bg-gray-200 text-gray-800 rounded-md">Total warm water consumption</div>
-                    <div class="col-start-3 bg-gray-200 text-gray-800 rounded-md">Total cold water consumption</div>
-                    <div class="row-span-2 col-start-1 row-start-2 bg-gray-200 text-gray-800 rounded-md">Total graph</div>
-                    <div class="row-span-2 col-start-2 row-start-2 bg-gray-200 text-gray-800 rounded-md">Warm water graph</div>
-                    <div class="col-start-3 row-start-3 bg-gray-200 text-gray-800 rounded-md">You could have saved this many bananas</div>
-                    <div class="col-start-3 row-start-2 bg-gray-200 text-gray-800 rounded-md">Average shower time</div>
+            <div
+                class="grid gap-4"
+                :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]'  
+                ]"
+            >
+                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                Total water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                Total warm water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                Total cold water consumption
+                </div>
+
+                <div
+                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center"
+                >
+                Total graph
+                </div>
+                <div
+                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
+                >
+                Warm water graph
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                Average shower time
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                You could have saved this many bananas
                 </div>
             </div>
         </div>
     
         <div v-else-if="selectedContent === 'weekly'">
             <p class="text-lg font-semibold mb-2">Weekly Stats</p>
-            <!-- Placeholder for weekly graph -->
-            <div class="h-full w-full items-center justify-center gap-4 p-4">
-                <div class="grid grid-cols-4 grid-rows-3 gap-10 items-center justify-center">
-                    <div class="col-start-1 bg-gray-200 text-gray-800 rounded-md">Total water consumption</div>
-                    <div class="col-start-2 bg-gray-200 text-gray-800 rounded-md">Total warm water consumption</div>
-                    <div class="col-start-3 bg-gray-200 text-gray-800 rounded-md">Total cold water consumption</div>
-                    <div class="row-span-2 col-start-1 row-start-2 bg-gray-200 text-gray-800 rounded-md">Total graph</div>
-                    <div class="row-span-2 col-start-2 row-start-2 bg-gray-200 text-gray-800 rounded-md">Warm water graph</div>
-                    <div class="col-start-3 row-start-3 bg-gray-200 text-gray-800 rounded-md">You could have saved this many bananas</div>
-                    <div class="col-start-3 row-start-2 bg-gray-200 text-gray-800 rounded-md">Average shower time</div>
+            <div
+                class="grid gap-4"
+                :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]'  
+                ]"
+            >
+                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                Total water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                Total warm water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                Total cold water consumption
+                </div>
+
+                <div
+                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-center"
+                >
+                <p class="text-gray-800">Total graph</p>
+                <div class="totGraph">
+                 
+                </div>
+                </div>
+                <div
+                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
+                >
+                Warm water graph
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                Average shower time
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                You could have saved this many bananas
                 </div>
             </div>
         </div>
     
         <div v-else-if="selectedContent === 'monthly'">
             <p class="text-lg font-semibold mb-2">Monthly Stats</p>
-            <!-- Placeholder for monthly graph -->
-            <div class="h-full w-full items-center justify-center gap-4 p-4">
-                <div class="grid grid-cols-4 grid-rows-3 gap-10 items-center justify-center">
-                    <div class="col-start-1 bg-gray-200 text-gray-800 rounded-md">Total water consumption</div>
-                    <div class="col-start-2 bg-gray-200 text-gray-800 rounded-md">Total warm water consumption</div>
-                    <div class="col-start-3 bg-gray-200 text-gray-800 rounded-md">Total cold water consumption</div>
-                    <div class="row-span-2 col-start-1 row-start-2 bg-gray-200 text-gray-800 rounded-md">Total graph</div>
-                    <div class="row-span-2 col-start-2 row-start-2 bg-gray-200 text-gray-800 rounded-md">Warm water graph</div>
-                    <div class="col-start-3 row-start-3 bg-gray-200 text-gray-800 rounded-md">You could have saved this many bananas</div>
-                    <div class="col-start-3 row-start-2 bg-gray-200 text-gray-800 rounded-md">Average shower time</div>
+            <div
+                class="grid gap-4"
+                :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]'  
+                ]"
+            >
+                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                Total water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                Total warm water consumption
+                </div>
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                Total cold water consumption
+                </div>
+
+                <div
+                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center"
+                >
+                Total graph
+                </div>
+                <div
+                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
+                >
+                Warm water graph
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                Average shower time
+                </div>
+
+                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                You could have saved this many bananas
                 </div>
             </div>
         </div>
