@@ -40,8 +40,8 @@ const { shopData, shopUnlocks } = useShopData();
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
 
-const rockRef = ref<HTMLElement | null>(null);
-const rockBounds = ref<DOMRect | null>(null);
+const rockRef = ref<{ rockElement: HTMLElement } | null>(null); // Reference to to the root div of the rock
+const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 
 
 
@@ -56,11 +56,11 @@ onMounted(() => {
   if (waterRef.value) { //sets bounds for fish movement 
     waterBounds.value = waterRef.value.getBoundingClientRect();
   }
-  /* 
-  if (rockRef.value) { //fish cannot move through rock
-    rockBounds.value = rockRef.value.getBoundingClientRect();
+  
+  if (rockRef.value?.rockElement) { //fish cannot move through rock
+    rockBounds.value = rockRef.value.rockElement.getBoundingClientRect();
   }
-  */
+  
   setInterval(updateWaterLevel,1000);
 });
 
