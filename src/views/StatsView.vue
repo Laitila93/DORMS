@@ -180,13 +180,13 @@
     import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
     import NavComponent from '@/components/NavComponent.vue';
     import { socket } from '@/composables/socket';
-    import { Chart } from 'chart.js';
+    //import { Chart } from 'chart.js';
     
     const menuType = ref('statsTime');
     const navMenuType = ref('main');
     const selectedContent = ref('daily');
 
-    const ctx = document.getElementById(totGraph).getContext('2d');
+   // const ctx = document.getElementById(totGraph).getContext('2d');
 
     /*placeholder info graph*/
     const labels = ['13', '14', '15', '16', '17', '18', '19'];
@@ -223,7 +223,7 @@
         selectedContent.value = option.toLowerCase();
     }
     
-    new Chart(ctx, config);
+    //new Chart(ctx, config);
     </script>
     
     <style scoped>
