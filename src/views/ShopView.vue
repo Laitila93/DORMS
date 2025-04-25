@@ -1,10 +1,6 @@
 <template>
   <NavComponent :socket="socket" :menu="navMenuType" />
   <div class="grid grid-cols-[168px_1fr] h-screen">
-    <!-- Sidebar -->
-    <div class="p-4">
-      <VerticalmenuCompnent :menu="menuType" :socket="socket" @menu-select="handleMenuSelect" />
-    </div>
     <!-- Main Content Area -->
     <div ref="waterRef" class="p-4 overflow-y-auto">
       <div v-if="selectedContent === 'Hats'">
@@ -98,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-  import VerticalmenuCompnent from '@/components/VerticalMenuComponent.vue';
+
   import NavComponent from '@/components/NavComponent.vue';
   import FishComponent from '@/components/FishComponent.vue';
   import { ref, onMounted } from 'vue';
