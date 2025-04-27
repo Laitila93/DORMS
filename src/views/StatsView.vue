@@ -7,7 +7,7 @@
     <div class="grid grid-cols-[168px_1fr] h-screen">
         <!-- Sidebar -->
         <div class="p-4">
-        <VerticalMenuComponent :menu="menuType" :socket="socket" @menu-select="handleMenuSelect" />
+        <!--<VerticalMenuComponent :menu="menuType" :socket="socket" @menu-select="handleMenuSelect" />-->
         </div>
     
         <!-- Main Content Area -->
@@ -58,33 +58,39 @@
                 ]"
             >
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
-                Total water consumption
+                <p>Total water consumption</p>
+                <div class="text-6xl justify-center">500 litres</div>
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
-                Total warm water consumption
+                <p>Total warm water consumption</p>
+                <div class="text-6xl justify-center">500 litres</div>
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
                 Total cold water consumption
+                <div class="text-5xl justify-center">500 litres</div>
                 </div>
 
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
-                    <p class="text-gray-800">Total graph</p>
-                    <div class="totGraph">
-                 
+                    <div class="totGraph w-full h-60">
+                        <canvas id="totGraph"></canvas>
                     </div>
                 </div>
                 <div
                 class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
                 >
-                Warm water graph
+                <div class="totGraph w-full h-60">
+                        <canvas id="totGraph"></canvas>
+                    </div>
                 </div>
 
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
                 Average shower time
+                <div class="text-5xl justify-center">8m 15s</div>
                 </div>
 
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
                 You could have saved this many bananas
+                <div class="text-5xl justify-center">7,000,000</div>
                 </div>
             </div>
         </div>
@@ -172,54 +178,69 @@
     </template>
     
     <script setup lang="ts">
-    import { ref } from 'vue';
-    import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
+    import { ref, onMounted, watch } from 'vue';
+    //import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
     import NavComponent from '@/components/NavComponent.vue';
     import { socket } from '@/composables/socket';
-    //import { Chart } from 'chart.js';
+    import { Chart, registerables } from 'chart.js';
+
+    Chart.register(...registerables);
     
     const menuType = ref('statsTime');
     const navMenuType = ref('main');
     const selectedContent = ref('daily');
 
-   // const ctx = document.getElementById(totGraph).getContext('2d');
+    let totChart: Chart|null = null;
 
-    /*placeholder info graph*/
-    const labels = ['13', '14', '15', '16', '17', '18', '19'];
-    const data = {
-        labels, datasets: [{
-        label: 'Total consumption',
-        data: [65, 59, 84, 34, 55, 50],
-        fill: false,
-        tension: 0.3,
-        borderWidth: 2,
-        pointRadius: 3}]
-    }; 
-
-    const config = {
-        type: 'line',
-        data,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {display:true, text: 'Total Graph'},
-                legend: {position: 'bottom'}
-            },
-            scales: {
-                x: { title: {display: true, text: 'Hour'}},
-                y: { title: {display: true, text: 'Total consumption'}, suggestedMin:0, suggestedMax: 100}
-            }
+    function initTotChart() {
+        const canvas = document.getElementById('totGraph') as HTMLCanvasElement|null;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        if (totChart) {
+            totChart.destroy();
         }
+
+        totChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['13', '14', '15', '16', '17', '18', '19'],
+                datasets: [{
+                    label: 'Total consumption',
+                    data: [65, 59, 84, 34, 55, 50, 70],
+                    fill: false,
+                    tension: 0.3,
+                    borderWidth: 2,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {display:true, text: 'Total Graph'},
+                    legend: {position: 'bottom'}
+                },
+                scales: {
+                    x: { title: {display: true, text: 'Hour'}},
+                    y: { title: {display: true, text: 'Total consumption'}, suggestedMin:0, suggestedMax: 100}  
+                }
+            }
+        });
     }
 
+    onMounted(() => {
+        initTotChart();
+    });
 
+    watch(selectedContent, () => {
+        setTimeout(initTotChart, 0);
+    });
 
     function handleMenuSelect(option: string) {
-        selectedContent.value = option.toLowerCase();
+        selectedContent.value = option.toLowerCase() as any;
     }
     
-    //new Chart(ctx, config);
     </script>
     
     <style scoped>
