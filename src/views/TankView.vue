@@ -6,13 +6,14 @@
          style="background-image: url('https://i.imgur.com/9T34bA9.png')">
     <div class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
       <FishComponent
-        v-for="(fish, index) in shopData?.fish.slice(0, numberOfFish)"
-        :key="fish.name"
-        :fishType="fish.name"
-        :hatType="''"
+        v-for="fish in equippedFishWithHats.slice(0, numberOfFish)"
+        :key="fish.fishId"
+        :fishType="fish.fishType"
+        :hatType="fish.hatType"
         :socket="socket"
         :bounds="waterBounds"
       />
+
       <RockComponent ref="rockRef"></RockComponent>
     </div>
     <div ref="waterRef" class="w-full bg-blue-400/30 absolute bottom-0 z-10 pointer-events-none" :style="{ height: waterLevel + '%' }">
@@ -94,7 +95,7 @@
 
 <script setup lang="ts">
 import NavComponent from '@/components/NavComponent.vue';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import TankComponent from '@/components/TankComponent.vue';
 import FishComponent from '@/components/FishComponent.vue';
 import { socket } from '@/composables/socket';
@@ -111,13 +112,37 @@ socket.on('connect', () => {
 
 const waterLevel = ref(50); // Initial water level
 const numberOfFish = ref(0);
-const { shopData, shopUnlocks } = useShopData();
+const { shopData, shopUnlocks, equippedData } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
 
 const rockRef = ref<{ rockElement: HTMLElement } | null>(null); // Reference to to the root div of the rock
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
+
+console.log('equippedData.fishes', equippedData.value?.fishes);
+console.log('shopData.value.fish', shopData.value?.fish);
+console.log('shopData.value.hats', shopData.value?.hats);
+
+const equippedFishWithHats = computed(() => {
+  if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
+    return []; // Still loading
+  }
+
+  return equippedData.value.fish.map(equippedFish => {
+    const fishData = shopData.value.fish.find(f => f.id === equippedFish.fishId);
+    const hatEquip = equippedData.value.hats.find(h => h.fishId === equippedFish.fishId);
+    const hatData = hatEquip ? shopData.value.hats.find(h => h.id === hatEquip.hatId) : null;
+
+    return {
+      fishId: equippedFish.fishId,
+      fishType: fishData?.name || 'unknown',
+      hatType: hatData?.name || '',
+    };
+  });
+});
+
+
 
 
 
