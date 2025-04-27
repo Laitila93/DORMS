@@ -33,14 +33,22 @@ export interface ShopUnlocks {
   specials: number[];
 }
 
+export interface EquippedData {
+  hats: number[];
+  fish: number[];
+  specials: number[];
+}
+
 const shopData: Ref<ShopData | null> = ref(null);
 const shopUnlocks: Ref<ShopUnlocks | null> = ref(null);
+const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
 
 export function useShopData() {
   if (!isFetched.value) {
     const cachedShopData = sessionStorage.getItem('shopData');
     const cachedUnlocks = sessionStorage.getItem('shopUnlocks');
+    const cachedEquippedData = sessionStorage.getItem('equippedData');
     const corridorId = 1;
 
     if (cachedShopData) {
@@ -53,6 +61,13 @@ export function useShopData() {
       shopUnlocks.value = JSON.parse(cachedUnlocks);
     } else {
       socket.emit('getUnlocks', corridorId);
+    }
+    if (cachedEquippedData) {
+      equippedData.value = JSON.parse(cachedEquippedData);
+      console.log('cached equippedData', equippedData.value);
+    } else {
+      console.log("no cached equipped, emmiting getEquipped");
+      socket.emit('getEquipped', corridorId);
     }
 
     socket.off('shopData').on('shopData', (data) => {
@@ -75,11 +90,23 @@ export function useShopData() {
       sessionStorage.setItem('shopUnlocks', JSON.stringify(normalized));
     });
 
+    socket.off('equippedData').on('equippedData', (data) => {
+      console.log('equippedData recieved from database', data);
+      const normalized: EquippedData = {
+        fish: data.fishes.map((f: any) => f.fishID),
+        hats: data.hats.map((h: any) => h.hatID),
+        specials: data.specials.map((s: any) => s.specialID),
+      };
+      equippedData.value = normalized;
+      sessionStorage.setItem('equippedData', JSON.stringify(normalized));
+    });
+
     isFetched.value = true;
   }
 
   return {
     shopData,
     shopUnlocks,
+    equippedData,
   };
 }
