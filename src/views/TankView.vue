@@ -95,7 +95,6 @@
 <script setup lang="ts">
 import NavComponent from '@/components/NavComponent.vue';
 import { onMounted, ref } from 'vue';
-import TankComponent from '@/components/TankComponent.vue';
 import FishComponent from '@/components/FishComponent.vue';
 import { socket } from '@/composables/socket';
 import { useShopData} from '@/composables/useShopData';
