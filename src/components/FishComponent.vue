@@ -1,6 +1,7 @@
 <template>
   <div
     class="absolute"
+    :class="{ 'glow-effect': fishIsBeingStyled }"
     :style="{
       top: `${fishY}px`,
       left: `${fishX}px`,
@@ -154,7 +155,7 @@ function fishClicked() {
     showHatSelector.value = false;
     showFishSelector.value = false;
     fishIsBeingStyled.value = false;
-    moveFish();
+
   }
 
 }
@@ -309,11 +310,32 @@ function scheduleMoveFish() {
 </script>
 
 <style scoped>
-.toggle-button{
+.toggle-button{ /*Not used right now*/
   color: white;
   font-size: x-large;
   background-color: blue;
 }
+
+.glow-effect {
+  background-color: rgba(255, 223, 0, 0.8); 
+  box-shadow: 
+    0 0 30px 10px rgba(255, 223, 0, 0.8), 
+    0 0 60px 20px rgba(255, 200, 0, 0.6), 
+    0 0 100px 40px rgba(255, 180, 0, 0.4); 
+  border-radius: 50%; 
+  transition: box-shadow 0.5s ease-in-out, background-color 0.5s ease-in-out; /* Smooth transitions */
+}
+
+
+/*Alternative glow effect
+
+.glow-effect {
+  background-color: rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 20px 5px rgba(0, 255, 255, 0.8);
+  border-radius: 50%;
+  transition: box-shadow 0.9s ease-in-out;
+}
+*/
 
 @keyframes swim-wiggle {
   0%, 100% {
