@@ -37,7 +37,7 @@
     <!-- Hat Selector Box -->
     <div
       v-if="showHatSelector"
-      class="absolute z-50 bg-white/40 border border-gray-300 p-4 rounded-xl w-64 flex flex-col items-center backdrop-blur-md"
+      class="absolute z-50 bg-white/40 border border-gray-300 p-4 rounded-xl w-64 h-60 flex flex-col items-center backdrop-blur-md"
       style="top: -220px; left: -250px;"
     >
       <div class="relative flex items-center justify-center w-full h-32">
@@ -57,9 +57,11 @@
           →
         </button>
       </div>
-      <p class="mt-2 text-sm font-semibold" v-if="currentHat">
-        {{ currentHat.name }}
-      </p>
+      <div class="mt-2 h-5 text-sm font-semibold">
+        <p v-if="currentHat">
+          {{ currentHat.name }}
+        </p>
+      </div>
       <button v-if="isHatAvailable" @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
         Select
       </button>
@@ -68,7 +70,7 @@
     <!-- Fish Selector Box -->
     <div
       v-if="showFishSelector"
-      class="absolute z-50 bg-white/40 border border-gray-300 p-4 rounded-xl w-64 flex flex-col items-center backdrop-blur-md"
+      class="absolute z-50 bg-white/40 border border-gray-300 p-4 rounded-xl w-64 h-60 flex flex-col items-center backdrop-blur-md"
       style="top: -220px; left: 50px;"
     >
       <div class="relative flex items-center justify-center w-full h-32">
@@ -264,8 +266,18 @@ function moveFish(clicked:boolean = false) {
 
   if(clicked){
     // If fish is clicked, move it to the center of the water bounds
-    fishX.value = (waterBounds.width - fishWidth) / 2;
-    fishY.value = (waterBounds.height - fishHeight) / 2;
+    
+    const centerX = (waterBounds.width - fishWidth) / 2;
+    const centerY = (waterBounds.height - fishHeight) / 2;
+
+    if (centerX < fishX.value) {
+      isFlipped.value = true;
+    } else {
+      isFlipped.value = false;
+    }
+    fishX.value = centerX;
+    fishY.value = centerY;
+
     return;
   }
   
@@ -285,7 +297,7 @@ function moveFish(clicked:boolean = false) {
 }
 
 function scheduleMoveFish() {
-  const randomDelay = Math.random() * 9000 + 2000; // Random delay between 2s and 5s
+  const randomDelay = Math.random() * 9000 + 2000; // Random delay between 2s and 11s
   setTimeout(() => {
     // Move the fish if it's not being styled
     if (!fishIsBeingStyled.value) {
