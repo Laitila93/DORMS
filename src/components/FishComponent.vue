@@ -6,84 +6,92 @@
       left: `${fishX}px`,
       transition: 'top 5s, left 5s'
     }"
-    @click="() => { toggleHatSelector(); toggleFishSelector(); }"
+    @click="() => {fishClicked()}"
   >
-  <div class="fish-wiggle">
-  <img
-  v-if="fish"
-  :key="fish.name"
-  :src="fish.image"
-  :alt="fish.name"
-  class="w-24 h-24 object-contain "
-  :style="{ transform: isFlipped ? 'scaleX(-1)' : 'scaleX(1)' }"
-/>
+    <!--Selected Fish and Hat swimming around in tank-->
+    <div class="fish-wiggle">
+      <!--Fish -->
+      <img
+      v-if="fish"
+      :key="fish.name"
+      :src="fish.image"
+      :alt="fish.name"
+      class="w-24 h-24 object-contain "
+      :style="{ transform: isFlipped ? 'scaleX(-1)' : 'scaleX(1)' }"
+      />
+      <!-- Hat -->
+      <img
+        v-if="hat"
+        :key="hat.name"
+        :src="hat.image"
+        :alt="hat.name"
+        class="w-12 absolute"
+        :style="{
+          top: '-15px',
+          left: '50%', // Center the hat horizontally
+          transform: 'translateX(-50%)', // Adjust to center relative to the fish
+        }"
+      />
+    </div>
 
-<img
-  v-if="hat"
-  :key="hat.name"
-  :src="hat.image"
-  :alt="hat.name"
-  class="w-12 absolute"
-  :style="{
-    top: '-15px',
-    left: '50%', // Center the hat horizontally
-    transform: 'translateX(-50%)', // Adjust to center relative to the fish
-  }"
-/>
-</div>
-<!-- Hat Selector Box -->
-<div
-  v-if="showHatSelector"
-  class="absolute z-50 bg-white border border-black p-4 rounded shadow w-64 flex flex-col items-center"
-  style="top: -220px; left: -250px;"
->
-  <div class="relative flex items-center justify-center w-full h-32">
-    <button @click.stop="prevHat"  class="toggle-button">←</button>
+    <!-- Hat Selector Box -->
+    <div
+      v-if="showHatSelector"
+      class="absolute z-50 bg-white/40 border border-gray-300 p-4 rounded-xl w-64 flex flex-col items-center backdrop-blur-md"
+      style="top: -220px; left: -250px;"
+    >
+      <div class="relative flex items-center justify-center w-full h-32">
+        <button @click.stop="prevHat"  class="bg-blue-400 hover:bg-blue-500 text-white font-bold text-2x1 px-4 py-1 rounded-full shadow transition duration-300">
+          ←
+        </button>
+        <img
+          v-if="currentHat"
+          :src="currentHat.image"
+          :alt="currentHat.name"
+          class="h-24 object-contain"
+        />
+        <div v-else class="text-gray-500 flex justify-center items-center w-24 h-24 font-bold">
+          No hat
+        </div>
+        <button @click.stop="nextHat" class="bg-blue-400 hover:bg-blue-500 text-white font-bold text-2x1 px-4 py-1 rounded-full shadow transition duration-300">
+          →
+        </button>
+      </div>
+      <p class="mt-2 text-sm font-semibold" v-if="currentHat">
+        {{ currentHat.name }}
+      </p>
+      <button v-if="isHatAvailable" @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+        Select
+      </button>
+    </div>
 
-    <img
-      v-if="currentHat"
-      :src="currentHat.image"
-      :alt="currentHat.name"
-      class="h-24 object-contain"
-    />
-    
-    <div v-else class="text-gray-500">No hat</div>
+    <!-- Fish Selector Box -->
+    <div
+      v-if="showFishSelector"
+      class="absolute z-50 bg-white/40 border border-gray-300 p-4 rounded-xl w-64 flex flex-col items-center backdrop-blur-md"
+      style="top: -220px; left: 50px;"
+    >
+      <div class="relative flex items-center justify-center w-full h-32">
+        <button @click.stop="prevFish"  class="bg-blue-400 hover:bg-blue-500 text-white font-bold text-2x1 px-4 py-1 rounded-full shadow transition duration-300">←</button>
 
-    <button @click.stop="nextHat" class="toggle-button">→</button>
+        <img
+          v-if="currentFish"
+          :src="currentFish.image"
+          :alt="currentFish.name"
+          class="h-24 object-contain"
+        />
+        <button @click.stop="nextFish" class="bg-blue-400 hover:bg-blue-500 text-white font-bold text-2x1 px-4 py-1 rounded-full shadow transition duration-300">→</button>
+      </div>
+      <p class="mt-2 text-sm font-semibold" v-if="currentFish">
+        {{ currentFish.name }}
+      </p>
+      <button v-if="isFishAvailable" @click.stop="applyFish" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+        Select
+      </button>
+    </div>
+
   </div>
-  <p class="mt-2 text-sm font-semibold" v-if="currentHat">
-    {{ currentHat.name }}
-  </p>
-  <button v-if="isHatAvailable" @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
-    set hat
-  </button>
-</div>
-<!-- Fish Selector Box -->
-<div
-  v-if="showFishSelector"
-  class="absolute z-50 bg-white border border-black p-4 rounded shadow w-64 flex flex-col items-center"
-  style="top: -220px; left: 50px;"
->
-  <div class="relative flex items-center justify-center w-full h-32">
-    <button @click.stop="prevFish"  class="toggle-button">←</button>
 
-    <img
-      v-if="currentFish"
-      :src="currentFish.image"
-      :alt="currentFish.name"
-      class="h-24 object-contain"
-    />
-    <button @click.stop="nextFish" class="toggle-button">→</button>
-  </div>
-  <p class="mt-2 text-sm font-semibold" v-if="currentFish">
-    {{ currentFish.name }}
-  </p>
-  <button v-if="isFishAvailable" @click.stop="applyFish" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
-    set fish
-  </button>
-</div>
-
-</div>
 </template>
 
 <script setup lang="ts">
@@ -103,10 +111,12 @@ const isFlipped = ref(false); // Tracks whether the fish is flipped
 let fish = ref(shopData.value?.fish.find(f => f.name === props.fishType) || null);
 let hat = ref(shopData.value?.hats.find(h => h.name === props.hatType) || null);
 
+const fishIsBeingStyled = ref(false);
 const showHatSelector = ref(false);
 const showFishSelector = ref(false);
 const currentHatIndex = ref<number>(-1); // -1 = no hat
 const currentFishIndex = ref<number>(0); 
+
 
 const toggleHatSelector = () => {
   showHatSelector.value = !showHatSelector.value;
@@ -124,6 +134,29 @@ const currentFish = computed(() => {
   if (!shopData.value || !shopData.value.fish.length || currentFishIndex.value === -1) return null;
   return shopData.value.fish[currentFishIndex.value];
 });
+
+function fishClicked() {
+  // Move fish to styling position if it's not already being styled
+  if (!fishIsBeingStyled.value) {
+    fishIsBeingStyled.value = true;
+    moveFish(true);
+
+    // Show the hat and fish selectors after the fish has moved to styling position
+    setTimeout(() => {
+      toggleHatSelector();
+      toggleFishSelector();
+    }, 5000)
+  }
+  else {
+    // If fish is already being styled, close the selectors and reset the styling state, and move fish to random position
+    showHatSelector.value = false;
+    showFishSelector.value = false;
+    fishIsBeingStyled.value = false;
+    moveFish();
+  }
+
+}
+  
 
 function prevHat() {
   if (!shopData.value || !shopData.value.hats.length) return;
@@ -162,11 +195,17 @@ function nextFish() {
 function applyHat() {
   hat.value = currentHat.value || null;;
   showHatSelector.value = false;
+  if (!showFishSelector.value) {
+    fishIsBeingStyled.value = false; // Reset the styling state when hat has been selected, IF fish selector is not open
+  }
 }
 
 function applyFish() {
   fish.value = currentFish.value || null;;
   showFishSelector.value = false;
+  if (!showHatSelector.value) {
+    fishIsBeingStyled.value = false; // Reset the styling state when fish has been selected, IF hat selector is not open
+  }
 }
 
 const isHatAvailable = computed(() => {
@@ -190,7 +229,7 @@ const isFishAvailable = computed(() => {
 })
 
 onMounted(() => {
-  scheduleMoveFish(); // Start the random movement
+  scheduleMoveFish(); // Start the random movement of the fish
 });
 
 // Watch for changes in props
@@ -211,17 +250,29 @@ function findHat() {
   return hat;
 }
 
-function moveFish() {
+// Fish movement Logic: Move fish within current waterlevel bounds.
+// Default is when fish is not clicked (random movement), when clicked the fish moves to the center of the water bounds
+
+function moveFish(clicked:boolean = false) {
   const waterBounds = props.bounds;
+
+  // Catch if tank bounds is not defined due to not being int the DOM yet or not passed correctly
   if (!waterBounds) return;
 
   const fishWidth = 100;
   const fishHeight = 100;
 
+  if(clicked){
+    // If fish is clicked, move it to the center of the water bounds
+    fishX.value = (waterBounds.width - fishWidth) / 2;
+    fishY.value = (waterBounds.height - fishHeight) / 2;
+    return;
+  }
+  
   const newX = Math.random() * (waterBounds.width - fishWidth);
   const newY = Math.random() * (waterBounds.height - fishHeight);
 
-  // Update the direction before changing position
+  // Update the fish orientation before changing position
   if (newX < fishX.value) {
     isFlipped.value = true;
   } else {
@@ -236,8 +287,9 @@ function moveFish() {
 function scheduleMoveFish() {
   const randomDelay = Math.random() * 9000 + 2000; // Random delay between 2s and 5s
   setTimeout(() => {
-    if (!showHatSelector.value){
-      moveFish();// Move the fish if not selected
+    // Move the fish if it's not being styled
+    if (!fishIsBeingStyled.value) {
+      moveFish();
     }
     scheduleMoveFish(); // Schedule the next move
   }, randomDelay);
