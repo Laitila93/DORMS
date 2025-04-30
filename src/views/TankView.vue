@@ -119,7 +119,7 @@ const waterBounds = ref<DOMRect | null>(null);
 const rockRef = ref<{ rockElement: HTMLElement } | null>(null); // Reference to to the root div of the rock
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 
-console.log('equippedData.fishes', equippedData.value?.fishes);
+console.log('equippedData.fishes', equippedData.value?.fish);
 console.log('shopData.value.fish', shopData.value?.fish);
 console.log('shopData.value.hats', shopData.value?.hats);
 
@@ -129,12 +129,12 @@ const equippedFishWithHats = computed(() => {
   }
 
   return equippedData.value.fish.map(equippedFish => {
-    const fishData = shopData.value.fish.find(f => f.id === equippedFish.fishId);
-    const hatEquip = equippedData.value.hats.find(h => h.fishId === equippedFish.fishId);
-    const hatData = hatEquip ? shopData.value.hats.find(h => h.id === hatEquip.hatId) : null;
+    const fishData = shopData.value?.fish.find(f => f.fishID === equippedFish);
+    const hatEquip = equippedData.value?.hats.find(h => h === equippedFish);
+    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
 
     return {
-      fishId: equippedFish.fishId,
+      fishId: equippedFish,
       fishType: fishData?.name || 'unknown',
       hatType: hatData?.name || '',
     };
