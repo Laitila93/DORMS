@@ -40,6 +40,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/admin',
+      name: 'admin',
+      component: () => import('../views/AdminView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
@@ -47,16 +53,20 @@ const router = createRouter({
   ],
 });
 
-  // Add a global navigation guard
-  router.beforeEach((to, from, next) => {
-    const token = sessionStorage.getItem('authToken'); // Retrieve the token from sessionStorage
+// Add a global navigation guard
+router.beforeEach((to, from, next) => {
+  const token = sessionStorage.getItem('authToken'); // Retrieve the token from sessionStorage
+  const userRole = sessionStorage.getItem('userRole'); // Retrieve the user's role
 
-    if (to.meta.requiresAuth && !token) {
-      // If the route requires authentication and no token is found, redirect to home
-      next({ name: 'home' });
-    } else {
-      next(); // Allow navigation
-    }
-  });
+  if (to.meta.requiresAuth && !token) {
+    // If the route requires authentication and no token is found, redirect to home
+    next({ name: 'home' });
+  } else if (to.name === 'admin' && userRole !== 'admin') {
+    // If the user tries to access the AdminView but is not an admin, redirect to home
+    next({ name: 'home' });
+  } else {
+    next(); // Allow navigation
+  }
+});
 
 export default router;

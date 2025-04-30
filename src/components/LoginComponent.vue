@@ -16,34 +16,39 @@
 
 <template>
   <div class="grid gap-8">
+<!-- Form -->
+<form @submit.prevent="login" class="w-full max-w-md">
+      <!-- Username Input -->
+      <input
+        type="text"
+        :id="usernameID"
+        class="rounded p-2 w-full mb-4 border border-gray-300"
+        :placeholder="usernamePlaceholder"
+        v-model="username"
+        autocomplete="off"
+        required
+      />
 
-    <!--Username input-->
-    <input
-      type="text"
-      :id="usernameID"
-      class="rounded p-2 w-full"
-      :placeholder="usernamePlaceholder"
-      v-model="username"
-      autocomplete="off"
-    />
+      <!-- Password Input -->
+      <input
+        type="password"
+        :id="passwordID"
+        class="rounded p-2 w-full mb-4 border border-gray-300"
+        :placeholder="passwordPlaceholder"
+        v-model="password"
+        autocomplete="off"
+        required
+      />
 
-    <!--Password input-->
-    <input
-      type="password"
-      :id="passwordID"
-      class=" rounded p-2 w-full"
-      :placeholder="passwordPlaceholder"
-      v-model="password"
-      autocomplete="off"
-    />
+      <!-- Create User Button -->
+      <button
+        type="submit"
+        class="p-2 rounded block w-full text-center bg-primary dark:bg-primary-dark hover:bg-secondary dark:hover:bg-secondary-dark cursor-pointer text-white font-semibold"
+      >
+        Login
+      </button>
+    </form>
 
-    <!--Submit button-->
-    <button
-      class="p-2 rounded block w-full text-center bg-primary dark:bg-primary-dark hover:bg-secondary dark:hover:bg-secondary-dark cursor-pointer"
-      @click="login"
-    >
-      Log in
-    </button>
   </div>
 </template>
 
@@ -85,6 +90,11 @@
 
       // Save the token in sessionStorage
       sessionStorage.setItem('authToken', data.token);
+      if (data.userId === 1) {
+        sessionStorage.setItem('userRole', 'admin');
+      } else {
+        sessionStorage.setItem('userRole', 'user');
+      }
 
       // Redirect to the tank view
       router.push('/tank');

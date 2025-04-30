@@ -28,6 +28,13 @@
             </div>
           </router-link>
         </li>
+        <li>
+          <router-link to="/admin" v-if="role === 'admin'" @click="closeMenu">
+            <div class="cursor-pointer inline-flex items-center gap-2 w-full bg-secondary dark:bg-secondary-dark hover:bg-primary-dark dark:hover:bg-primary text-text dark:text-text-dark font-semibold py-2 px-4 rounded-xl transition-colors duration-300">
+              Admin
+            </div>
+          </router-link>
+        </li>
       </ul>
     </div>
 
@@ -57,10 +64,11 @@ const props = defineProps<{
 const isOpen = ref(false)
 const toggleMenu = () => (isOpen.value = !isOpen.value)
 const closeMenu = () => (isOpen.value = false)
-
+const role = sessionStorage.getItem('userRole')
 const router = useRouter()
 const logout = () => {
   sessionStorage.removeItem('authToken')
+  sessionStorage.removeItem('userRole')
   router.push({ name: 'home' })
 }
 
