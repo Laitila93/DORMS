@@ -12,9 +12,8 @@ describe('calculateScore', () => {
     }));
 
     const input = { corridor: 1, history };
-    const baseline = 100;
 
-    const result = calculateScore(input, baseline);
+    const result = calculateScore(input);
 
     expect(result).toBe(100);
   });
@@ -30,8 +29,7 @@ describe('calculateScore', () => {
       })
   };
 
-  const baseline = 100;
-  const result = calculateScore(input, baseline);
+  const result = calculateScore(input);
 
   expect(result).toBe(0);
   });
@@ -47,8 +45,7 @@ describe('calculateScore', () => {
       })
   };
 
-  const baseline = 100;
-  const result = calculateScore(input, baseline);
+  const result = calculateScore(input);
 
   expect(result).toBe(90);
   });
@@ -64,8 +61,7 @@ describe('calculateScore', () => {
       })
   };
 
-  const baseline = 100;
-  const result = calculateScore(input, baseline);
+  const result = calculateScore(input);
 
   expect(result).toBe(100);
   });
