@@ -204,6 +204,7 @@ function applyHat() {
     fishIsBeingStyled.value = false; // Reset the styling state when hat has been selected, IF fish selector is not open
   }
   socket.emit('updateHat', { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId });
+  socket.emit('getEquipped', corridorId);
   console.log("emit new hat data to server: ", { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId });
 }
 
@@ -214,6 +215,7 @@ function applyFish() {
     fishIsBeingStyled.value = false; // Reset the styling state when fish has been selected, IF hat selector is not open
   }
   socket.emit('updateFish', { fishID: currentFish.value?.fishID, position: props.position, corridorId: corridorId });
+  socket.emit('getEquipped', corridorId);
   console.log("emit new fish data to server: ", { fishID: currentFish.value?.fishID, position: props.position, corridorId: corridorId });
 }
 

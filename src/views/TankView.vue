@@ -120,20 +120,17 @@ const waterBounds = ref<DOMRect | null>(null);
 const rockRef = ref<{ rockElement: HTMLElement } | null>(null); // Reference to to the root div of the rock
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 
-console.log('equippedData.fishes', equippedData.value?.fish);
-console.log('shopData.value.fish', shopData.value?.fish);
-console.log('shopData.value.hats', shopData.value?.hats);
-
-const equippedFishWithHats = computed(() => {
+const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
     return []; // Still loading
   }
 
-  return equippedData.value.fish.map((equippedFish, index) => {
+  return equippedData.value.fish.map((equippedFish, index) => { 
     const fishData = shopData.value?.fish.find(f => f.fishID === equippedFish);
-    const hatEquip = equippedData.value?.hats.find(h => h === equippedFish);
+    const hatEquip = equippedData.value?.hats[index]; //use index to get the correct hat for the fish instead oh hatID
     const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
-
+    console.log("try hat: ", hatData?.name);                                            
+    console.log("try hatEquip: ", hatEquip);                                            
     return {
       fishId: equippedFish,
       fishType: fishData?.name || 'unknown',
