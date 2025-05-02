@@ -43,13 +43,14 @@ const shopData: Ref<ShopData | null> = ref(null);
 const shopUnlocks: Ref<ShopUnlocks | null> = ref(null);
 const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
+const corridorId = 1;
 
 export function useShopData() {
   if (!isFetched.value) {
     const cachedShopData = sessionStorage.getItem('shopData');
     const cachedUnlocks = sessionStorage.getItem('shopUnlocks');
     const cachedEquippedData = sessionStorage.getItem('equippedData');
-    const corridorId = 1;
+    
 
     if (cachedShopData) {
       shopData.value = JSON.parse(cachedShopData);
@@ -108,5 +109,6 @@ export function useShopData() {
     shopData,
     shopUnlocks,
     equippedData,
+    corridorId
   };
 }

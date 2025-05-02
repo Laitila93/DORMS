@@ -12,12 +12,13 @@
          style="background-image: url('https://i.imgur.com/9T34bA9.png')">
     <div class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
       <FishComponent
-        v-for="fish in equippedFishWithHats.slice(0, numberOfFish)"
+        v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
         :key="fish.fishId"
         :fishType="fish.fishType"
         :hatType="fish.hatType"
         :socket="socket"
         :bounds="waterBounds"
+        :position="index + 1"
       />
 
       <RockComponent ref="rockRef" style="z-index: 50;"></RockComponent>
@@ -116,7 +117,7 @@ socket.on('connect', () => {
 
 const waterLevel = ref(50); // Initial water level
 const numberOfFish = ref(0);
-const { shopData, shopUnlocks, equippedData } = useShopData();
+const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
@@ -124,24 +125,22 @@ const waterBounds = ref<DOMRect | null>(null);
 const rockRef = ref<{ rockElement: HTMLElement } | null>(null); // Reference to to the root div of the rock
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 
-console.log('equippedData.fishes', equippedData.value?.fish);
-console.log('shopData.value.fish', shopData.value?.fish);
-console.log('shopData.value.hats', shopData.value?.hats);
-
-const equippedFishWithHats = computed(() => {
+const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
     return []; // Still loading
   }
 
-  return equippedData.value.fish.map(equippedFish => {
+  return equippedData.value.fish.map((equippedFish, index) => { 
     const fishData = shopData.value?.fish.find(f => f.fishID === equippedFish);
-    const hatEquip = equippedData.value?.hats.find(h => h === equippedFish);
+    const hatEquip = equippedData.value?.hats[index]; //use index to get the correct hat for the fish instead oh hatID
     const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
-
+    console.log("try hat: ", hatData?.name);                                            
+    console.log("try hatEquip: ", hatEquip);                                            
     return {
       fishId: equippedFish,
       fishType: fishData?.name || 'unknown',
       hatType: hatData?.name || '',
+      position: index + 1,
     };
   });
 });
