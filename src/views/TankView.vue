@@ -14,7 +14,7 @@
         :bounds="waterBounds"
       />
 
-      <RockComponent ref="rockRef"></RockComponent>
+      <RockComponent ref="rockRef" style="z-index: 50;"></RockComponent>
     </div>
     <div ref="waterRef" class="w-full bg-blue-400/30 absolute bottom-0 z-10 pointer-events-none" :style="{ height: waterLevel + '%' }">
     </div>

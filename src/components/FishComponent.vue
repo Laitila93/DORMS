@@ -5,7 +5,8 @@
     :style="{
       top: `${fishY}px`,
       left: `${fishX}px`,
-      transition: 'top 5s, left 5s'
+      transition: 'top 5s, left 5s, z-index 5s',
+      zIndex: `${fishZ}`
     }"
     @click="() => {fishClicked()}"
   >
@@ -110,6 +111,7 @@ const props = defineProps<{
 const { shopData, shopUnlocks } = useShopData();
 const fishX = ref(100);
 const fishY = ref(100);
+const fishZ = ref(20); // Z-index for the fish, to be used for stacking order
 const isFlipped = ref(false); // Tracks whether the fish is flipped
 let fish = ref(shopData.value?.fish.find(f => f.name === props.fishType) || null);
 let hat = ref(shopData.value?.hats.find(h => h.name === props.hatType) || null);
@@ -278,12 +280,14 @@ function moveFish(clicked:boolean = false) {
     }
     fishX.value = centerX;
     fishY.value = centerY;
+    fishZ.value = 100; // Bring the fish to the front when clicked
 
     return;
   }
   
-  const newX = Math.random() * (waterBounds.width - fishWidth);
-  const newY = Math.random() * (waterBounds.height - fishHeight);
+  const newX = Math.round(Math.random() * (waterBounds.width - fishWidth));
+  const newY = Math.round(Math.random() * (waterBounds.height - fishHeight));
+  const newZ = Math.round(Math.random() * 100); // Random Z-index for stacking order
 
   // Update the fish orientation before changing position
   if (newX < fishX.value) {
@@ -295,6 +299,7 @@ function moveFish(clicked:boolean = false) {
   // Update position values - the CSS transition will apply to these changes
   fishX.value = newX;
   fishY.value = newY;
+  fishZ.value = newZ; // Update Z-index for stacking order
 }
 
 function scheduleMoveFish() {
