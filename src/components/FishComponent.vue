@@ -101,14 +101,17 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue';
 import { useShopData } from '@/composables/useShopData'; // Import the composable for shop data
+import { socket } from '@/composables/socket';
+
 const props = defineProps<{
   fishType: string;
   hatType: string;
   socket: any; // optional now, unused
   bounds: DOMRect | null;
+  position: number;
 }>();
 
-const { shopData, shopUnlocks } = useShopData();
+const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 const fishX = ref(100);
 const fishY = ref(100);
 const fishZ = ref(20); // Z-index for the fish, to be used for stacking order
@@ -203,6 +206,9 @@ function applyHat() {
   if (!showFishSelector.value) {
     fishIsBeingStyled.value = false; // Reset the styling state when hat has been selected, IF fish selector is not open
   }
+  socket.emit('updateHat', { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId });
+  socket.emit('getEquipped', corridorId);
+  console.log("emit new hat data to server: ", { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId });
 }
 
 function applyFish() {
@@ -211,6 +217,9 @@ function applyFish() {
   if (!showHatSelector.value) {
     fishIsBeingStyled.value = false; // Reset the styling state when fish has been selected, IF hat selector is not open
   }
+  socket.emit('updateFish', { fishID: currentFish.value?.fishID, position: props.position, corridorId: corridorId });
+  socket.emit('getEquipped', corridorId);
+  console.log("emit new fish data to server: ", { fishID: currentFish.value?.fishID, position: props.position, corridorId: corridorId });
 }
 
 const isHatAvailable = computed(() => {
