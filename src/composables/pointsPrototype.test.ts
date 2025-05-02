@@ -6,7 +6,7 @@ describe('calculateScore', () => {
 
   it('gives max score for 15% improvement', () => {
 
-    const history = Array.from({ length: 30 }, (_, i) => ({
+    const history = Array.from({ length: 30 }, (_, i) => ({ //Don't ask, this is AI magic
       date: `2024-04-${i + 1}`,
       amount: i < 23 ? 100 : 85 // last 7 days = lower consumption
     }));
