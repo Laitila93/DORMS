@@ -9,7 +9,7 @@ useShopData(); // kicks off fetching and stores in sessionStorage
 </script>
 
 <template>
-  <div class="class">
+  <div class="class h-full">
     <router-view />
   </div>
 </template>

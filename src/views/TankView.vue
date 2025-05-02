@@ -1,8 +1,14 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
-  Number of fish: {{ numberOfFish }}
-  <div class="grid gap-2 ml-4" :class="['grid-cols-[1000px_220px]','grid-rows-[180px_180px_180px_75px]']">
-  <div class="col-start-1 row-span-3 relative w-full h-full border-[20px] border-black bg-cover bg-center"
+  <div
+    class="grid"
+    :class="[
+      'grid-cols-[75%_20%]', // Percentage-based column widths
+      'grid-rows-[28%_28%_28%_10%]' // Percentage-based row heights
+    ]"
+    style="min-width: 1200px; min-height: 720px; margin: 1.5%; gap: 1%"
+  >
+  <div class="col-start-1 row-span-3 relative w-full h-full border-2 bg-cover bg-center"
          style="background-image: url('https://i.imgur.com/9T34bA9.png')">
     <div class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
       <FishComponent
@@ -16,31 +22,30 @@
 
       <RockComponent ref="rockRef" style="z-index: 50;"></RockComponent>
     </div>
-    <div ref="waterRef" class="w-full bg-blue-400/30 absolute bottom-0 z-10 pointer-events-none" :style="{ height: waterLevel + '%' }">
-    </div>
+  
   </div>
-  <div class="col-start-2 row-start-1 bg-gray-200 text-center text-red-800 rounded-md">
-    <p>News and Updates</p>
-      <ul class="font-semibold text-l text-gray-400">
+  <div class="col-start-2 row-start-1 bg-secondary dark:bg-secondary-dark text-center  rounded-md">
+    <p class="text-text-headline">News and Updates</p>
+      <ul class="font-semibold text-l">
         <li> - Fire alarm maintenance between 12:00-16:30</li>
         <li> - Available dormrooms in corridor 5</li>
       </ul>
   </div>
-  <div class="col-start-2 row-start-2 bg-gray-200 text-center text-red-800 rounded-md">
+  <div class="col-start-2 row-start-2 bg-secondary dark:bg-secondary-dark text-center  rounded-md">
     <!-- Slider main container -->
     <div class="swiper challenges-swiper">
       <!-- Additional required wrapper -->
       <div class="swiper-wrapper">
         <!-- Slides -->
         <div class="swiper-slide flex flex-col items-center justify-center">
-          <p>Daily challenges</p>
-          <p class="font-semibold text-2xl text-gray-600">Use less than 20L hot water</p>
+          <p class="text-text-headline">Daily challenges</p>
+          <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
         </div>
         <div class="swiper-slide">
-          <p>Weekly challenges</p>
-          <p class="font-semibold text-2xl text-gray-600">Use less water than corridor 4</p>
+          <p class="text-text-headline">Weekly challenges</p>
+          <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
         </div>
-        <div class="swiper-slide">Limited time challenges</div>
+        <div class="swiper-slide text-text-headline">Limited time challenges</div>
       </div>
       <!-- If we need pagination -->
       <div class="swiper-pagination"></div>
@@ -53,23 +58,23 @@
     </div>
 
   </div>
-  <div class="col-start-2 row-start-3 bg-gray-200 text-center text-red-800 rounded-md">
+  <div class="col-start-2 row-start-3bg-secondary dark:bg-secondary-dark text-center  rounded-md">
     <!-- Slider main container -->
     <div class="swiper stats-swiper">
       <!-- Additional required wrapper -->
       <div class="swiper-wrapper">
         <!-- Slides -->
         <div class="swiper-slide flex flex-col items-center justify-center">
-          <p>Average shower time</p>
-          <p class="font-semibold text-5xl text-gray-800">8m 12s</p>
+          <p class="text-text-headline">Average shower time</p>
+          <p class="font-semibold text-5xl ">8m 12s</p>
         </div>
         <div class="swiper-slide">
-          <p>Yesterdays water consumption</p>
-          <p class="font-semibold text-5xl text-gray-800">1230 litres</p>
+          <p class="text-text-headline">Yesterdays water consumption</p>
+          <p class="font-semibold text-5xl ">1230 litres</p>
         </div>
         <div class="swiper-slide">
-          <p>Average water temperature</p>
-          <p class="font-semibold text-5xl text-gray-800">25,7°C</p>
+          <p class="text-text-headline">Average water temperature</p>
+          <p class="font-semibold text-5xl">25,7°C</p>
         </div>
       </div>
       <!-- If we need pagination -->
@@ -82,9 +87,9 @@
       </div>
     </div>
   </div>
-  <div class="col-span-2 row-start-4 bg-gray-200 text-red-800 rounded-md">
-    <p class="ml-2">About</p>
-    <p class="ml-2 text-gray-500 text-s">
+  <div class="col-span-2 row-start-4 bg-secondary dark:bg-secondary-dark  rounded-md">
+    <p class="ml-2 text-text-headline">About</p>
+    <p class="ml-2 text-s">
       Welcome to the aquarium! Here you can see all of your fishes, decorations, and accessories. Click on a fish to start.
       Click on the side grids to see more detailed updates, challenges, and stats.
     </p>

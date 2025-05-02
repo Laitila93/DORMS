@@ -5,14 +5,14 @@ export default {
     extend: {
       colors: {
         primary: {
-          light: '#B2E3D1',  // soft mint
-          DEFAULT: '#FCAB10', // eco teal
-          dark: '#00796B',    // deeper aqua green
+          light: '#B2E3D1', 
+          DEFAULT: '#FCAB10', 
+          dark: '#00796B',
         },
         secondary: {
-          light: '#89B0AE',  // gentle sky blue
-          DEFAULT: '#89B0AE', // water blue
-          dark: '#89B0AE',    // deeper blue
+          light: '#89B0AE',
+          DEFAULT: '#89B0AE', 
+          dark: '#89B0AE',
         },
         background: {
           light: '#BEE3DB',  
@@ -20,10 +20,11 @@ export default {
           dark: '#3A6351',   
         },
         text: {
-          light: '#3A6351',   // neutral gray
+          light: '#3A6351',
           DEFAULT: '#2B4570', //Tea green
           dark: '#BEE3DB',
-        },
+          headline: '#FCAB10', // dark gray
+        }
       },
       fontFamily: {
         fredoka: ['Fredoka', 'sans-serif'],
