@@ -1,6 +1,6 @@
 <template>
     <div>
-        XP: {{ xpScore }} {{ nextItem }}
+        XP: {{ xpScore }}, Next Unlock: {{ nextItem.name }}, Next Unlock: {{ nextItem.price }}, Progress: {{Math.round(progressPercentage)}}%
     </div>
 </template>
 
@@ -36,6 +36,35 @@ const nextItem = computed(() => {
     return fish.price < hat.price ? fish : hat;
 });
 
+const lastFish = computed(() => {
+    const unlockedFish = shopData.value?.fish
+        .filter(fish => fish.price <= xpScore.value)
+        .sort((a, b) => b.price - a.price); // sort by price descending
+
+    return unlockedFish?.[0]; // return most expensive unlocked fish
+});
+
+const lastHat = computed(() => {
+    const unlockedHats = shopData.value?.hats
+        .filter(hat => hat.price <= xpScore.value)
+        .sort((a, b) => b.price - a.price);
+
+    return unlockedHats?.[0]; // return most expensive unlocked hat
+});
+
+const lastItem = computed(() => {
+    const fish = lastFish.value;
+    const hat = lastHat.value;
+
+    if (!fish) return hat;
+    if (!hat) return fish;
+
+    return fish.price > hat.price ? fish : hat;
+});
+
+const progressPercentage = computed(() => { // 0-100 progress since last unlock (not total). Can be edited to be total progress or whatever fits best
+    return 100*((xpScore.value - lastItem.value.price) / (nextItem.value.price - lastItem.value.price));
+});
 
 
 </script>
