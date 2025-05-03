@@ -1,6 +1,6 @@
 <template>
 
-  <div 
+  <div class="border border-black"
 >   <img 
       src="../assets/rockFormationFinalCut.png" 
       class="">

@@ -107,8 +107,9 @@ const props = defineProps<{
   fishType: string;
   hatType: string;
   socket: any; // optional now, unused
-  bounds: DOMRect | null;
+  waterBounds: DOMRect | null;
   position: number;
+  rockBounds: DOMRect | null;
 }>();
 
 const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
@@ -268,16 +269,17 @@ function findHat() {
 // Default is when fish is not clicked (random movement), when clicked the fish moves to the center of the water bounds
 
 function moveFish(clicked:boolean = false) {
-  const waterBounds = props.bounds;
+  const waterBounds = props.waterBounds;
 
-  // Catch if tank bounds is not defined due to not being int the DOM yet or not passed correctly
-  if (!waterBounds) return;
+ 
+  if (!waterBounds) return;  // Catch if tank bounds is not defined due to not being int the DOM yet or not passed correctly
 
-  const fishWidth = 100;
-  const fishHeight = 100;
+  const fishWidth = 96; // w-24 and h-24 in tailwind = 96px
+  const fishHeight = 96; 
 
+  // If fish is clicked, move it to the center of the water bounds
   if(clicked){
-    // If fish is clicked, move it to the center of the water bounds
+    
     
     const centerX = (waterBounds.width - fishWidth) / 2;
     const centerY = (waterBounds.height - fishHeight) / 2;
@@ -293,10 +295,11 @@ function moveFish(clicked:boolean = false) {
 
     return;
   }
+
+  updateZIndexBasedOnRock(); // Update fish z-index for "3D-effect"
   
   const newX = Math.round(Math.random() * (waterBounds.width - fishWidth));
   const newY = Math.round(Math.random() * (waterBounds.height - fishHeight));
-  const newZ = Math.round(Math.random() * 100); // Random Z-index for stacking order
 
   // Update the fish orientation before changing position
   if (newX < fishX.value) {
@@ -308,8 +311,43 @@ function moveFish(clicked:boolean = false) {
   // Update position values - the CSS transition will apply to these changes
   fishX.value = newX;
   fishY.value = newY;
-  fishZ.value = newZ; // Update Z-index for stacking order
 }
+
+// Set-z-index-logic 
+function updateZIndexBasedOnRock() {
+
+  if(!props.waterBounds || !props.rockBounds) { //only execute if water- and rockBounds are passed properly and exist in DOM
+    return
+  }
+
+  else { 
+
+    //Set up rock's and fish's rectangles in order to determine overlap
+    const rockRect = {
+      x: props.rockBounds.left - props.waterBounds.left, //Accounting for rock's offset relative to parent (water),
+      y: props.rockBounds.top - props.waterBounds.top, //since getBoundingClientRect() doesn't account for this
+      width: props.rockBounds.width,
+      height: props.rockBounds.height
+    };
+
+    const fishRect = {
+      x: fishX.value,
+      y: fishY.value,
+      width: 96,
+      height: 96
+    };
+
+    //Check if fish is overlapping rock (if we don't do this fish will clip through the rock!)
+    const isOverlapping = (fishRect.x + fishRect.width > rockRect.x) && (fishRect.x < rockRect.x + rockRect.width); 
+    
+    if(!isOverlapping) { //If fish is not overlapping, set new z-value between 0 and 100 
+      fishZ.value = Math.round(Math.random() * 100);
+    }
+
+  }
+
+}
+
 
 function scheduleMoveFish() {
   const randomDelay = Math.random() * 9000 + 2000; // Random delay between 2s and 11s
