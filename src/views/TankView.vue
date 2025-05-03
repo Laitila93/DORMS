@@ -1,6 +1,5 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
-  <ProgressBarComponent/>
   <div
     class="grid"
     :class="[
@@ -33,7 +32,11 @@
       </div>
 
     </div>
-  
+    <div class="absolute top-4 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center pointer-events-none">
+      <div style="width: 60%; pointer-events: auto;">
+      <ProgressBarComponent />
+      </div>
+</div>
   </div>
   <div class="col-start-2 row-start-1 bg-secondary dark:bg-secondary-dark text-center  rounded-md">
     <p class="text-text-headline">News and Updates</p>
@@ -143,7 +146,7 @@ width:'0px',
 height:'0px'
 });
 
-const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
+const equippedFishWithHats = computed(() => { //Create array of fish from equippedData and shopData
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
     return []; // Still loading
   }

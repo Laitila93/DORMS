@@ -1,7 +1,34 @@
 <template>
-    <div>
-        XP: {{ xpScore }}, Next Unlock: {{ nextItem.name }}, Next Unlock: {{ nextItem.price }}, Progress: {{Math.round(progressPercentage)}}%
+<div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+  <!-- Top row: image, text, etc. -->
+  <div style="display: flex; align-items: center; gap: 8px; color: white">
+    <span>Next: {{ nextItem.price }} XP</span>
+    <img :src="nextItem.image" style="width: 40px; height: 40px; object-fit: contain;" />
+    <span>{{ nextItem.name }}</span>
+  </div>
+
+  <!-- Progress bar underneath -->
+  <div style="width: 100%; max-width: 500px; border: 3px solid #ccc; height: 50px; position: relative; background-color: transparent; overflow: hidden; border-radius: 4px; border-color: black;">
+    <div
+      :style="{
+        width: progressPercentage + '%',
+        height: '100%',
+        backgroundColor: 'green',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 1
+      }"
+    ></div>
+    <div
+      style="position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; z-index: 2;"
+    >
+      XP: {{ xpScore }}
     </div>
+  </div>
+</div>
+
+
 </template>
 
 <script setup lang="ts">

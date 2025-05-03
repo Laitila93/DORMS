@@ -1,13 +1,13 @@
 [x] Create dummy variable XP in useShopData
 
 
-[ ] PROGRESS BAR:
+[x] PROGRESS BAR:
 [x] 1. Create ProgressBarComponent
 [x] 2. Create function/computed nextUnlock returns (nextItem, nextXP)
-[ ] 3. Create simple progress bar styling
+[x] 3. Create simple progress bar styling
 [x] 4. Create progress percentage = since last unlock to next, may be changed later
     
-[x] 4. Display XP, nextXP, nextItem
+[x] 4. Display XP, nextXP, nextItem and item Image
 
 [ ] CHANGE UNLOCK MECHANISM:
 [ ] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic: if XP >= price OR in unlocks!
