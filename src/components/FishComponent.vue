@@ -112,7 +112,7 @@ const props = defineProps<{
   rockBounds: DOMRect | null;
 }>();
 
-const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
+const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
 const fishX = ref(100);
 const fishY = ref(100);
 const fishZ = ref(20); // Z-index for the fish, to be used for stacking order
@@ -224,9 +224,10 @@ function applyFish() {
 }
 
 const isHatAvailable = computed(() => {
+  if (xpScore.value >= currentHat.value?.price) return true; 
     if (!shopUnlocks.value || !shopUnlocks.value.hats) return false;
     for (const unlockedHat of shopUnlocks.value.hats) {
-      if (unlockedHat === currentHatIndex.value + 1 || currentHatIndex.value === -1) {
+      if (unlockedHat === currentHatIndex.value + 1 || currentHatIndex.value === -1) { //
         return true;
       }
     }
@@ -234,7 +235,7 @@ const isHatAvailable = computed(() => {
 })
 
 const isFishAvailable = computed(() => {
-  console.log("unlocked fish: ", shopUnlocks.value?.fish || []);
+  if (xpScore.value >= currentFish.value?.price) return true;
     for (const unlockedFish of (shopUnlocks.value?.fish || [])) {
       if (unlockedFish === currentFishIndex.value + 1 || currentFishIndex.value === -1) {
         return true;
