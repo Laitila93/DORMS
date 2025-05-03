@@ -1,7 +1,7 @@
 [ ] Create dummy variable XP in useShopData
 
 [ ] PROGRESS BAR:
-[ ] 1. Create ProgressBarComponent
+[x] 1. Create ProgressBarComponent
 [ ] 2. Create function/computed nextUnlock returns (nextItem, nextXP)
 [ ] 3. Create simple progress bar styling, with progress percentage = 
     (1 - (XP/NextXP)) * 100

@@ -1,5 +1,6 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
+  <ProgressBarComponent/>
   <div
     class="grid"
     :class="[
@@ -112,6 +113,7 @@
 import NavComponent from '@/components/NavComponent.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import FishComponent from '@/components/FishComponent.vue';
+import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import { socket } from '@/composables/socket';
 import { useShopData} from '@/composables/useShopData';
 import RockComponent from '@/components/RockComponent.vue';
@@ -126,7 +128,7 @@ socket.on('connect', () => {
 
 const waterLevel = ref(65); // Initial water level
 const numberOfFish = ref(0);
-const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
+const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
