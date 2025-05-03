@@ -9,10 +9,8 @@
     
 [x] 4. Display XP, nextXP, nextItem and item Image
 
-[ ] CHANGE UNLOCK MECHANISM:
-[ ] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic: if XP >= price OR in unlocks!
-[ ] 2. Some more styling in selectors
-[ ] 3. Check all project files for "unlock*" and apply same logic if possible. OBS! Dont remove shopUnlocks! Database can be applied for special unlocks
+[x] CHANGE UNLOCK MECHANISM:
+[x] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic: if XP >= price OR in unlocks!
 
 [ ] FEEDBACK BAR:
 
