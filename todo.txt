@@ -1,20 +1,24 @@
-[ ] Create dummy variable XP in useShopData
+[x] Create dummy variable XP in useShopData
+
 
 [ ] PROGRESS BAR:
 [x] 1. Create ProgressBarComponent
-[ ] 2. Create function/computed nextUnlock returns (nextItem, nextXP)
-[ ] 3. Create simple progress bar styling, with progress percentage = since last unlock to next
+[x] 2. Create function/computed nextUnlock returns (nextItem, nextXP)
+[ ] 3. Create simple progress bar styling
+[x] 4. Create progress percentage = since last unlock to next, may be changed later
     
-[ ] 4. Display XP, nextXP, nextItem
+[x] 4. Display XP, nextXP, nextItem
 
 [ ] CHANGE UNLOCK MECHANISM:
-[ ] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic:
-    if XP >= price.
+[ ] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic: if XP >= price OR in unlocks!
 [ ] 2. Some more styling in selectors
-[ ] 3. Check all project files for "unlock*" and apply same logic if possible.
+[ ] 3. Check all project files for "unlock*" and apply same logic if possible. OBS! Dont remove shopUnlocks! Database can be applied for special unlocks
 
 [ ] FEEDBACK BAR:
 
 [ ] INTEGRATE EMILS POINT SYSTEM w. XP AND FEEDBACK BAR
+[ ] 1. figure out how to use
+[ ] 2. Change xpScore in useShopData from ref() to calculated w. EMILS
+[ ] 3. Store in database. No good reason not to.
 
 
