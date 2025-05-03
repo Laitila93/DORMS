@@ -1,11 +1,9 @@
 <template>
 
   <div 
-    ref ="rockElement"
-    class="absolute z-2 bottom-0 left-1/2 w-2/5 h-96 flex items-end justify-center overflow-hidden" 
 >   <img 
       src="../assets/rockFormationFinalCut.png" 
-      class="w-full h-full object-contain">
+      class="">
   </div>
 
 </template>

@@ -10,7 +10,7 @@
   >
   <div class="col-start-1 row-span-3 relative w-full h-full border-2 bg-cover bg-center"
          style="background-image: url('https://i.imgur.com/9T34bA9.png')">
-    <div class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
+    <div ref= "waterRef" class="border border-blue-300 w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
       <FishComponent
         v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
         :key="fish.fishId"
@@ -19,9 +19,15 @@
         :socket="socket"
         :bounds="waterBounds"
         :position="index + 1"
+        :rockBounds = rockBounds
       />
+      <div 
+        ref="rockRef" 
+        class="absolute w-1/3 h-full flex items-end left-3/4 -translate-x-1/2"
+        style="z-index:50">
+        <RockComponent></RockComponent>
+      </div>
 
-      <RockComponent ref="rockRef" style="z-index: 50;"></RockComponent>
     </div>
   
   </div>
@@ -115,15 +121,37 @@ socket.on('connect', () => {
   console.log('Connected to the server');
 });
 
-const waterLevel = ref(50); // Initial water level
+const waterLevel = ref(65); // Initial water level
 const numberOfFish = ref(0);
 const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
 
-const rockRef = ref<{ rockElement: HTMLElement } | null>(null); // Reference to to the root div of the rock
+const rockRef = ref<HTMLElement | null>(null); // Reference to to the root div of the rock
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
+
+const rockDivStyle = ref({
+top: '0px',
+left: '0px',
+width:'0px',
+height:'0px'
+});
+
+const upDateRockDivStyle = () => {
+  if(rockRef.value && waterRef.value) {
+    const rockBounds = rockRef.value.getBoundingClientRect();
+    const tankBounds = waterRef.value.getBoundingClientRect();
+    const offsetX = (rockBounds.left - tankBounds.left);
+    const offsetY = (rockBounds.top - tankBounds.top);
+    rockDivStyle.value = {
+      top: `${offsetY}px`,
+      left: `${offsetX}px`,
+      width: `${rockBounds.width}px`,
+      height: `${rockBounds.height}px`
+    };
+  }
+}
 
 const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
@@ -161,10 +189,11 @@ onMounted(() => {
     waterBounds.value = waterRef.value.getBoundingClientRect();
   }
   
-  if (rockRef.value?.rockElement) { //fish cannot move through rock
-    rockBounds.value = rockRef.value.rockElement.getBoundingClientRect();
+  if (rockRef.value) { //fish cannot move through rock
+    rockBounds.value = rockRef.value.getBoundingClientRect();
   }
   
+  upDateRockDivStyle();
   setInterval(updateWaterLevel,1000);
 
   new Swiper('.challenges-swiper', {
