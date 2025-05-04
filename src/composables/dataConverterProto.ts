@@ -8,7 +8,6 @@ export interface RawReading {
   type: string,
   amount: number,
   timestamp: string // ISO format e.g. "2025-04-30T16:19:01:018Z"
-
 }
 
 export function convertToDailyConsumption(rawData: RawReading[]): ConsumptionHistory {
