@@ -28,7 +28,12 @@
               class=""
               >
           </div>
-        </div>      
+        </div>   
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center pointer-events-none">
+              <div style="width: 60%; pointer-events: auto;">
+              <ProgressBarComponent />
+              </div>
+        </div>   
       </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
@@ -102,96 +107,16 @@
       </div>
     </div>
   </div>
-
-    </div>
-    <div class="absolute top-4 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center pointer-events-none">
-      <div style="width: 60%; pointer-events: auto;">
-      <ProgressBarComponent />
-      </div>
-</div>
-  </div>
-  <div class="col-start-2 row-start-1 bg-secondary dark:bg-secondary-dark text-center  rounded-md">
-    <p class="text-text-headline">News and Updates</p>
-      <ul class="font-semibold text-l">
-        <li> - Fire alarm maintenance between 12:00-16:30</li>
-        <li> - Available dormrooms in corridor 5</li>
-      </ul>
-  </div>
-  <div class="col-start-2 row-start-2 bg-secondary dark:bg-secondary-dark text-center  rounded-md">
-    <!-- Slider main container -->
-    <div class="swiper challenges-swiper">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide flex flex-col items-center justify-center">
-          <p class="text-text-headline">Daily challenges</p>
-          <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
-        </div>
-        <div class="swiper-slide">
-          <p class="text-text-headline">Weekly challenges</p>
-          <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
-        </div>
-        <div class="swiper-slide text-text-headline">Limited time challenges</div>
-      </div>
-      <!-- If we need pagination -->
-      <div class="swiper-pagination"></div>
-
-      <!-- If we need navigation buttons -->
-      <div class="">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      </div>
-    </div>
-
-  </div>
-  <div class="col-start-2 row-start-3bg-secondary dark:bg-secondary-dark text-center  rounded-md">
-    <!-- Slider main container -->
-    <div class="swiper stats-swiper">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide flex flex-col items-center justify-center">
-          <p class="text-text-headline">Average shower time</p>
-          <p class="font-semibold text-5xl ">8m 12s</p>
-        </div>
-        <div class="swiper-slide">
-          <p class="text-text-headline">Yesterdays water consumption</p>
-          <p class="font-semibold text-5xl ">1230 litres</p>
-        </div>
-        <div class="swiper-slide">
-          <p class="text-text-headline">Average water temperature</p>
-          <p class="font-semibold text-5xl">25,7°C</p>
-        </div>
-      </div>
-      <!-- If we need pagination -->
-      <div class="swiper-pagination"></div>
-
-      <!-- If we need navigation buttons -->
-      <div class="">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-span-2 row-start-4 bg-secondary dark:bg-secondary-dark  rounded-md">
-    <p class="ml-2 text-text-headline">About</p>
-    <p class="ml-2 text-s">
-      Welcome to the aquarium! Here you can see all of your fishes, decorations, and accessories. Click on a fish to start.
-      Click on the side grids to see more detailed updates, challenges, and stats.
-    </p>
-  </div>
-  </div>
-  
 </template>
 
 <script setup lang="ts">
 import NavComponent from '@/components/NavComponent.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import FishComponent from '@/components/FishComponent.vue';
-import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import { socket } from '@/composables/socket';
 import { useShopData} from '@/composables/useShopData';
 import RockComponent from '@/components/RockComponent.vue';
+import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'
@@ -203,7 +128,7 @@ socket.on('connect', () => {
 
 const waterLevel = ref(65); // Initial water level
 const numberOfFish = ref(0);
-const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
+const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
@@ -218,7 +143,7 @@ width:'0px',
 height:'0px'
 });
 
-const equippedFishWithHats = computed(() => { //Create array of fish from equippedData and shopData
+const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
     return []; // Still loading
   }
@@ -226,7 +151,9 @@ const equippedFishWithHats = computed(() => { //Create array of fish from equipp
   return equippedData.value.fish.map((equippedFish, index) => { 
     const fishData = shopData.value?.fish.find(f => f.fishID === equippedFish);
     const hatEquip = equippedData.value?.hats[index]; //use index to get the correct hat for the fish instead oh hatID
-    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;                                      
+    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
+    console.log("try hat: ", hatData?.name);                                            
+    console.log("try hatEquip: ", hatEquip);                                            
     return {
       fishId: equippedFish,
       fishType: fishData?.name || 'unknown',
