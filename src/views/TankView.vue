@@ -1,16 +1,10 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
-  <div class="h-full w-full">
+  <div class="h-screen w-full p-[2%] pr-[3%]">
     <div
-      class="grid"
-     :class="[
-       'grid-cols-[75%_20%]', // Percentage-based column widths
-        'grid-rows-[28%_28%_28%_10%]' // Percentage-based row heights
-      ]"
-      style="min-width: 1200px; min-height: 720px; margin: 1.5%; gap: 1%"
-      >
+      class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
       <div 
-        class="col-start-1 row-span-3 relative w-full h-full border-2 bg-cover bg-center"
+        class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center"
         style="background-image: url('https://i.imgur.com/9T34bA9.png')"
         >
         <div ref= "waterRef" class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
@@ -36,69 +30,70 @@
           </div>
         </div>      
       </div>
-      <div class="col-start-2 row-start-1 bg-secondary dark:bg-secondary-dark text-center  rounded-md">
-        <p class="text-text-headline">News and Updates</p>
-        <ul class="font-semibold text-l">
-          <li> - Fire alarm maintenance between 12:00-16:30</li>
-          <li> - Available dormrooms in corridor 5</li>
-        </ul>
-      </div>
-      <div class="col-start-2 row-start-2 bg-secondary dark:bg-secondary-dark text-center  rounded-md">
-        <!-- Slider main container -->
-        <div class="swiper challenges-swiper">
-          <!-- Additional required wrapper -->
-          <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide flex flex-col items-center justify-center">
-              <p class="text-text-headline">Daily challenges</p>
-              <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
+      <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
+        <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
+          <p class="text-text-headline">News and Updates</p>
+          <ul class="font-semibold text-l">
+            <li> - Fire alarm maintenance between 12:00-16:30</li>
+            <li> - Available dormrooms in corridor 5</li>
+          </ul>
+        </div>
+        <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
+          <div class="swiper challenges-swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              <div class="swiper-slide flex flex-col items-center justify-center">
+                <p class="text-text-headline">Daily challenges</p>
+                <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
+              </div>
+              <div class="swiper-slide">
+                <p class="text-text-headline">Weekly challenges</p>
+                <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
+              </div>
+              <div class="swiper-slide text-text-headline">
+                Limited time challenges
+              </div>
             </div>
-            <div class="swiper-slide">
-              <p class="text-text-headline">Weekly challenges</p>
-              <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
-            </div>
-            <div class="swiper-slide text-text-headline">
-              Limited time challenges
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
             </div>
           </div>
-          <!-- If we need pagination -->
-          <div class="swiper-pagination"></div>
-          <!-- If we need navigation buttons -->
-          <div class="">
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
+        </div>
+        <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
+          <!-- Slider main container -->
+          <div class="swiper stats-swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              <div class="swiper-slide flex flex-col items-center justify-center">
+                <p class="text-text-headline">Average shower time</p>
+                <p class="font-semibold text-5xl ">8m 12s</p>
+              </div>
+              <div class="swiper-slide">
+                <p class="text-text-headline">Yesterdays water consumption</p>
+                <p class="font-semibold text-5xl ">1230 litres</p>
+              </div>
+              <div class="swiper-slide">
+                <p class="text-text-headline">Average water temperature</p>
+                <p class="font-semibold text-5xl">25,7°C</p>
+              </div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-start-2 row-start-3bg-secondary dark:bg-secondary-dark text-center  rounded-md">
-        <!-- Slider main container -->
-        <div class="swiper stats-swiper">
-          <!-- Additional required wrapper -->
-          <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide flex flex-col items-center justify-center">
-              <p class="text-text-headline">Average shower time</p>
-              <p class="font-semibold text-5xl ">8m 12s</p>
-            </div>
-            <div class="swiper-slide">
-              <p class="text-text-headline">Yesterdays water consumption</p>
-              <p class="font-semibold text-5xl ">1230 litres</p>
-            </div>
-            <div class="swiper-slide">
-              <p class="text-text-headline">Average water temperature</p>
-              <p class="font-semibold text-5xl">25,7°C</p>
-            </div>
-          </div>
-          <!-- If we need pagination -->
-          <div class="swiper-pagination"></div>
-          <!-- If we need navigation buttons -->
-          <div class="">
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-span-2 row-start-4 bg-secondary dark:bg-secondary-dark  rounded-md">
+      <div class="col-span-2 row-start-2 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full">
         <p class="ml-2 text-text-headline">About</p>
         <p class="ml-2 text-s">
           Welcome to the aquarium! Here you can see all of your fishes, decorations, and accessories. Click on a fish to start.
