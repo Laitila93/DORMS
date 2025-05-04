@@ -44,7 +44,7 @@ const shopUnlocks: Ref<ShopUnlocks | null> = ref(null);
 const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
 const corridorId = 1;
-const xpScore = ref(295); //Dummy value, replace with actual XP score logic from Emils algorithm
+const xpScore = ref(50); //Dummy value, replace with actual XP score logic from Emils algorithm
 
 export function useShopData() {
   if (!isFetched.value) {

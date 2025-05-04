@@ -18,7 +18,7 @@
 
 [ ] INTEGRATE EMILS POINT SYSTEM w. XP AND FEEDBACK BAR
 [x] 1. figure out how to use
-[ ] 2. test point algo w. dummy-values in .JSON-file ATLEAST 31 DAYS, prefferably more.
+[x] 2. test point algo w. dummy-values in .JSON-file ATLEAST 31 DAYS, prefferably more.
 [ ] 3. Change xpScore in useShopData from ref() to calculated w. EMILS
 [ ] 4. Store in database. No good reason not to.
 

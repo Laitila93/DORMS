@@ -58,19 +58,43 @@ Functionality should be moved to server side later*/
 
 const waterData = ref(null); // Water data received from the server
 const dailyConsumption = ref(null); // Daily consumption data
-const points = ref(null);
+const dayIndex = ref(0); // Current day index for the simulation
+const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
+
+waterData.value = [...dummyData].reverse(); // Make a copy and reverse it
+dailyConsumption.value = convertToDailyConsumption(waterData.value);
+console.log('Daily consumption:', dailyConsumption);
+
+
+
+setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
+  const history = dailyConsumption.value?.history || [];
+
+  if (history.length < 30) return;
+
+  // Slice a moving 30-day window
+  const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
+
+  const score = calculateScore({
+    corridor: corridorId?.value ?? 1,
+    history: [...windowSlice].reverse(), // reverse to give most recent days first
+  });
+
+  console.log(`Score at window starting day ${dayIndex.value}:`, score);
+  xpScore.value += score;
+
+  // Move window forward
+  if (dayIndex.value < maxWindowStart.value) {
+    dayIndex.value++;
+  } else {
+    console.log("End of simulation window reached.");
+  }
+}, 1000); // one day every second
+
 
 onMounted(() => {
-  waterData.value = [...dummyData].reverse(); // Make a copy and reverse it
-  dailyConsumption.value = convertToDailyConsumption(waterData.value);
-  console.log('Daily consumption:', dailyConsumption);
-  points.value = calculateScore({
-    corridor: corridorId?.value,
-    history: dailyConsumption.value?.history || [],
-  });
-  console.log('Points:', points.value);
-  
   //To be used when "real" water data is available
+
   /*
   socket.emit('getDbWaterData'); // Emit event to get water data from the server
   console.log('Requesting water data...');
