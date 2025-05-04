@@ -2,15 +2,11 @@
 to the other corridors in the building. It contains a LoginComponent with login input fields and a side menu component. 
 
 ----TBD-----
-
-** 1. Implement a Login system that checks database for valid user and password.
-** 2. Decide on what menu links should be in the side menu. Right now it is a placeholder.
-** 3. Maybe add an eye symbol to the password field to show/hide the password.
-
+** 1. Decide on what menu links should be in the side menu. Right now it is a placeholder.
 
 ------------
 
-//Emil 20th of april-->
+-->
 
 
 <template>
@@ -20,7 +16,6 @@ to the other corridors in the building. It contains a LoginComponent with login 
     <header class="p-4 text-center">
       <h1 class="text-2xl font-bold">Welcome to DORMS</h1>
       <p class="text-lg">Please enter your corridor ID and password below</p>
-      <p class="text-sm text-emerald-500">(This is a test version so just type any character in both fields)</p>
     </header>
 
     <!--Main content area with login fields-->
