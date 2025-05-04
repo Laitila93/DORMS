@@ -9,8 +9,13 @@ useShopData(); // kicks off fetching and stores in sessionStorage
 </script>
 
 <template>
-  <div class="class h-full">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
+<style>
+
+html, body, #app {
+  height: 100%;
+}
+
+</style>
