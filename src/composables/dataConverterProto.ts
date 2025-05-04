@@ -24,7 +24,7 @@ export function convertToDailyConsumption(rawData: RawReading[]): ConsumptionHis
 
   // Convert map to sorted array of DailyConsumption objects in ascending order of date
   const history: DailyConsumption[] = Array.from(dailyTotals.entries()).map(([date, amount]) => ({date, amount}));
-  history.sort((a, b) => a.date.localeCompare(b.date));
+  history.sort((a, b) => b.date.localeCompare(a.date)); // descending, newest first. Didn't work the other way...
 
 
   return {

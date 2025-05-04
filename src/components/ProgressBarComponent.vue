@@ -49,6 +49,7 @@ import { useShopData } from '@/composables/useShopData';
 import { socket } from '@/composables/socket';
 import { convertToDailyConsumption } from '@/composables/dataConverterProto';
 import { calculateScore } from '@/composables/pointsPrototype';
+import dummyData from '@/assets/raw_water_data.json';
 
 const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
 
@@ -60,6 +61,17 @@ const dailyConsumption = ref(null); // Daily consumption data
 const points = ref(null);
 
 onMounted(() => {
+  waterData.value = [...dummyData].reverse(); // Make a copy and reverse it
+  dailyConsumption.value = convertToDailyConsumption(waterData.value);
+  console.log('Daily consumption:', dailyConsumption);
+  points.value = calculateScore({
+    corridor: corridorId?.value,
+    history: dailyConsumption.value?.history || [],
+  });
+  console.log('Points:', points.value);
+  
+  //To be used when "real" water data is available
+  /*
   socket.emit('getDbWaterData'); // Emit event to get water data from the server
   console.log('Requesting water data...');
   socket.on('DbWaterData', (data: any) => {
@@ -70,6 +82,7 @@ onMounted(() => {
     points.value = calculateScore(dailyConsumption.value);
     console.log('Points:', points.value);
   });
+  */
 });
 onUnmounted(() => {
   socket.off('DbWaterData'); // Clean up the socket listener when component is unmounted
