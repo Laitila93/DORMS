@@ -61,7 +61,7 @@ const dailyConsumption = ref(null); // Daily consumption data
 const dayIndex = ref(0); // Current day index for the simulation
 const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
 
-waterData.value = [...dummyData].reverse(); // Make a copy and reverse it
+waterData.value = dummyData
 dailyConsumption.value = convertToDailyConsumption(waterData.value);
 console.log('Daily consumption:', dailyConsumption);
 
@@ -69,20 +69,15 @@ console.log('Daily consumption:', dailyConsumption);
 
 setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
   const history = dailyConsumption.value?.history || [];
-
   if (history.length < 30) return;
-
   // Slice a moving 30-day window
   const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
-
   const score = calculateScore({
     corridor: corridorId?.value ?? 1,
     history: [...windowSlice].reverse(), // reverse to give most recent days first
   });
-
-  console.log(`Score at window starting day ${dayIndex.value}:`, score);
+  console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
   xpScore.value += score;
-
   // Move window forward
   if (dayIndex.value < maxWindowStart.value) {
     dayIndex.value++;
