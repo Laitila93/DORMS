@@ -48,10 +48,16 @@ import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useShopData } from '@/composables/useShopData';
 import { socket } from '@/composables/socket';
 import { convertToDailyConsumption } from '@/composables/dataConverterProto';
+import { calculateScore } from '@/composables/pointsPrototype';
 
 const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
+
+/*Lines below to "onUnmounted" are for testing integrating Emils point algorithm and "real" water data. 
+Functionality should be moved to server side later*/
+
 const waterData = ref(null); // Water data received from the server
 const dailyConsumption = ref(null); // Daily consumption data
+const points = ref(null);
 
 onMounted(() => {
   socket.emit('getDbWaterData'); // Emit event to get water data from the server
@@ -61,6 +67,8 @@ onMounted(() => {
     waterData.value = data; // Assign received data to waterData
     dailyConsumption.value = convertToDailyConsumption(waterData.value);
     console.log('Daily consumption:', dailyConsumption);
+    points.value = calculateScore(dailyConsumption.value);
+    console.log('Points:', points.value);
   });
 });
 onUnmounted(() => {

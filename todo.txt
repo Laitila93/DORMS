@@ -13,10 +13,13 @@
 [x] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic: if XP >= price OR in unlocks!
 
 [ ] FEEDBACK BAR:
+[ ] 1. Create feedback bar above/below progress bar in ProgressBarComponent
+[ ] 2. Integrate "real" waterdata like waterLogItem in LeaderboardView (maybe tweak algorithm to calculate percentage of yesterday based on time).
 
 [ ] INTEGRATE EMILS POINT SYSTEM w. XP AND FEEDBACK BAR
-[ ] 1. figure out how to use
-[ ] 2. Change xpScore in useShopData from ref() to calculated w. EMILS
-[ ] 3. Store in database. No good reason not to.
+[x] 1. figure out how to use
+[ ] 2. test point algo w. dummy-values in .JSON-file ATLEAST 31 DAYS, prefferably more.
+[ ] 3. Change xpScore in useShopData from ref() to calculated w. EMILS
+[ ] 4. Store in database. No good reason not to.
 
 

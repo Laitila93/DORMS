@@ -20,7 +20,7 @@ export function convertToDailyConsumption(rawData: RawReading[]): ConsumptionHis
     const date = entry.timestamp.split('T')[0]; // Extract date part from timestamp
 
     const prevAmount = dailyTotals.get(date) || 0; // Check if the date already exists in the map 
-    dailyTotals.set(date, prevAmount + entry.amount); // Update the total amount for each date, or insert a new entry for the date if it doesn't exist in the map yet 
+    dailyTotals.set(date, Number(prevAmount) + Number(entry.amount)); // Update the total amount for each date, or insert a new entry for the date if it doesn't exist in the map yet 
   }
 
   // Convert map to sorted array of DailyConsumption objects in ascending order of date
