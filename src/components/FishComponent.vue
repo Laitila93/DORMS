@@ -207,9 +207,8 @@ function applyHat() {
   if (!showFishSelector.value) {
     fishIsBeingStyled.value = false; // Reset the styling state when hat has been selected, IF fish selector is not open
   }
-  socket.emit('updateHat', { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId });
-  socket.emit('getEquipped', corridorId);
-  console.log("emit new hat data to server: ", { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId });
+  socket.emit('updateHat', { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId }); //send new hat to server
+  socket.emit('getEquipped', corridorId); //load new value from database
 }
 
 function applyFish() {
@@ -220,12 +219,12 @@ function applyFish() {
   }
   socket.emit('updateFish', { fishID: currentFish.value?.fishID, position: props.position, corridorId: corridorId });
   socket.emit('getEquipped', corridorId);
-  console.log("emit new fish data to server: ", { fishID: currentFish.value?.fishID, position: props.position, corridorId: corridorId });
 }
 
 const isHatAvailable = computed(() => {
   if (xpScore.value >= currentHat.value?.price) return true; 
-    if (!shopUnlocks.value || !shopUnlocks.value.hats) return false;
+  //lines below can still be used for special unlocks stored on shopUnlocks on database.
+  if (!shopUnlocks.value || !shopUnlocks.value.hats) return false;
     for (const unlockedHat of shopUnlocks.value.hats) {
       if (unlockedHat === currentHatIndex.value + 1 || currentHatIndex.value === -1) { //
         return true;
@@ -236,6 +235,7 @@ const isHatAvailable = computed(() => {
 
 const isFishAvailable = computed(() => {
   if (xpScore.value >= currentFish.value?.price) return true;
+  //lines below can still be used for special unlocks stored on shopUnlocks on database.
     for (const unlockedFish of (shopUnlocks.value?.fish || [])) {
       if (unlockedFish === currentFishIndex.value + 1 || currentFishIndex.value === -1) {
         return true;

@@ -7,8 +7,20 @@
     <span>{{ nextItem.name }}</span>
   </div>
 
-  <!-- Progress bar underneath -->
-  <div style="width: 100%; max-width: 500px; border: 3px solid #ccc; height: 50px; position: relative; background-color: transparent; overflow: hidden; border-radius: 4px; border-color: black;">
+  <!-- Progress bar conatiner -->
+  <div style="
+    width: 100%; 
+    max-width: 500px; 
+    border: 3px solid #ccc; 
+    height: 50px; 
+    position: relative; 
+    background-color: transparent; 
+    overflow: hidden; 
+    border-radius: 4px; 
+    border-color: black;
+    "
+  >
+  <!-- Progress bar -->
     <div
       :style="{
         width: progressPercentage + '%',
