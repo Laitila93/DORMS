@@ -1,96 +1,107 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
-  Number of fish: {{ numberOfFish }}
-  <div class="grid gap-2 ml-4" :class="['grid-cols-[1000px_220px]','grid-rows-[180px_180px_180px_75px]']">
-  <div class="col-start-1 row-span-3 relative w-full h-full border-[20px] border-black bg-cover bg-center"
-         style="background-image: url('https://i.imgur.com/9T34bA9.png')">
-    <div class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
-      <FishComponent
-        v-for="fish in equippedFishWithHats.slice(0, numberOfFish)"
-        :key="fish.fishId"
-        :fishType="fish.fishType"
-        :hatType="fish.hatType"
-        :socket="socket"
-        :bounds="waterBounds"
-      />
-
-      <RockComponent ref="rockRef"></RockComponent>
-    </div>
-    <div ref="waterRef" class="w-full bg-blue-400/30 absolute bottom-0 z-10 pointer-events-none" :style="{ height: waterLevel + '%' }">
-    </div>
-  </div>
-  <div class="col-start-2 row-start-1 bg-gray-200 text-center text-red-800 rounded-md">
-    <p>News and Updates</p>
-      <ul class="font-semibold text-l text-gray-400">
-        <li> - Fire alarm maintenance between 12:00-16:30</li>
-        <li> - Available dormrooms in corridor 5</li>
-      </ul>
-  </div>
-  <div class="col-start-2 row-start-2 bg-gray-200 text-center text-red-800 rounded-md">
-    <!-- Slider main container -->
-    <div class="swiper challenges-swiper">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide flex flex-col items-center justify-center">
-          <p>Daily challenges</p>
-          <p class="font-semibold text-2xl text-gray-600">Use less than 20L hot water</p>
-        </div>
-        <div class="swiper-slide">
-          <p>Weekly challenges</p>
-          <p class="font-semibold text-2xl text-gray-600">Use less water than corridor 4</p>
-        </div>
-        <div class="swiper-slide">Limited time challenges</div>
+  <div class="h-screen w-full p-[2%] pr-[3%]">
+    <div
+      class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
+      <div 
+        class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center"
+        style="background-image: url('https://i.imgur.com/9T34bA9.png')"
+        >
+        <div ref= "waterRef" class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
+          <FishComponent
+            v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
+            :key="fish.fishId"
+            :fishType="fish.fishType"
+            :hatType="fish.hatType"
+            :socket="socket"
+            :waterBounds="waterBounds"
+            :position="index + 1"
+            :rockBounds = rockBounds
+          />
+          <div 
+            ref="rockRef" 
+            class="absolute w-1/3 h-full flex items-end left-3/4 -translate-x-1/2"
+            style="z-index:50">
+            >   
+            <img 
+              src="../assets/rockFormationFinalCut.png" 
+              class=""
+              >
+          </div>
+        </div>      
       </div>
-      <!-- If we need pagination -->
-      <div class="swiper-pagination"></div>
-
-      <!-- If we need navigation buttons -->
-      <div class="">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+      <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
+        <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
+          <p class="text-text-headline">News and Updates</p>
+          <ul class="font-semibold text-l">
+            <li> - Fire alarm maintenance between 12:00-16:30</li>
+            <li> - Available dormrooms in corridor 5</li>
+          </ul>
+        </div>
+        <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
+          <div class="swiper challenges-swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              <div class="swiper-slide flex flex-col items-center justify-center">
+                <p class="text-text-headline">Daily challenges</p>
+                <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
+              </div>
+              <div class="swiper-slide">
+                <p class="text-text-headline">Weekly challenges</p>
+                <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
+              </div>
+              <div class="swiper-slide text-text-headline">
+                Limited time challenges
+              </div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
+          <!-- Slider main container -->
+          <div class="swiper stats-swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              <div class="swiper-slide flex flex-col items-center justify-center">
+                <p class="text-text-headline">Average shower time</p>
+                <p class="font-semibold text-5xl ">8m 12s</p>
+              </div>
+              <div class="swiper-slide">
+                <p class="text-text-headline">Yesterdays water consumption</p>
+                <p class="font-semibold text-5xl ">1230 litres</p>
+              </div>
+              <div class="swiper-slide">
+                <p class="text-text-headline">Average water temperature</p>
+                <p class="font-semibold text-5xl">25,7°C</p>
+              </div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-2 row-start-2 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full">
+        <p class="ml-2 text-text-headline">About</p>
+        <p class="ml-2 text-s">
+          Welcome to the aquarium! Here you can see all of your fishes, decorations, and accessories. Click on a fish to start.
+          Click on the side grids to see more detailed updates, challenges, and stats.
+        </p>
       </div>
     </div>
-
   </div>
-  <div class="col-start-2 row-start-3 bg-gray-200 text-center text-red-800 rounded-md">
-    <!-- Slider main container -->
-    <div class="swiper stats-swiper">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide flex flex-col items-center justify-center">
-          <p>Average shower time</p>
-          <p class="font-semibold text-5xl text-gray-800">8m 12s</p>
-        </div>
-        <div class="swiper-slide">
-          <p>Yesterdays water consumption</p>
-          <p class="font-semibold text-5xl text-gray-800">1230 litres</p>
-        </div>
-        <div class="swiper-slide">
-          <p>Average water temperature</p>
-          <p class="font-semibold text-5xl text-gray-800">25,7°C</p>
-        </div>
-      </div>
-      <!-- If we need pagination -->
-      <div class="swiper-pagination"></div>
-
-      <!-- If we need navigation buttons -->
-      <div class="">
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-span-2 row-start-4 bg-gray-200 text-red-800 rounded-md">
-    <p class="ml-2">About</p>
-    <p class="ml-2 text-gray-500 text-s">
-      Welcome to the aquarium! Here you can see all of your fishes, decorations, and accessories. Click on a fish to start.
-      Click on the side grids to see more detailed updates, challenges, and stats.
-    </p>
-  </div>
-  </div>
-  
 </template>
 
 <script setup lang="ts">
@@ -109,34 +120,39 @@ socket.on('connect', () => {
   console.log('Connected to the server');
 });
 
-const waterLevel = ref(50); // Initial water level
+const waterLevel = ref(65); // Initial water level
 const numberOfFish = ref(0);
-const { shopData, shopUnlocks, equippedData } = useShopData();
+const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
 
-const rockRef = ref<{ rockElement: HTMLElement } | null>(null); // Reference to to the root div of the rock
+const rockRef = ref<HTMLElement | null>(null); // Reference to to the root div of the rock
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 
-console.log('equippedData.fishes', equippedData.value?.fishes);
-console.log('shopData.value.fish', shopData.value?.fish);
-console.log('shopData.value.hats', shopData.value?.hats);
+const rockDivStyle = ref({
+top: '0px',
+left: '0px',
+width:'0px',
+height:'0px'
+});
 
-const equippedFishWithHats = computed(() => {
+const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
     return []; // Still loading
   }
 
-  return equippedData.value.fish.map(equippedFish => {
-    const fishData = shopData.value.fish.find(f => f.id === equippedFish.fishId);
-    const hatEquip = equippedData.value.hats.find(h => h.fishId === equippedFish.fishId);
-    const hatData = hatEquip ? shopData.value.hats.find(h => h.id === hatEquip.hatId) : null;
-
+  return equippedData.value.fish.map((equippedFish, index) => { 
+    const fishData = shopData.value?.fish.find(f => f.fishID === equippedFish);
+    const hatEquip = equippedData.value?.hats[index]; //use index to get the correct hat for the fish instead oh hatID
+    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
+    console.log("try hat: ", hatData?.name);                                            
+    console.log("try hatEquip: ", hatEquip);                                            
     return {
-      fishId: equippedFish.fishId,
+      fishId: equippedFish,
       fishType: fishData?.name || 'unknown',
       hatType: hatData?.name || '',
+      position: index + 1,
     };
   });
 });
@@ -157,8 +173,8 @@ onMounted(() => {
     waterBounds.value = waterRef.value.getBoundingClientRect();
   }
   
-  if (rockRef.value?.rockElement) { //fish cannot move through rock
-    rockBounds.value = rockRef.value.rockElement.getBoundingClientRect();
+  if (rockRef.value) { //fish cannot move through rock
+    rockBounds.value = rockRef.value.getBoundingClientRect();
   }
   
   setInterval(updateWaterLevel,1000);

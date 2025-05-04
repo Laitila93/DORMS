@@ -84,11 +84,6 @@
       <div v-else>
         <p class="text-lg">Please select an option from the menu.</p>
       </div>
-      <FishComponent :fishType="selectedFish" :hatType="selectedHat" :socket="socket" :bounds="waterBounds" />
-      <FishComponent :fishType="'Le poisson steve'" :hatType="''" :socket="socket" :bounds="waterBounds"/>
-      <FishComponent :fishType="selectedFish" :hatType="'Pirate Hat'" :socket="socket" :bounds="waterBounds"/>
-      <FishComponent :fishType="'Le poisson steve'" :hatType="''" :socket="socket" :bounds="waterBounds"/>
-      <FishComponent :fishType="'Le poisson steve'" :hatType="''" :socket="socket" :bounds="waterBounds"/>
     </div>
   </div>
 </template>
