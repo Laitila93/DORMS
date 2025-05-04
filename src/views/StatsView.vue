@@ -14,11 +14,7 @@
         <div class="p-4 overflow-y-auto space-y-6">
         <div v-if="selectedContent === 'hourly'">
             <p class="text-lg font-semibold mb-2 m-4">Hourly Stats</p>
-            <div
-                class="grid gap-4"
-                :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]'  
-                ]"
-            >
+            <div class="grid gap-4" :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]']">
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
                 Total water consumption
                 </div>
