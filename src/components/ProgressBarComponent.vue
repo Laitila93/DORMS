@@ -44,10 +44,28 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useShopData } from '@/composables/useShopData';
+import { socket } from '@/composables/socket';
+import { convertToDailyConsumption } from '@/composables/dataConverterProto';
 
 const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
+const waterData = ref(null); // Water data received from the server
+const dailyConsumption = ref(null); // Daily consumption data
+
+onMounted(() => {
+  socket.emit('getDbWaterData'); // Emit event to get water data from the server
+  console.log('Requesting water data...');
+  socket.on('DbWaterData', (data: any) => {
+    console.log('Water data received:', data);
+    waterData.value = data; // Assign received data to waterData
+    dailyConsumption.value = convertToDailyConsumption(waterData.value);
+    console.log('Daily consumption:', dailyConsumption);
+  });
+});
+onUnmounted(() => {
+  socket.off('DbWaterData'); // Clean up the socket listener when component is unmounted
+});
 
 const nextFish = computed(() => {
     const lockedFish = shopData.value?.fish

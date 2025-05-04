@@ -154,9 +154,7 @@ const equippedFishWithHats = computed(() => { //Create array of fish from equipp
   return equippedData.value.fish.map((equippedFish, index) => { 
     const fishData = shopData.value?.fish.find(f => f.fishID === equippedFish);
     const hatEquip = equippedData.value?.hats[index]; //use index to get the correct hat for the fish instead oh hatID
-    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
-    console.log("try hat: ", hatData?.name);                                            
-    console.log("try hatEquip: ", hatEquip);                                            
+    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;                                      
     return {
       fishId: equippedFish,
       fishType: fishData?.name || 'unknown',
