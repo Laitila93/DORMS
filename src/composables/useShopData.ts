@@ -1,6 +1,12 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { socket } from './socket';
 import type { Ref } from 'vue';
+
+//used for testing water data integration. should be moved to server side later
+import { convertToDailyConsumption } from '@/composables/dataConverterProto';
+import { calculateScore } from '@/composables/pointsPrototype';
+import dummyData from '@/assets/raw_water_data.json';
+//****************************************************************************
 
 export interface BaseShopItem {
   name: string;
@@ -45,6 +51,41 @@ const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
 const corridorId = 1;
 const xpScore = ref(50); //Dummy value, replace with actual XP score logic from Emils algorithm
+
+/*Lines below are for testing integrating Emils point algorithm and "real" water data. 
+Functionality should be moved to server side later*/
+
+const waterData = ref(null); // Water data received from the server
+const dailyConsumption = ref(null); // Daily consumption data
+const dayIndex = ref(0); // Current day index for the simulation
+const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
+
+waterData.value = dummyData
+dailyConsumption.value = convertToDailyConsumption(waterData.value);
+console.log('Daily consumption:', dailyConsumption);
+
+
+
+setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
+  const history = dailyConsumption.value?.history || [];
+  if (history.length < 30) return;
+  // Slice a moving 30-day window
+  const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
+  const score = calculateScore({
+    corridor: corridorId?.value ?? 1,
+    history: [...windowSlice].reverse(), // reverse to give most recent days first
+  });
+  console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
+  xpScore.value += score;
+  // Move window forward
+  if (dayIndex.value < maxWindowStart.value) {
+    dayIndex.value++;
+  } else {
+    console.log("End of simulation window reached.");
+  }
+}, 1000); // one day every second
+
+//******************************************************************************************** 
 
 export function useShopData() {
   if (!isFetched.value) {
