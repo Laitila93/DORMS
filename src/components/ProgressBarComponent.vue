@@ -1,7 +1,10 @@
 <template>
 <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
   <!-- Top row: image, text, etc. -->
-  <div style="display: flex; align-items: center; gap: 8px; color: white">
+  <div 
+    v-if="nextItem"
+    style="display: flex; align-items: center; gap: 8px; color: white"
+  >
     <span>Next: {{ nextItem.price }} XP</span>
     <img :src="nextItem.image" style="width: 40px; height: 40px; object-fit: contain;" />
     <span>{{ nextItem.name }}</span>
@@ -102,9 +105,17 @@ const lastItem = computed(() => {
     return fish.price > hat.price ? fish : hat;
 });
 
-const progressPercentage = computed(() => { // 0-100 progress since last unlock (not total). Can be edited to be total progress or whatever fits best
-    return 100*((xpScore.value - lastItem.value.price) / (nextItem.value.price - lastItem.value.price));
+const progressPercentage = computed(() => {
+  if (!nextItem.value || !lastItem.value) {
+    return 100; // User has unlocked everything or something is missing
+  }
+
+  const totalDiff = nextItem.value.price - lastItem.value.price;
+  if (totalDiff <= 0) return 100; // Avoid division by zero or negative progress
+
+  return 100 * ((xpScore.value - lastItem.value.price) / totalDiff);
 });
+
 
 
 </script>
