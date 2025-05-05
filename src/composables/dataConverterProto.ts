@@ -10,7 +10,7 @@ export interface RawReading {
   timestamp: string // ISO format e.g. "2025-04-30T16:19:01:018Z"
 }
 
-export function convertToDailyConsumption(rawData: RawReading[]): ConsumptionHistory {
+export function convertToDailyConsumption(rawData: RawReading[]): ConsumptionHistory { //input should maybe be filtered by date range in the future
     
   // Group water consumption by date
   const dailyTotals = new Map<string, number>(); // Map to temporarily store key-value pairs of dates and consumption in liters
@@ -29,7 +29,7 @@ export function convertToDailyConsumption(rawData: RawReading[]): ConsumptionHis
 
   return {
     corridor: 1, // Assuming corridor is always 1 for now, since we don't yet have info on room or corridor mapping
-    history: history // will probably need to slice out latset 30 days.
+    history: history // will probably need to slice out last 30 days to prevent loading to much into points algo
   }
 
 }

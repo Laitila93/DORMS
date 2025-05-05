@@ -7,7 +7,7 @@
         class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center"
         style="background-image: url('https://i.imgur.com/9T34bA9.png')"
         >
-        <div ref= "waterRef" class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
+        <div ref= "waterRef" class="w-full absolute bottom-0 z-1" :style="{ height: waterLevel + '%' }">
           <FishComponent
             v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
             :key="fish.fishId"
@@ -29,7 +29,7 @@
               >
           </div>
         </div>   
-        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center pointer-events-none">
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none">
               <div style="width: 60%; pointer-events: auto;">
               <ProgressBarComponent />
               </div>
