@@ -22,11 +22,11 @@
           <div 
             ref="rockRef" 
             class="absolute w-1/3 h-full flex items-end left-3/4 -translate-x-1/2"
-            style="z-index:50">
-            >   
+            style="z-index:20"
+            >
+            <!--Rock, to be populated in database and fetched from there instead-->
             <img 
-              src="../assets/rockFormationFinalCut.png" 
-              class=""
+              src="../assets/rockFormationFinalCut.png"  
               >
           </div>
           <!--Button for testing blur function is fishcomponent-->
@@ -35,9 +35,6 @@
             @click="() => {blurFishes();}">
               Blur
           </button>
-          <div class="absolute bottom-0 left-20 text-white">
-            Fishes are blurred: {{ areFishesBlurred }}
-          </div>
         </div>      
       </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 

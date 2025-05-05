@@ -1,3 +1,7 @@
+<!--This component contains a picture of a rock that can be placed in the aquarium. 
+It is not currently used, due to unpredictable behavior when interacting with other components
+in aquarium. Instead, the image of the rock is directly loaded into tankview. Personally, I think
+that's a better solution for now /Emil -->
 <template>
 
   <div class="border border-black"

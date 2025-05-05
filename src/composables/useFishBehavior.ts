@@ -8,12 +8,14 @@ export function useFishBehavior(props: {
   waterBounds: DOMRect | null;
   position: number;
   rockBounds: DOMRect | null;
+  isBlurred: boolean;
 }) {
   const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
 
   const fishX = ref(100);
   const fishY = ref(100);
   const fishZ = ref(20);
+  const randomScale = ref(1);
   const isFlipped = ref(false);
   const fish = ref(shopData.value?.fish.find(f => f.name === props.fishType) || null);
   const hat = ref(shopData.value?.hats.find(h => h.name === props.hatType) || null);
@@ -133,8 +135,10 @@ export function useFishBehavior(props: {
       fishZ.value = 100;
       return;
     }
-
-    updateZIndexBasedOnRock();
+    if(!props.isBlurred) { //If fishes are not in "blurred" state, change the z-index for 3D-effect
+      updateZIndexBasedOnRock();
+    }
+    
     const newX = Math.round(Math.random() * (waterBounds.width - fishWidth));
     const newY = Math.round(Math.random() * (waterBounds.height - fishHeight));
     isFlipped.value = newX < fishX.value;
@@ -158,9 +162,11 @@ export function useFishBehavior(props: {
     };
     const isOverlapping =
       fishRect.x + fishRect.width > rockRect.x &&
-      fishRect.x < rockRect.x + rockRect.width;
+      fishRect.x < rockRect.x + rockRect.width &&
+      fishRect.y + fishRect.height > rockRect.y &&
+      fishRect.y < rockRect.y + rockRect.height;
     if (!isOverlapping) {
-      fishZ.value = Math.round(Math.random() * 100);
+      fishZ.value = Math.round(Math.random() * 40);
     }
   }
 
@@ -188,8 +194,15 @@ export function useFishBehavior(props: {
     hat.value = findHat();
   });
 
+  watch(() => props.isBlurred, () => { //If fishes change to "blurred-state" due to poor water consumption behavior, hard-set z-index to 10 so fishes appear further from viewer.
+    if (props.isBlurred) {
+      fishZ.value = 10;
+      randomScale.value =  Math.round((Math.random() * 6) + 2) / 10; //If in "blurred-state" fishes are scaled to [0.2, 0.8] to appear smaller
+    };
+  });
+
   return {
-    fish, hat, fishX, fishY, fishZ, isFlipped,
+    fish, hat, fishX, fishY, fishZ, randomScale, isFlipped,
     fishIsBeingStyled, showHatSelector, showFishSelector,
     currentHat, currentFish, currentHatIndex, currentFishIndex,
     fishClicked, prevHat, nextHat, prevFish, nextFish,

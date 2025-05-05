@@ -1,12 +1,13 @@
 <template>
   <div
     class="absolute"
-    :class="{ 'glow-effect': fishIsBeingStyled }"
+    :class="{ 'glow-effect': fishIsBeingStyled, 'blurred': isBlurred }"
     :style="{
       top: `${fishY}px`,
       left: `${fishX}px`,
       transition: 'top 5s, left 5s, z-index 5s',
-      zIndex: `${fishZ}`
+      zIndex: `${fishZ}`,
+      transform: isBlurred? `scale(${randomScale})` : `scale(1)`
     }"
     @click="() => {fishClicked()}"
   >
@@ -109,10 +110,11 @@ const props = defineProps<{
   waterBounds: DOMRect | null;
   position: number;
   rockBounds: DOMRect | null;
+  isBlurred: boolean;
 }>();
 
 const {
-  fish, hat, fishX, fishY, fishZ, isFlipped,
+  fish, hat, fishX, fishY, fishZ, randomScale, isFlipped,
   fishIsBeingStyled, showHatSelector, showFishSelector,
   currentHat, currentFish, currentHatIndex, currentFishIndex,
   fishClicked, prevHat, nextHat, prevFish, nextFish,
