@@ -72,9 +72,10 @@ setInterval(() => { //simulates one day every second in a 30 day moving window o
   // Slice a moving 30-day window
   const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
   const score = calculateScore({
-    corridor: corridorId?.value ?? 1,
-    history: [...windowSlice].reverse(), // reverse to give most recent days first
+    corridor: corridorId?.value ?? 1, //remove 1 after testing phase
+    history: windowSlice,
   });
+  console.log("30 day window: ",[...windowSlice]);
   console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
   xpScore.value += score;
   // Move window forward

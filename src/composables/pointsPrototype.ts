@@ -43,9 +43,7 @@ const sustainableLevel = 100; // in liters
 //Points calculation Logic:
 
 export function calculateScore(userHistory: ConsumptionHistory): number {
-
   const last30Days = userHistory.history.slice(-30); //might need filtering by date range in the future, if data isn't always exactly 30 long
-  console.log(  "last30Days: ", last30Days);
   const last7Days = last30Days.slice(-7);
 
   // Check if loaded data is valid
