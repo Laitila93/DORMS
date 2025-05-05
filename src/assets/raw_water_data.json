@@ -1,0 +1,870 @@
+[
+  {
+    "id": 1,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 92,
+    "timestamp": "2025-04-30T05:16:50.580068Z"
+  },
+  {
+    "id": 2,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 90,
+    "timestamp": "2025-04-30T20:40:13.330839Z"
+  },
+  {
+    "id": 3,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 98,
+    "timestamp": "2025-04-29T15:01:11.399272Z"
+  },
+  {
+    "id": 4,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 66,
+    "timestamp": "2025-04-29T05:35:55.136345Z"
+  },
+  {
+    "id": 5,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 105,
+    "timestamp": "2025-04-28T06:02:39.938749Z"
+  },
+  {
+    "id": 6,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 127,
+    "timestamp": "2025-04-28T12:08:56.106300Z"
+  },
+  {
+    "id": 7,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 72,
+    "timestamp": "2025-04-27T18:50:27.656937Z"
+  },
+  {
+    "id": 8,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 118,
+    "timestamp": "2025-04-27T18:52:53.653968Z"
+  },
+  {
+    "id": 9,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 108,
+    "timestamp": "2025-04-26T00:46:43.038278Z"
+  },
+  {
+    "id": 10,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 90,
+    "timestamp": "2025-04-26T12:02:12.334092Z"
+  },
+  {
+    "id": 11,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 104,
+    "timestamp": "2025-04-25T07:19:29.130447Z"
+  },
+  {
+    "id": 12,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 50,
+    "timestamp": "2025-04-25T01:51:54.041536Z"
+  },
+  {
+    "id": 13,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 147,
+    "timestamp": "2025-04-24T18:32:56.956703Z"
+  },
+  {
+    "id": 14,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 93,
+    "timestamp": "2025-04-24T22:30:31.594931Z"
+  },
+  {
+    "id": 15,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 111,
+    "timestamp": "2025-04-23T19:33:42.109478Z"
+  },
+  {
+    "id": 16,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 56,
+    "timestamp": "2025-04-23T12:31:45.492969Z"
+  },
+  {
+    "id": 17,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 53,
+    "timestamp": "2025-04-22T15:34:48.912667Z"
+  },
+  {
+    "id": 18,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 116,
+    "timestamp": "2025-04-22T14:44:00.539887Z"
+  },
+  {
+    "id": 19,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 50,
+    "timestamp": "2025-04-21T01:22:25.954243Z"
+  },
+  {
+    "id": 20,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 82,
+    "timestamp": "2025-04-21T08:07:04.703441Z"
+  },
+  {
+    "id": 21,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 98,
+    "timestamp": "2025-04-20T04:41:31.276837Z"
+  },
+  {
+    "id": 22,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 114,
+    "timestamp": "2025-04-20T16:44:39.511598Z"
+  },
+  {
+    "id": 23,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 94,
+    "timestamp": "2025-04-19T12:07:43.188520Z"
+  },
+  {
+    "id": 24,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 107,
+    "timestamp": "2025-04-19T12:46:21.860842Z"
+  },
+  {
+    "id": 25,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 101,
+    "timestamp": "2025-04-18T23:06:46.524231Z"
+  },
+  {
+    "id": 26,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 115,
+    "timestamp": "2025-04-18T02:07:41.952315Z"
+  },
+  {
+    "id": 27,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 83,
+    "timestamp": "2025-04-17T19:06:03.916616Z"
+  },
+  {
+    "id": 28,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 67,
+    "timestamp": "2025-04-17T17:16:02.746925Z"
+  },
+  {
+    "id": 29,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 54,
+    "timestamp": "2025-04-16T04:37:35.164560Z"
+  },
+  {
+    "id": 30,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 68,
+    "timestamp": "2025-04-16T16:04:03.178016Z"
+  },
+  {
+    "id": 31,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 130,
+    "timestamp": "2025-04-15T15:06:55.716273Z"
+  },
+  {
+    "id": 32,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 89,
+    "timestamp": "2025-04-15T03:15:47.816988Z"
+  },
+  {
+    "id": 33,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 95,
+    "timestamp": "2025-04-14T14:06:39.842460Z"
+  },
+  {
+    "id": 34,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 56,
+    "timestamp": "2025-04-14T22:28:47.343161Z"
+  },
+  {
+    "id": 35,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 130,
+    "timestamp": "2025-04-13T17:44:58.221808Z"
+  },
+  {
+    "id": 36,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 77,
+    "timestamp": "2025-04-13T19:41:46.854837Z"
+  },
+  {
+    "id": 37,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 114,
+    "timestamp": "2025-04-12T05:21:50.454020Z"
+  },
+  {
+    "id": 38,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 115,
+    "timestamp": "2025-04-12T03:14:28.039672Z"
+  },
+  {
+    "id": 39,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 103,
+    "timestamp": "2025-04-11T10:42:32.701400Z"
+  },
+  {
+    "id": 40,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 129,
+    "timestamp": "2025-04-11T05:15:00.398330Z"
+  },
+  {
+    "id": 41,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 84,
+    "timestamp": "2025-04-10T16:32:24.401202Z"
+  },
+  {
+    "id": 42,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 92,
+    "timestamp": "2025-04-10T07:32:35.589808Z"
+  },
+  {
+    "id": 43,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 132,
+    "timestamp": "2025-04-09T10:26:35.425093Z"
+  },
+  {
+    "id": 44,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 121,
+    "timestamp": "2025-04-09T12:38:40.226641Z"
+  },
+  {
+    "id": 45,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 115,
+    "timestamp": "2025-04-08T12:52:02.569494Z"
+  },
+  {
+    "id": 46,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 131,
+    "timestamp": "2025-04-08T20:25:15.400786Z"
+  },
+  {
+    "id": 47,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 122,
+    "timestamp": "2025-04-07T19:34:50.258980Z"
+  },
+  {
+    "id": 48,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 127,
+    "timestamp": "2025-04-07T02:10:04.039830Z"
+  },
+  {
+    "id": 49,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 55,
+    "timestamp": "2025-04-06T08:52:57.701694Z"
+  },
+  {
+    "id": 50,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 65,
+    "timestamp": "2025-04-06T01:39:26.175892Z"
+  },
+  {
+    "id": 51,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 60,
+    "timestamp": "2025-04-05T06:48:19.174847Z"
+  },
+  {
+    "id": 52,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 121,
+    "timestamp": "2025-04-05T05:46:19.550489Z"
+  },
+  {
+    "id": 53,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 121,
+    "timestamp": "2025-04-04T17:20:47.861501Z"
+  },
+  {
+    "id": 54,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 146,
+    "timestamp": "2025-04-04T16:43:43.513788Z"
+  },
+  {
+    "id": 55,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 123,
+    "timestamp": "2025-04-03T03:42:31.642543Z"
+  },
+  {
+    "id": 56,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 65,
+    "timestamp": "2025-04-03T15:00:21.029125Z"
+  },
+  {
+    "id": 57,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 121,
+    "timestamp": "2025-04-02T11:48:40.285267Z"
+  },
+  {
+    "id": 58,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 74,
+    "timestamp": "2025-04-02T21:26:22.935637Z"
+  },
+  {
+    "id": 59,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 92,
+    "timestamp": "2025-04-01T14:00:55.486787Z"
+  },
+  {
+    "id": 60,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 72,
+    "timestamp": "2025-04-01T06:22:23.084640Z"
+  },
+  {
+    "id": 61,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 119,
+    "timestamp": "2025-03-31T07:07:09.160722Z"
+  },
+  {
+    "id": 62,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 123,
+    "timestamp": "2025-03-31T23:17:39.599795Z"
+  },
+  {
+    "id": 63,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 75,
+    "timestamp": "2025-03-30T13:47:09.791033Z"
+  },
+  {
+    "id": 64,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 74,
+    "timestamp": "2025-03-30T02:30:31.957974Z"
+  },
+  {
+    "id": 65,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 97,
+    "timestamp": "2025-03-29T11:29:50.266739Z"
+  },
+  {
+    "id": 66,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 97,
+    "timestamp": "2025-03-29T05:31:10.790272Z"
+  },
+  {
+    "id": 67,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 106,
+    "timestamp": "2025-03-28T18:29:04.293005Z"
+  },
+  {
+    "id": 68,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 64,
+    "timestamp": "2025-03-28T07:09:20.345806Z"
+  },
+  {
+    "id": 69,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 100,
+    "timestamp": "2025-03-27T09:54:12.161912Z"
+  },
+  {
+    "id": 70,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 50,
+    "timestamp": "2025-03-27T06:24:15.175787Z"
+  },
+  {
+    "id": 71,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 100,
+    "timestamp": "2025-03-26T22:40:52.527446Z"
+  },
+  {
+    "id": 72,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 81,
+    "timestamp": "2025-03-26T20:47:48.588703Z"
+  },
+  {
+    "id": 73,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 51,
+    "timestamp": "2025-03-25T05:07:37.836325Z"
+  },
+  {
+    "id": 74,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 80,
+    "timestamp": "2025-03-25T13:26:20.658118Z"
+  },
+  {
+    "id": 75,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 68,
+    "timestamp": "2025-03-24T10:14:37.950115Z"
+  },
+  {
+    "id": 76,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 99,
+    "timestamp": "2025-03-24T00:42:08.435472Z"
+  },
+  {
+    "id": 77,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 84,
+    "timestamp": "2025-03-23T15:20:32.711594Z"
+  },
+  {
+    "id": 78,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 90,
+    "timestamp": "2025-03-23T19:27:49.586209Z"
+  },
+  {
+    "id": 79,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 92,
+    "timestamp": "2025-03-22T09:24:05.228311Z"
+  },
+  {
+    "id": 80,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 69,
+    "timestamp": "2025-03-22T06:15:44.770138Z"
+  },
+  {
+    "id": 81,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 127,
+    "timestamp": "2025-03-21T02:30:40.258472Z"
+  },
+  {
+    "id": 82,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 109,
+    "timestamp": "2025-03-21T01:17:05.518217Z"
+  },
+  {
+    "id": 83,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 97,
+    "timestamp": "2025-03-20T09:11:06.601787Z"
+  },
+  {
+    "id": 84,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 111,
+    "timestamp": "2025-03-20T22:55:33.893012Z"
+  },
+  {
+    "id": 85,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 130,
+    "timestamp": "2025-03-19T07:49:01.850128Z"
+  },
+  {
+    "id": 86,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 96,
+    "timestamp": "2025-03-19T22:52:36.554692Z"
+  },
+  {
+    "id": 87,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 55,
+    "timestamp": "2025-03-18T10:25:09.446628Z"
+  },
+  {
+    "id": 88,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 93,
+    "timestamp": "2025-03-18T13:02:53.289260Z"
+  },
+  {
+    "id": 89,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 83,
+    "timestamp": "2025-03-17T04:52:37.403003Z"
+  },
+  {
+    "id": 90,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 58,
+    "timestamp": "2025-03-17T14:32:07.363106Z"
+  },
+  {
+    "id": 91,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 129,
+    "timestamp": "2025-03-16T14:43:58.931659Z"
+  },
+  {
+    "id": 92,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 124,
+    "timestamp": "2025-03-16T11:14:35.594111Z"
+  },
+  {
+    "id": 93,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 141,
+    "timestamp": "2025-03-15T18:18:18.187918Z"
+  },
+  {
+    "id": 94,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 56,
+    "timestamp": "2025-03-15T22:26:00.021149Z"
+  },
+  {
+    "id": 95,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 143,
+    "timestamp": "2025-03-14T22:48:15.328725Z"
+  },
+  {
+    "id": 96,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 58,
+    "timestamp": "2025-03-14T11:42:45.236549Z"
+  },
+  {
+    "id": 97,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 127,
+    "timestamp": "2025-03-13T06:09:15.106803Z"
+  },
+  {
+    "id": 98,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 125,
+    "timestamp": "2025-03-13T03:24:58.051481Z"
+  },
+  {
+    "id": 99,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 123,
+    "timestamp": "2025-03-12T08:10:27.495335Z"
+  },
+  {
+    "id": 100,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 50,
+    "timestamp": "2025-03-12T14:25:12.315699Z"
+  },
+  {
+    "id": 101,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 127,
+    "timestamp": "2025-03-11T19:14:32.826167Z"
+  },
+  {
+    "id": 102,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 133,
+    "timestamp": "2025-03-11T02:26:36.786412Z"
+  },
+  {
+    "id": 103,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 102,
+    "timestamp": "2025-03-10T13:57:32.075996Z"
+  },
+  {
+    "id": 104,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 85,
+    "timestamp": "2025-03-10T13:46:37.965033Z"
+  },
+  {
+    "id": 105,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 67,
+    "timestamp": "2025-03-09T23:48:33.426508Z"
+  },
+  {
+    "id": 106,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 133,
+    "timestamp": "2025-03-09T23:46:58.112619Z"
+  },
+  {
+    "id": 107,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 119,
+    "timestamp": "2025-03-08T22:08:07.764871Z"
+  },
+  {
+    "id": 108,
+    "room": "shower2",
+    "type": "cold",
+    "amount": 80,
+    "timestamp": "2025-03-08T04:38:22.462360Z"
+  },
+  {
+    "id": 109,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 61,
+    "timestamp": "2025-03-07T04:00:40.405171Z"
+  },
+  {
+    "id": 110,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 60,
+    "timestamp": "2025-03-07T15:27:30.672662Z"
+  },
+  {
+    "id": 111,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 50,
+    "timestamp": "2025-03-06T02:25:36.103584Z"
+  },
+  {
+    "id": 112,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 136,
+    "timestamp": "2025-03-06T22:33:33.219650Z"
+  },
+  {
+    "id": 113,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 95,
+    "timestamp": "2025-03-05T14:17:19.037292Z"
+  },
+  {
+    "id": 114,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 117,
+    "timestamp": "2025-03-05T14:31:02.360029Z"
+  },
+  {
+    "id": 115,
+    "room": "shower1",
+    "type": "cold",
+    "amount": 138,
+    "timestamp": "2025-03-04T10:25:59.168921Z"
+  },
+  {
+    "id": 116,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 78,
+    "timestamp": "2025-03-04T02:08:23.302999Z"
+  },
+  {
+    "id": 117,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 125,
+    "timestamp": "2025-03-03T05:06:43.564565Z"
+  },
+  {
+    "id": 118,
+    "room": "shower1",
+    "type": "hot",
+    "amount": 74,
+    "timestamp": "2025-03-03T02:44:21.811931Z"
+  },
+  {
+    "id": 119,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 112,
+    "timestamp": "2025-03-02T14:14:45.107959Z"
+  },
+  {
+    "id": 120,
+    "room": "kitchen",
+    "type": "cold",
+    "amount": 114,
+    "timestamp": "2025-03-02T04:14:28.193891Z"
+  },
+  {
+    "id": 121,
+    "room": "shower2",
+    "type": "hot",
+    "amount": 65,
+    "timestamp": "2025-03-01T19:31:36.526553Z"
+  },
+  {
+    "id": 122,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 58,
+    "timestamp": "2025-03-01T14:13:49.807555Z"
+  },
+  {
+    "id": 123,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 56,
+    "timestamp": "2025-02-28T12:26:17.411190Z"
+  },
+  {
+    "id": 124,
+    "room": "kitchen",
+    "type": "hot",
+    "amount": 90,
+    "timestamp": "2025-02-28T12:23:05.348587Z"
+  }
+]
