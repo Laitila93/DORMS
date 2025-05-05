@@ -9,7 +9,7 @@ export function useFishBehavior(props: {
   position: number;
   rockBounds: DOMRect | null;
 }) {
-  const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
+  const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
 
   const fishX = ref(100);
   const fishY = ref(100);
@@ -105,11 +105,15 @@ export function useFishBehavior(props: {
   }
 
   const isHatAvailable = computed(() => {
+    if (currentHat.value && xpScore.value >= currentHat.value.price) return true; 
+    //lines below can still be used for special unlocks stored on shopUnlocks on database.
     if (!shopUnlocks.value || !shopUnlocks.value.hats) return false;
     return shopUnlocks.value.hats.includes(currentHatIndex.value + 1) || currentHatIndex.value === -1;
   });
 
   const isFishAvailable = computed(() => {
+    if (currentFish.value && xpScore.value >= currentFish.value.price) return true;
+    //lines below can still be used for special unlocks stored on shopUnlocks on database.
     return (shopUnlocks.value?.fish || []).includes(currentFishIndex.value + 1) || currentFishIndex.value === -1;
   });
 

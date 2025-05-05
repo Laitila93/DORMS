@@ -58,8 +58,12 @@ const feedbackScore = ref(0); // dynamic score, should be fetched and calculated
 /*Lines below are for testing integrating Emils point algorithm and "real" water data. 
 Functionality should be moved to server side later*/
 
-const waterData = ref(null); // Water data received from the server
-const dailyConsumption = ref(null); // Daily consumption data
+const waterData = ref<{ id: number; room: string; type: string; amount: number; timestamp: string; }[] | null>(null); // Water data received from the server
+interface DailyConsumption {
+  history: any[]; // Replace `any` with the actual type of the history elements if known
+}
+
+const dailyConsumption = ref<DailyConsumption | null>(null); // Daily consumption data
 const dayIndex = ref(0); // Current day index for the simulation
 const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
 
@@ -77,7 +81,7 @@ setInterval(() => { //simulates one day every second in a 30 day moving window o
   feedbackScore.value = updateFeedbackScore(windowSlice);
   console.log("Feedback score: ", feedbackScore.value);
   const score = calculateScore({
-    corridor: corridorId?.value ?? 1, //remove 1 after testing phase
+    corridor: corridorId, //remove 1 after testing phase
     history: windowSlice,
   });
   console.log("30 day window: ",[...windowSlice]);
