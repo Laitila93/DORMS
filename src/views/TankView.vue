@@ -1,13 +1,13 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
-  <div class="h-screen w-full p-[2%] pr-[3%]">
+  <div class="h-screen w-full p-[2%]">
     <div
-      class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
+      class="grid gap-4 grid-cols-[80%_18%] grid-rows-[85%_15%] h-full">
       <div 
+        ref= "waterRef"
         class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center"
         style="background-image: url('https://i.imgur.com/9T34bA9.png')"
         >
-        <div ref= "waterRef" class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
           <FishComponent
             v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
             :key="fish.fishId"
@@ -27,7 +27,6 @@
               src="../assets/rockFormationFinalCut.png" 
               class=""
               >
-          </div>
         </div>      
       </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
@@ -230,7 +229,7 @@ onMounted(() => {
 }
 
 .swiper {
-  width: 220px;
+  width: 150px;
   height: 180px;
 }
 
