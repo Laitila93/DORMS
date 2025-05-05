@@ -181,6 +181,10 @@ onMounted(() => {
 
   new Swiper('.challenges-swiper', {
     loop: true,
+    autoplay: {
+      delay: 15000,
+      disableOnInteraction: false,
+    },
 
   // Navigation arrows
   navigation: {
@@ -197,6 +201,10 @@ onMounted(() => {
 
   new Swiper('.stats-swiper', {
     loop: true,
+    autoplay: {
+      delay: 15000,
+      disableOnInteraction: false,
+    },
 
   // Navigation arrows
   navigation: {
