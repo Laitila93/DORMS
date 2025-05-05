@@ -21,6 +21,7 @@
             :waterBounds="waterBounds"
             :position="index + 1"
             :rockBounds = rockBounds
+            :isBlurred = areFishesBlurred
           />
           <div 
             ref="rockRef" 
@@ -31,6 +32,15 @@
               src="../assets/rockFormationFinalCut.png" 
               class=""
               >
+          </div>
+          <!--Button for testing blur function is fishcomponent-->
+          <button 
+            class="absolute bottom-0 left-0 flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white w-20 h-10 rounded.md" 
+            @click="() => {blurFishes();}">
+              Blur
+          </button>
+          <div class="absolute bottom-0 left-20 text-white">
+            Fishes are blurred: {{ areFishesBlurred }}
           </div>
         </div>      
 
@@ -135,12 +145,14 @@ const waterBounds = ref<DOMRect | null>(null);
 const rockRef = ref<HTMLElement | null>(null); // Reference to to the root div of the rock
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 
-const rockDivStyle = ref({
+const areFishesBlurred = ref(false) //Fishes are not blurred by default
+
+const rockDivStyle = ref({ //NOTE: I think this is a relic from testing that I've forgotten about. To be removed later /Emil
 top: '0px',
 left: '0px',
 width:'0px',
 height:'0px'
-});
+}); 
 
 const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
@@ -163,13 +175,16 @@ const equippedFishWithHats = computed(() => { //problem is likely here, logs ret
 });
 
 
+function blurFishes() {
+  areFishesBlurred.value = !areFishesBlurred.value;
 
-
+}
 
 const updateWaterLevel = () => {
   //waterLevel.value = 50 + Math.floor(Math.random() * 50); // Simulera vattennivå mellan 50 och 100
   numberOfFish.value = parseInt((waterLevel.value / 10).toString()); // Beräkna antal fiskar baserat på vattennivå
 };
+
 onMounted(() => {
   if (waterRef.value) {
     waterBounds.value = waterRef.value.getBoundingClientRect();
