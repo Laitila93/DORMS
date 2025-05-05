@@ -1,17 +1,13 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
-  <div class="h-screen w-full p-[2%]">
-    <div class="grid gap-4 grid-cols-[80%_18%] grid-rows-[85%_15%] h-full">
+  <div class="h-screen w-full p-[2%] pr-[3%]">
+    <div
+      class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
       <div 
-        ref= "waterRef"
         class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center"
         style="background-image: url('https://i.imgur.com/9T34bA9.png')"
         >
-        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none">
-              <div style="width: 60%; pointer-events: auto;">
-              <ProgressBarComponent />
-              </div>
-        </div>
+        <div ref= "waterRef" class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
           <FishComponent
             v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
             :key="fish.fishId"
@@ -33,7 +29,7 @@
               >
           </div>
         </div>      
-
+      </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
           <p class="text-text-headline">News and Updates</p>
@@ -115,7 +111,6 @@ import FishComponent from '@/components/FishComponent.vue';
 import { socket } from '@/composables/socket';
 import { useShopData} from '@/composables/useShopData';
 import RockComponent from '@/components/RockComponent.vue';
-import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'
@@ -243,7 +238,7 @@ onMounted(() => {
 }
 
 .swiper {
-  width: 150px;
+  width: 220px;
   height: 180px;
 }
 

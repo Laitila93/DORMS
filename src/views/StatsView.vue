@@ -3,45 +3,53 @@
     Can go in to "fullscreen view" of each graph etc.-->
 
 <template>
+    <div class="flex justify-center content-center space-x-2 mb-2 mt-1">
+        <button @click="selectedContent='hourly'" 
+            :class="['px-4 py-2 rounded-md', selectedContent==='hourly' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
+            Hourly
+        </button>
+    
+        <button @click="selectedContent='daily'" 
+            :class="['px-4 py-2 rounded-md', selectedContent==='daily' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
+            Daily
+        </button>
+        <button @click="selectedContent='weekly'" 
+            :class="['px-4 py-2 rounded-md', selectedContent==='weekly' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
+            Weekly
+        </button>
+        <button @click="selectedContent='monthly'" 
+            :class="['px-4 py-2 rounded-md', selectedContent==='monthly' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
+            Monthly
+        </button>
+    </div>
     <NavComponent :menu="navMenuType" :socket="socket" />
-    <div class="grid grid-cols-[168px_1fr] h-screen">
-        <!-- Sidebar -->
-        <div class="p-4">
-        <!--<VerticalMenuComponent :menu="menuType" :socket="socket" @menu-select="handleMenuSelect" />-->
-        </div>
     
         <!-- Main Content Area -->
         <div class="p-4 overflow-y-auto space-y-6">
         <div v-if="selectedContent === 'hourly'">
-            <p class="text-lg font-semibold mb-2 m-4">Hourly Stats</p>
-            <div class="grid gap-4" :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]']">
+            <p class="text-lg font-semibold mb-2">Hourly Stats</p>
+            <div class="grid gap-4" :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']">
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
-                Total water consumption
+                    Total water consumption
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
-                Total warm water consumption
+                    Total warm water consumption
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
-                Total cold water consumption
+                    Total cold water consumption
                 </div>
-
-                <div
-                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center"
-                >
-                Total graph
+                <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
                 </div>
                 <div
                 class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
                 >
-                Warm water graph
+                    Warm water graph
                 </div>
-
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
-                Average shower time
+                    Average shower time
                 </div>
-
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
-                You could have saved this many bananas
+                    You could have saved this many bananas
                 </div>
             </div>
         </div>
@@ -50,20 +58,21 @@
             <p class="text-lg font-semibold mb-2">Daily Stats</p>
             <div
                 class="grid gap-4"
-                :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]'  
-                ]"
+                :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']"
             >
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
                 <p>Total water consumption</p>
-                <div class="text-6xl justify-center">500 litres</div>
+                <div class="text-6xl justify-center mt-4">500 litres</div>
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
                 <p>Total warm water consumption</p>
-                <div class="text-6xl justify-center">500 litres</div>
+                <div class="text-6xl justify-center mt-4">500 litres</div>
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
                 Total cold water consumption
-                <div class="text-5xl justify-center">500 litres</div>
+                <div class="flex-1 flex items-center justify-center">
+                    <span class="text-5xl mt-6">500 litres</span>
+                </div>
                 </div>
 
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
@@ -81,33 +90,31 @@
 
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
                 Average shower time
-                <div class="text-5xl justify-center">8m 15s</div>
+                <div class="text-5xl justify-center mt-6">8m 15s</div>
                 </div>
 
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
                 You could have saved this many bananas
-                <div class="text-5xl justify-center">7,000,000</div>
+                <div class="text-5xl justify-center mt-6">7,000,000</div>
                 </div>
             </div>
         </div>
     
         <div v-else-if="selectedContent === 'weekly'">
             <p class="text-lg font-semibold mb-2">Weekly Stats</p>
-            <div class="grid gap-4" :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]']">
+            <div class="grid gap-4" :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']">
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
-                Total water consumption
+                    Total water consumption
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
-                Total warm water consumption
+                    Total warm water consumption
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
-                Total cold water consumption
+                    Total cold water consumption
                 </div>
-
                 <div
                 class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-center"
                 >
-                <p class="text-gray-800">Total graph</p>
                 <div class="totGraph">
                  <canvas id="totGraph" class="w-full h-60"></canvas>
                 </div>
@@ -132,36 +139,26 @@
             <p class="text-lg font-semibold mb-2">Monthly Stats</p>
             <div
                 class="grid gap-4"
-                :class="['grid-cols-[360px_360px_250px]','grid-rows-[160px_250px_150px]'  
-                ]"
-            >
+                :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']">
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
-                Total water consumption
+                    Total water consumption
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
-                Total warm water consumption
+                    Total warm water consumption
                 </div>
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
-                Total cold water consumption
+                    Total cold water consumption
                 </div>
-
-                <div
-                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center"
-                >
-                Total graph
+                <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
                 </div>
-                <div
-                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
-                >
-                Warm water graph
+                <div class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center">
+                    Warm water graph
                 </div>
-
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
-                Average shower time
+                    Average shower time
                 </div>
-
                 <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
-                You could have saved this many bananas
+                    You could have saved this many bananas
                 </div>
             </div>
         </div>
@@ -170,7 +167,6 @@
             <p class="text-lg">Please select a time range</p>
         </div>
         </div>
-    </div>
     </template>
     
     <script setup lang="ts">
@@ -183,7 +179,7 @@
     Chart.register(...registerables);
     
     const menuType = ref('statsTime');
-    const navMenuType = ref('main');
+    const navMenuType = ref('tank');
     const selectedContent = ref('daily');
 
     let totChart: Chart|null = null;
