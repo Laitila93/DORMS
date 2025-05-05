@@ -12,9 +12,9 @@
 [x] CHANGE UNLOCK MECHANISM:
 [x] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic: if XP >= price OR in unlocks!
 
-[ ] FEEDBACK BAR:
-[ ] 1. Create feedback bar above/below progress bar in ProgressBarComponent
-[ ] 2. Integrate "real" waterdata like waterLogItem in LeaderboardView (maybe tweak algorithm to calculate percentage of yesterday based on time).
+[x] FEEDBACK BAR:
+[x] 1. Create feedback bar above/below progress bar in ProgressBarComponent
+[x] 2. Integrate "real" waterdata like waterLogItem in LeaderboardView (maybe tweak algorithm to calculate percentage of yesterday based on time).
 
 [ ] INTEGRATE EMILS POINT SYSTEM w. XP AND FEEDBACK BAR
 [x] 1. figure out how to use

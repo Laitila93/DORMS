@@ -50,8 +50,7 @@ const shopData: Ref<ShopData | null> = ref(null);
 const shopUnlocks: Ref<ShopUnlocks | null> = ref(null);
 const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
-const corridorId = 1;
-
+const corridorId = 1; //should be set by the server, but for testing purposes we set it to 1
 
 const xpScore = ref(50); // dynamic score, should be fetched and calculated from the server w. emils functions.
 const feedbackScore = ref(0); // dynamic score, should be fetched and calculated from the server w. emils functions.
