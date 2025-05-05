@@ -27,6 +27,7 @@
               src="../assets/rockFormationFinalCut.png" 
               class=""
               >
+          </div>
         </div>      
       </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
@@ -110,6 +111,7 @@ import FishComponent from '@/components/FishComponent.vue';
 import { socket } from '@/composables/socket';
 import { useShopData} from '@/composables/useShopData';
 import RockComponent from '@/components/RockComponent.vue';
+import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'

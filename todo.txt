@@ -1,18 +1,27 @@
-[ ] - Hat Selector:
-[x]	1. Toggle one hat at a time from shopData. button left/right
-[x]	2. If hat not in unlocked (look at shopview), dont show button
-[x]    - Make isHatAvailable-function, if hat in shopUnlocks OR === -1 (deselect hat)
-[ ]	3. se till att den ändrar hat i ActiveFish
-[x] - Fish Selector:
-[X]	1. Gör en likadan för att välja fisk
+[x] Create dummy variable XP in useShopData
 
-[ ]TankView:
-[ ]- ActiveFish-Array
-[ ]	1. Skapa dummy-ActiveFish som sparas i sessionstorage
-[x]- Load shopData and unlockedData as in main-shopview
 
-[ ]Serversida:
-[ ]- Skapa ActiveFish-Array.
-[ ]	- ska ha 10 platser.
-[ ]	- från start ska den ha den första fisken i shopData på alla platser.
-[ ]- Skapa SQL-table för ActiveFish
+[x] PROGRESS BAR:
+[x] 1. Create ProgressBarComponent
+[x] 2. Create function/computed nextUnlock returns (nextItem, nextXP)
+[x] 3. Create simple progress bar styling
+[x] 4. Create progress percentage = since last unlock to next, may be changed later
+    
+[x] 4. Display XP, nextXP, nextItem and item Image
+
+[x] CHANGE UNLOCK MECHANISM:
+[x] 1. In fishcomponent, change isFishAvailable and isHatAvailable with logic: if XP >= price OR in unlocks!
+
+[x] FEEDBACK BAR:
+[x] 1. Create feedback bar above/below progress bar in ProgressBarComponent
+[x] 2. Integrate "real" waterdata like waterLogItem in LeaderboardView (maybe tweak algorithm to calculate percentage of yesterday based on time).
+
+[ ] INTEGRATE EMILS POINT SYSTEM w. XP AND FEEDBACK BAR
+[x] 1. figure out how to use
+[x] 2. test point algo w. dummy-values in .JSON-file ATLEAST 31 DAYS, prefferably more.
+[x] 3. Change xpScore in useShopData from ref() to calculated w. EMILS
+[ ] 4. Move simulation to server-side
+[ ] 5. integrate "real data", allthough only two days. maybe append .json-file w. "real" sim data?
+[ ] 6. Store and fetch xpScore from database. No good reason not to.
+
+
