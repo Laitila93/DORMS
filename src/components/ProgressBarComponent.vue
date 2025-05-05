@@ -45,7 +45,7 @@
   <!-- Feedback bar -->
   <div style="width: 100%; max-width: 500px; margin-top: 12px;">
     <div style="text-align: center; color: white; font-size: 16px; margin-bottom: 4px;">
-      Today's water consumption
+      Today's water consumption:
     </div>
     <div style="
       width: 100%;
@@ -99,8 +99,8 @@ import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useShopData } from '@/composables/useShopData';
 import { socket } from '@/composables/socket';
 
-const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
-const feedbackScore = ref(90); // Default feedback score
+const { shopData, shopUnlocks, equippedData, corridorId, xpScore, feedbackScore } = useShopData();
+
 
 const nextFish = computed(() => {
     const lockedFish = shopData.value?.fish

@@ -5,6 +5,7 @@ import type { Ref } from 'vue';
 //used for testing water data integration. should be moved to server side later
 import { convertToDailyConsumption } from '@/composables/dataConverterProto';
 import { calculateScore } from '@/composables/pointsPrototype';
+import { updateFeedbackScore } from '@/composables/feedbackScoreProto';
 import dummyData from '@/assets/raw_water_data.json';
 //****************************************************************************
 
@@ -50,7 +51,10 @@ const shopUnlocks: Ref<ShopUnlocks | null> = ref(null);
 const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
 const corridorId = 1;
-const xpScore = ref(50); //Dummy value, replace with actual XP score logic from Emils algorithm
+
+
+const xpScore = ref(50); // dynamic score, should be fetched and calculated from the server w. emils functions.
+const feedbackScore = ref(0); // dynamic score, should be fetched and calculated from the server w. emils functions.
 
 /*Lines below are for testing integrating Emils point algorithm and "real" water data. 
 Functionality should be moved to server side later*/
@@ -64,14 +68,15 @@ waterData.value = dummyData; // Replace with actual socket event listener
 dailyConsumption.value = convertToDailyConsumption(waterData.value);
 console.log('Daily consumption:', dailyConsumption);
 
-
-
 setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
 
   const history = dailyConsumption.value?.history || [];
   if (history.length < 30) return;
   // Slice a moving 30-day window
   const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
+  console.log("Window slice: ", windowSlice);
+  feedbackScore.value = updateFeedbackScore(windowSlice);
+  console.log("Feedback score: ", feedbackScore.value);
   const score = calculateScore({
     corridor: corridorId?.value ?? 1, //remove 1 after testing phase
     history: windowSlice,
@@ -154,5 +159,6 @@ export function useShopData() {
     equippedData,
     corridorId,
     xpScore,
+    feedbackScore,
   };
 }
