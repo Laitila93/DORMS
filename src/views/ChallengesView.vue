@@ -5,13 +5,16 @@
     There is also a function for the user to change daily challenges.-->
 <template>
     <NavComponent :menu="navMenuType" :socket="socket" />
-    <div class="grid grid-cols-[168px_1fr] h-screen">
-        <!-- Sidebar -->
-        <div class="p-4">
-        <VerticalMenuComponent :menu="menuType" :socket="socket" @menu-select="handleMenuSelect" />
-        </div>
-
-        <div class="p-4 overflow-y-auto space-y-6">
+    <div class="text-2xl justify-center mt-4 ml-4">Unlockables and challenges</div>
+    <div class="grid gap-4 m-2 ml-4" :class="['grid-cols-[67%_27%]','grid-rows-[100px_150px_300px]']">
+      <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+        Progress bar, XP required to next level
+      </div>
+      <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+        Current level: 10
+      </div>
+      <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
+      <div class="p-4 overflow-y-auto space-y-6">
           <div v-if="selectedContent === 'unlockables'">
             <p class="text-lg font-semibold mb-2 m-4">Unlockables</p>
             <div class="unlockList">
@@ -72,10 +75,14 @@
             </div>
           </div>
         </div>
-
-
-
-     </div>
+      </div>
+      <div class="bg-gray-200 rounded-md col-start-2 row-start-2 text-gray-800 text-center">
+        LIMITED CHALLENGE
+      </div>
+      <div class="bg-gray-200 rounded-md col-start-2 row-start-3 text-gray-800 text-center">
+        CHALLENGES
+      </div>
+      </div>
 </template>
 
 <script setup lang="ts">
@@ -93,7 +100,7 @@ interface Unlock {
 }
 
 const unlocks = ref<Unlock[]>([]);
-const menuType = ref('challenges');
+const menuType = ref('tank');
 const challenges = ref([
   { name: 'Special Challenge 1', desc: 'Special Description 1', image: '' },
   { name: 'Special Challenge 2', desc: 'Special Description 2', image: '' }

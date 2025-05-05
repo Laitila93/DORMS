@@ -1,1 +1,0 @@
-<!--View for maintenance and other news and updates-->
