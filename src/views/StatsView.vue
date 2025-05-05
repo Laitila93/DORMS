@@ -78,13 +78,15 @@
                 <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
                     <div class="totGraph w-full h-60">
                         <canvas id="totGraph"></canvas>
+                        <button @click="showTotGraphModal = true">Expand</button>
                     </div>
                 </div>
                 <div
                 class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
                 >
-                <div class="totGraph w-full h-60">
-                        <canvas id="totGraph"></canvas>
+                <div class="warmGraph w-full h-60">
+                        <canvas id="warmGraph"></canvas>
+                        <button @click="showWarmGraphModal = true">Expand</button>
                     </div>
                 </div>
 
@@ -167,22 +169,30 @@
             <p class="text-lg">Please select a time range</p>
         </div>
         </div>
+        <ModalComponent v-model="showTotGraphModal">
+            I LOVE GRAPHS
+        </ModalComponent>
+        <ModalComponent v-model="showWarmGraphModal">
+            HOT
+        </ModalComponent>
     </template>
     
     <script setup lang="ts">
     import { ref, onMounted, watch } from 'vue';
-    //import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
     import NavComponent from '@/components/NavComponent.vue';
     import { socket } from '@/composables/socket';
     import { Chart, registerables } from 'chart.js';
+    import ModalComponent from '@/components/ModalComponent.vue';
 
     Chart.register(...registerables);
-    
-    const menuType = ref('statsTime');
+
+    const showWarmGraphModal = ref(false);
+    const showTotGraphModal = ref(false);
     const navMenuType = ref('tank');
     const selectedContent = ref('daily');
 
     let totChart: Chart|null = null;
+    let warmChart: Chart|null = null;
 
     function initTotChart() {
         const canvas = document.getElementById('totGraph') as HTMLCanvasElement|null;
@@ -219,14 +229,53 @@
                 }
             }
         });
+    };
+
+    function initWarmChart() {
+        const canvas = document.getElementById('warmGraph') as HTMLCanvasElement|null;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        if (warmChart) {
+            warmChart.destroy();
+        }
+
+        warmChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['13', '14', '15', '16', '17', '18', '19'],
+                datasets: [{
+                    label: 'Total warm water consumption',
+                    data: [65, 59, 84, 34, 55, 50, 70],
+                    fill: false,
+                    tension: 0.3,
+                    borderWidth: 2,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {display:true, text: 'Warm water Graph'},
+                    legend: {position: 'bottom'}
+                },
+                scales: {
+                    x: { title: {display: true, text: 'Hour'}},
+                    y: { title: {display: true, text: 'Total consumption'}, suggestedMin:0, suggestedMax: 100}  
+                }
+            }
+        });
     }
 
     onMounted(() => {
         initTotChart();
+        initWarmChart();
     });
 
     watch(selectedContent, () => {
         setTimeout(initTotChart, 0);
+        setTimeout(initWarmChart, 0);
     });
 
     function handleMenuSelect(option: string) {
