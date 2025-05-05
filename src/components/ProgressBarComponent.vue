@@ -41,6 +41,54 @@
       XP: {{ xpScore }}
     </div>
   </div>
+  
+  <!-- Feedback bar -->
+  <div style="width: 100%; max-width: 500px; margin-top: 12px;">
+    <div style="text-align: center; color: white; font-size: 16px; margin-bottom: 4px;">
+      Today's water consumption
+    </div>
+    <div style="
+      width: 100%;
+      height: 50px;
+      position: relative;
+      border: 3px solid #ccc;
+      border-color: black;
+      border-radius: 4px;
+      background-color: transparent;
+      overflow: hidden;
+      color: white;
+      font-size: 14px;
+    ">
+      <!-- Filled part of the bar, AI help with color gradient -->
+      <div
+        :style="{
+          width: feedbackScore + '%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 1,
+          background: feedbackScore <= 50
+            ? 'green'
+            : `linear-gradient(
+                to right,
+                green 0%,
+                green ${(50 / feedbackScore) * 100}%,
+                yellow ${(75 / feedbackScore) * 100}%,
+                red 100%
+              )`
+        }"
+      ></div>
+      <!-- Text inside the bar -->
+      <div
+        style="position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 8px; z-index: 2;"
+      >
+        <span>Low</span>
+        <span>High</span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 
@@ -52,6 +100,7 @@ import { useShopData } from '@/composables/useShopData';
 import { socket } from '@/composables/socket';
 
 const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
+const feedbackScore = ref(90); // Default feedback score
 
 const nextFish = computed(() => {
     const lockedFish = shopData.value?.fish
