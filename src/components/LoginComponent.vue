@@ -90,6 +90,7 @@
 
       // Save the token in sessionStorage
       sessionStorage.setItem('authToken', data.token);
+      sessionStorage.setItem('dormID', data.dormID.toString());
       if (data.dormID === 1) {
         sessionStorage.setItem('userRole', 'admin');
       } else {

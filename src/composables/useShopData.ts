@@ -58,7 +58,7 @@ const feedbackScore = ref(0); // dynamic score, should be fetched and calculated
 /*Lines below are for testing integrating Emils point algorithm and "real" water data. 
 Functionality should be moved to server side later*/
 
-const waterData = ref<{ id: number; room: string; type: string; amount: number; timestamp: string; }[] | null>(null); // Water data received from the server
+const waterData = ref<{ id: number; room: string; type: string; amount: number; timestamp: string; dorm_id: number }[] | null>(null); // Water data received from the server
 interface DailyConsumption {
   history: any[]; // Replace `any` with the actual type of the history elements if known
 }
@@ -67,8 +67,16 @@ const dailyConsumption = ref<DailyConsumption | null>(null); // Daily consumptio
 const dayIndex = ref(0); // Current day index for the simulation
 const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
 
-waterData.value = dummyData; // Replace with actual socket event listener
-dailyConsumption.value = convertToDailyConsumption(waterData.value);
+
+socket.on('DbWaterData', (data: any) => {
+  waterData.value = data; // Assign received data to waterData
+});
+
+if (waterData.value) {
+  dailyConsumption.value = convertToDailyConsumption(waterData.value);
+} else {
+  console.warn('waterData is null, skipping conversion to daily consumption.');
+}
 console.log('Daily consumption:', dailyConsumption);
 
 setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
@@ -102,6 +110,10 @@ export function useShopData() {
     const cachedShopData = sessionStorage.getItem('shopData');
     const cachedUnlocks = sessionStorage.getItem('shopUnlocks');
     const cachedEquippedData = sessionStorage.getItem('equippedData');
+    const dormID = sessionStorage.getItem('dormID');
+
+    socket.emit('getDbWaterData', dormID); // Emit event to get water data from the server
+    console.log('Requesting water data...');
 
     if (cachedShopData) {
       shopData.value = JSON.parse(cachedShopData);
