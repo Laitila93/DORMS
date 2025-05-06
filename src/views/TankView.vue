@@ -3,8 +3,13 @@
   <div class="h-screen w-full p-[2%] pr-[3%]">
     <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
       <div class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center" ref= "waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none">
+              <div style="width: 60%; pointer-events: auto;">
+              <ProgressBarComponent />
+              </div>
+        </div>
         <FishComponent
-          v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
+          v-for="(fish, index) in equippedFishWithHats"
           :key="fish.fishId"
           :fishType="fish.fishType"
           :hatType="fish.hatType"
@@ -33,7 +38,7 @@
       </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
-          <p class="text-text-headline">News and Updates</p>
+          <button @click="showNewsModal=true" class="text-text-headline">News and Updates</button>
           <ul class="font-semibold text-l">
             <li> - Fire alarm maintenance between 12:00-16:30</li>
             <li> - Available dormrooms in corridor 5</li>
@@ -45,15 +50,15 @@
             <div class="swiper-wrapper">
               <!-- Slides -->
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <p class="text-text-headline">Daily challenges</p>
+                <router-link to="/challenges" class="text-text-headline">Daily challenges</router-link>
                 <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
               </div>
               <div class="swiper-slide">
-                <p class="text-text-headline">Weekly challenges</p>
+                <router-link to="/challenges" class="text-text-headline">Weekly challenges</router-link>
                 <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
               </div>
               <div class="swiper-slide text-text-headline">
-                Limited time challenges
+                <router-link to="/challenges" class="text-text-headline">Weekly challenges</router-link>
               </div>
             </div>
             <!-- If we need pagination -->
@@ -72,15 +77,15 @@
             <div class="swiper-wrapper">
               <!-- Slides -->
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <p class="text-text-headline">Average shower time</p>
+                <router-link to="/stats" class="text-text-headline">Average shower time</router-link>
                 <p class="font-semibold text-5xl ">8m 12s</p>
               </div>
               <div class="swiper-slide">
-                <p class="text-text-headline">Yesterdays water consumption</p>
+                <router-link to="/stats" class="text-text-headline">Yesterdays water consumption</router-link>
                 <p class="font-semibold text-5xl ">1230 litres</p>
               </div>
               <div class="swiper-slide">
-                <p class="text-text-headline">Average water temperature</p>
+                <router-link to="/stats" class="text-text-headline">Average water temperature</router-link>
                 <p class="font-semibold text-5xl">25,7°C</p>
               </div>
             </div>
@@ -103,6 +108,9 @@
       </div>
     </div>
   </div>
+  <ModalComponent v-model="showNewsModal">
+    NEWS AND UPDATES
+  </ModalComponent>
 </template>
 
 <script setup lang="ts">
@@ -112,16 +120,19 @@ import FishComponent from '@/components/FishComponent.vue';
 import { socket } from '@/composables/socket';
 import { useShopData} from '@/composables/useShopData';
 import RockComponent from '@/components/RockComponent.vue';
+import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'
+import ModalComponent from '@/components/ModalComponent.vue';
 
 const menuType = ref('tank');
 socket.on('connect', () => {
   console.log('Connected to the server');
 });
 
-const numberOfFish = ref(0);
+const showNewsModal = ref(false);
+const waterLevel = ref(65); // Initial water level
 const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 
 const waterRef = ref<HTMLElement | null>(null);
@@ -133,7 +144,10 @@ const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 const areFishesBlurred = ref(false) //Fishes are not blurred by default
 
 const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
+  console.log("equippedFish: ", equippedData.value?.fish);
+  console.log("equippedHats: ", equippedData.value?.hats);
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
+    console.log("equippedFishWithHats did not recieve data");
     return []; // Still loading
   }
 
@@ -142,7 +156,7 @@ const equippedFishWithHats = computed(() => { //problem is likely here, logs ret
     const hatEquip = equippedData.value?.hats[index]; //use index to get the correct hat for the fish instead oh hatID
     const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
     console.log("try hat: ", hatData?.name);                                            
-    console.log("try hatEquip: ", hatEquip);                                            
+    console.log("try fish: ", fishData?.name);                                            
     return {
       fishId: equippedFish,
       fishType: fishData?.name || 'unknown',

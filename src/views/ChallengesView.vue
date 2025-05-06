@@ -6,7 +6,7 @@
 <template>
     <NavComponent :menu="navMenuType" :socket="socket" />
     <div class="text-2xl justify-center mt-4 ml-4">Unlockables and challenges</div>
-    <div class="grid gap-4 m-2 ml-4" :class="['grid-cols-[67%_27%]','grid-rows-[100px_150px_300px]']">
+    <div class="grid gap-4 m-2 ml-4" :class="['grid-cols-[67%_27%]','grid-rows-[100px_145px_300px]']">
       <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
         Progress bar, XP required to next level
       </div>
@@ -77,7 +77,8 @@
         </div>
       </div>
       <div class="bg-gray-200 rounded-md col-start-2 row-start-2 text-gray-800 text-center">
-        LIMITED CHALLENGE
+        <img src="https://i.imgur.com/wJlZ3MF.png" alt="lionlimited" class="rounded-md justify-center">
+        <!--Add animation fish, getfishdata-->
       </div>
       <div class="bg-gray-200 rounded-md col-start-2 row-start-3 text-gray-800 text-center">
         CHALLENGES
@@ -88,7 +89,6 @@
 <script setup lang="ts">
 
 import { ref, onMounted } from 'vue';
-import VerticalMenuComponent from '@/components/VerticalMenuComponent.vue';
 import NavComponent from '@/components/NavComponent.vue';
 import { socket } from '@/composables/socket';
 
@@ -100,7 +100,6 @@ interface Unlock {
 }
 
 const unlocks = ref<Unlock[]>([]);
-const menuType = ref('tank');
 const challenges = ref([
   { name: 'Special Challenge 1', desc: 'Special Description 1', image: '' },
   { name: 'Special Challenge 2', desc: 'Special Description 2', image: '' }
@@ -110,7 +109,7 @@ const limiteds = ref([
   { name: 'Challenge 1', desc: 'Description 1', image: '', timeLeft: '2 days' },
   { name: 'Challenge 2', desc: 'Description 2', image: '', timeLeft: '5 days' }
 ]);
-const navMenuType = ref('main');
+const navMenuType = ref('tank');
 const selectedContent = ref('active');
 const progress = ref({ percentage: '50%' }); // Example progress data
 const currentLevel = ref(1); // Example initial value for currentLevel
