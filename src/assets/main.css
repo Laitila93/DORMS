@@ -61,3 +61,8 @@
   transition: box-shadow 0.9s ease-in-out;
 }
 */
+
+.swiper {
+  width: 220px;
+  height: 150px;
+}

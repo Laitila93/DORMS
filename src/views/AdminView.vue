@@ -5,6 +5,15 @@
 
     <!-- Form -->
     <form @submit.prevent="handleSubmit" class="w-full max-w-md">
+      <!-- adress Input -->
+      <input
+        type="text"
+        class="rounded p-2 w-full mb-4 border border-gray-300"
+        placeholder="Enter address"
+        v-model="address"
+        autocomplete="off"
+        required
+      />
       <!-- Username Input -->
       <input
         type="text"
@@ -56,6 +65,7 @@ import { socket } from '@/composables/socket';
 
 // Reactive variables
 const navMenuType = ref('tank'); // Menu type for NavComponent
+const address = ref(''); // Address input
 const username = ref(''); // Username input
 const password = ref(''); // Password input
 const feedbackMessage = ref(''); // Feedback message for the user
@@ -74,7 +84,7 @@ onUnmounted(() => {
 });
 // Function to handle form submission
 const handleSubmit = () => {
-  if (username.value && password.value) {
+  if (address.value && username.value && password.value) {
     createUser();
   }
 };
@@ -93,6 +103,7 @@ const createUser = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        address: address.value,
         username: username.value,
         password: password.value,
       }),
@@ -102,6 +113,7 @@ const createUser = async () => {
       feedbackMessage.value = 'User created successfully!';
       feedbackClass.value = 'text-green-500';
       username.value = ''; // Clear the input fields
+      address.value = '';
       password.value = '';
     } else {
       const errorData = await response.json();

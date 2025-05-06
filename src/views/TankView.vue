@@ -1,41 +1,35 @@
 <template>
   <NavComponent :socket="socket" :menu="menuType" />
   <div class="h-screen w-full p-[2%] pr-[3%]">
-    <div
-      class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
-      <div 
-        class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center"
-        style="background-image: url('https://i.imgur.com/9T34bA9.png')"
-        >
-        <div ref= "waterRef" class="w-full absolute bottom-0 z-0" :style="{ height: waterLevel + '%' }">
-          <FishComponent
-            v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
-            :key="fish.fishId"
-            :fishType="fish.fishType"
-            :hatType="fish.hatType"
-            :socket="socket"
-            :waterBounds="waterBounds"
-            :position="index + 1"
-            :rockBounds = rockBounds
-            :isBlurred = areFishesBlurred
-          />
-          <div 
-            ref="rockRef" 
-            class="absolute w-1/3 h-full flex items-end left-3/4 -translate-x-1/2"
-            style="z-index:20"
+    <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
+      <div class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center" ref= "waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
+        <FishComponent
+          v-for="(fish, index) in equippedFishWithHats.slice(0, numberOfFish)"
+          :key="fish.fishId"
+          :fishType="fish.fishType"
+          :hatType="fish.hatType"
+          :socket="socket"
+          :waterBounds="waterBounds"
+          :position="index + 1"
+          :rockBounds = rockBounds
+          :isBlurred = areFishesBlurred
+        />
+        <div 
+          ref="rockRef" 
+          class="absolute w-1/3 h-full flex items-end left-3/4 -translate-x-1/2"
+          style="z-index:20"
+          >
+          <!--Rock, to be populated in database and fetched from there instead-->
+          <img 
+            src="../assets/rockFormationFinalCut.png"  
             >
-            <!--Rock, to be populated in database and fetched from there instead-->
-            <img 
-              src="../assets/rockFormationFinalCut.png"  
-              >
-          </div>
-          <!--Button for testing blur function is fishcomponent-->
-          <button 
-            class="absolute bottom-0 left-0 flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white w-20 h-10 rounded.md" 
-            @click="() => {blurFishes();}">
-              Blur
-          </button>
-        </div>      
+        </div>
+        <!--Button for testing blur function is fishcomponent-->
+        <button 
+          class="absolute bottom-0 left-0 flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white w-20 h-10 rounded.md" 
+          @click="() => {blurFishes();}">
+            Blur
+        </button>     
       </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
@@ -127,7 +121,6 @@ socket.on('connect', () => {
   console.log('Connected to the server');
 });
 
-const waterLevel = ref(65); // Initial water level
 const numberOfFish = ref(0);
 const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 
@@ -138,13 +131,6 @@ const rockRef = ref<HTMLElement | null>(null); // Reference to to the root div o
 const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 
 const areFishesBlurred = ref(false) //Fishes are not blurred by default
-
-const rockDivStyle = ref({ //NOTE: I think this is a relic from testing that I've forgotten about. To be removed later /Emil
-top: '0px',
-left: '0px',
-width:'0px',
-height:'0px'
-}); 
 
 const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
@@ -172,11 +158,7 @@ function blurFishes() {
 
 }
 
-const updateWaterLevel = () => {
-  //waterLevel.value = 50 + Math.floor(Math.random() * 50); // Simulera vattennivå mellan 50 och 100
-  numberOfFish.value = parseInt((waterLevel.value / 10).toString()); // Beräkna antal fiskar baserat på vattennivå
-};
-
+//Göra dessa reaktiva?
 onMounted(() => {
   if (waterRef.value) {
     waterBounds.value = waterRef.value.getBoundingClientRect();
@@ -188,8 +170,6 @@ onMounted(() => {
   if (rockRef.value) { //fish cannot move through rock
     rockBounds.value = rockRef.value.getBoundingClientRect();
   }
-  
-  setInterval(updateWaterLevel,1000);
 
   new Swiper('.challenges-swiper', {
     loop: true,
@@ -232,26 +212,4 @@ onMounted(() => {
   }) 
 });
 
-
-
 </script>
-
-<style scoped>
-.tank-container {
-  position: relative;
-}
-.tank {
-  width: 80vw;
-  height: 80vh;
-  border-width: 20px;
-  border-color: black;
-  border-style: solid;
-  position: relative;
-}
-
-.swiper {
-  width: 220px;
-  height: 150px;
-}
-
-</style>
