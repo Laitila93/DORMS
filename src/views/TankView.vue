@@ -125,11 +125,8 @@ socket.on('connect', () => {
   console.log('Connected to the server');
 });
 
-<<<<<<< HEAD
 const showNewsModal = ref(false);
 const waterLevel = ref(65); // Initial water level
-=======
->>>>>>> 3b8dd2d04bfde1e88023f59c195f5059fe3a8965
 const numberOfFish = ref(0);
 const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
 
