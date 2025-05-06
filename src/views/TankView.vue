@@ -39,7 +39,7 @@
       </div>
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
-          <p class="text-text-headline">News and Updates</p>
+          <button @click="showNewsModal=true" class="text-text-headline">News and Updates</button>
           <ul class="font-semibold text-l">
             <li> - Fire alarm maintenance between 12:00-16:30</li>
             <li> - Available dormrooms in corridor 5</li>
@@ -51,15 +51,15 @@
             <div class="swiper-wrapper">
               <!-- Slides -->
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <p class="text-text-headline">Daily challenges</p>
+                <router-link to="/challenges" class="text-text-headline">Daily challenges</router-link>
                 <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
               </div>
               <div class="swiper-slide">
-                <p class="text-text-headline">Weekly challenges</p>
+                <router-link to="/challenges" class="text-text-headline">Weekly challenges</router-link>
                 <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
               </div>
               <div class="swiper-slide text-text-headline">
-                Limited time challenges
+                <router-link to="/challenges" class="text-text-headline">Weekly challenges</router-link>
               </div>
             </div>
             <!-- If we need pagination -->
@@ -78,15 +78,15 @@
             <div class="swiper-wrapper">
               <!-- Slides -->
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <p class="text-text-headline">Average shower time</p>
+                <router-link to="/stats" class="text-text-headline">Average shower time</router-link>
                 <p class="font-semibold text-5xl ">8m 12s</p>
               </div>
               <div class="swiper-slide">
-                <p class="text-text-headline">Yesterdays water consumption</p>
+                <router-link to="/stats" class="text-text-headline">Yesterdays water consumption</router-link>
                 <p class="font-semibold text-5xl ">1230 litres</p>
               </div>
               <div class="swiper-slide">
-                <p class="text-text-headline">Average water temperature</p>
+                <router-link to="/stats" class="text-text-headline">Average water temperature</router-link>
                 <p class="font-semibold text-5xl">25,7°C</p>
               </div>
             </div>
@@ -109,6 +109,9 @@
       </div>
     </div>
   </div>
+  <ModalComponent v-model="showNewsModal">
+    NEWS AND UPDATES
+  </ModalComponent>
 </template>
 
 <script setup lang="ts">
@@ -121,12 +124,14 @@ import RockComponent from '@/components/RockComponent.vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'
+import ModalComponent from '@/components/ModalComponent.vue';
 
 const menuType = ref('tank');
 socket.on('connect', () => {
   console.log('Connected to the server');
 });
 
+const showNewsModal = ref(false);
 const waterLevel = ref(65); // Initial water level
 const numberOfFish = ref(0);
 const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
