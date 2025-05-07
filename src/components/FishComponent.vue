@@ -32,7 +32,7 @@
         :style="{
           top: '-15px',
           left: '50%', // Center the hat horizontally
-          transform: 'translateX(-50%)', // Adjust to center relative to the fish
+          transform: `translateX(-50%) ${isFlipped ? 'scaleX(-1)' : 'scaleX(1)'}`, // Adjust to center relative to the fish
         }"
       />
     </div>
