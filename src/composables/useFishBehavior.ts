@@ -24,15 +24,17 @@ export function useFishBehavior(props: {
   const showFishSelector = ref(false);
   const currentHatIndex = ref<number>(-1);
   const currentFishIndex = ref<number>(0);
+  const sortedFish = shopData.value?.fish.sort((a, b) => a.price - b.price) || [];
+  const sortedHats = shopData.value?.hats.sort((a, b) => a.price - b.price) || [];
 
   const currentHat = computed(() => {
     if (!shopData.value || !shopData.value.hats.length || currentHatIndex.value === -1) return null;
-    return shopData.value.hats[currentHatIndex.value];
+    return sortedHats[currentHatIndex.value];
   });
 
   const currentFish = computed(() => {
     if (!shopData.value || !shopData.value.fish.length || currentFishIndex.value === -1) return null;
-    return shopData.value.fish[currentFishIndex.value];
+    return sortedFish[currentFishIndex.value];
   });
 
   function toggleHatSelector() {

@@ -52,7 +52,7 @@ const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
 const corridorId = 1; //should be set by the server, but for testing purposes we set it to 1
 
-const xpScore = ref(50); // dynamic score, should be fetched and calculated from the server w. emils functions.
+const xpScore = ref(400); // dynamic score, should be fetched and calculated from the server w. emils functions.
 const feedbackScore = ref(0); // dynamic score, should be fetched and calculated from the server w. emils functions.
 
 /*Lines below are for testing integrating Emils point algorithm and "real" water data. 

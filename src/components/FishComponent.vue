@@ -65,9 +65,15 @@
           {{ currentHat.name }}
         </p>
       </div>
-      <button v-if="isHatAvailable" @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+      <div v-if="isHatAvailable">
+        <button @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
         Select
-      </button>
+        </button>
+      </div>
+      <div v-else>
+        Unlocks at {{ currentHat?.price }} XP
+      </div>
+
     </div>
 
     <!-- Fish Selector Box -->
@@ -90,9 +96,15 @@
       <p class="mt-2 text-sm font-semibold" v-if="currentFish">
         {{ currentFish.name }}
       </p>
-      <button v-if="isFishAvailable" @click.stop="applyFish" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+      <div v-if="isFishAvailable"> 
+        <button @click.stop="applyFish" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
         Select
-      </button>
+        </button>
+      </div>
+      <div v-else>
+        Unlocks at {{ currentFish?.price }} XP
+      </div>
+
     </div>
 
   </div>
