@@ -9,6 +9,11 @@
     <div class="grid gap-4 m-2 ml-4" :class="['grid-cols-[67%_27%]','grid-rows-[100px_145px_300px]']">
       <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
         Progress bar, XP required to next level
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none">
+              <div style="width: 60%; pointer-events: auto;">
+              <ProgressBarComponent />
+              </div>
+        </div>
       </div>
       <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
         Current level: 10
@@ -91,6 +96,7 @@
 import { ref, onMounted } from 'vue';
 import NavComponent from '@/components/NavComponent.vue';
 import { socket } from '@/composables/socket';
+import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 
 interface Unlock {
   name: string;
