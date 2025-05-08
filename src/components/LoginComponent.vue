@@ -55,6 +55,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { connectSocket } from '@/composables/socket';
 
 
   const props = defineProps<{
@@ -97,6 +98,18 @@
         sessionStorage.setItem('userRole', 'user');
       }
 
+      // After successful login
+      const userId = "exampleUsername"; // Or from backend response
+      const socket = connectSocket(data.token);
+
+      if (socket) {
+        socket.on('connect', () => {
+          console.log('Socket connected with user ID:', userId);
+        });
+      } else {
+        console.error('Failed to connect socket: socket is undefined.');
+      }
+      
       // Redirect to the tank view
       router.push('/tank');
     } catch (error) {

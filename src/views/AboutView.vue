@@ -11,7 +11,8 @@
 <script setup lang="ts">
   import NavComponent from '@/components/NavComponent.vue';
   import { ref } from 'vue';
-  import { socket } from '@/composables/socket';
+  import { getSocket } from './socket';
+const socket = getSocket(); // Import the socket instance from socket.ts
 
   const navMenuType = ref('tank'); // This can be changed to any other menu type as needed
 </script>

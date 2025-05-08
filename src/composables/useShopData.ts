@@ -1,5 +1,7 @@
 import { ref, computed } from 'vue';
-import { socket } from './socket';
+import { getSocket } from './socket';
+const socket = getSocket(); // Import the socket instance from socket.ts
+
 import type { Ref } from 'vue';
 
 //used for testing water data integration. should be moved to server side later

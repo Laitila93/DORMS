@@ -35,7 +35,8 @@ to the other corridors in the building. It contains a LoginComponent with login 
 <script setup lang="ts">
 import LoginComponent from '@/components/LoginComponent.vue';
 import { ref, onMounted } from 'vue';
-import { socket } from '@/composables/socket';
+import { getSocket } from './socket';
+const socket = getSocket(); // Import the socket instance from socket.ts
 
 type MenuItem = {
   name: string;
