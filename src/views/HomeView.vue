@@ -34,31 +34,8 @@ to the other corridors in the building. It contains a LoginComponent with login 
 
 <script setup lang="ts">
 import LoginComponent from '@/components/LoginComponent.vue';
-import { ref, onMounted } from 'vue';
-import { socket } from '@/composables/socket';
-
-type MenuItem = {
-  name: string;
-  link: string;
-};
-
-const navKey = ref(0); // Reactive key for NavComponent
-const refreshNav = () => {
-  navKey.value++; // Increment the key to force re-render
-};
-
-onMounted(() => {
-  socket.emit("getMenuData", "en"); // Fetch menu items from server, switch between "sv" and "en" for desired language
-  socket.on("menuData", (labels: Record<string, MenuItem[]>) => {
-    localStorage.setItem("menuData", JSON.stringify(labels));
-    refreshNav(); // Refresh NavComponent when new menu data is received
-  });
-
-  // Handle errors
-  socket.on("error", (error: { message: string }) => {
-    console.error("Error from server:", error.message);
-  });
-});
+import { getSocket } from '@/composables/socket'; // Import the socket instance from socket.ts
+const socket = getSocket(); // Import the socket instance from socket.ts
 
 socket.on('connect', () => {
   console.log('Connected to the server'); // Verify connection for error detection

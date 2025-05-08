@@ -41,7 +41,8 @@ graphic component. This component is named 'RaceComponent'which presents the wat
 
   import NavComponent from '@/components/NavComponent.vue';
   import { ref, onMounted } from 'vue';
-  import { socket } from '@/composables/socket';
+  import { getSocket } from '@/composables/socket';
+const socket = getSocket(); // Import the socket instance from socket.ts
   import RaceComponent from '@/components/RaceComponent.vue';
 
   const menuType = ref('tank'); //Menu version for the NavComponent (side menu). Can be changed to other menu types in the future.

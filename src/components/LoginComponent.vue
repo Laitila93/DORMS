@@ -55,6 +55,8 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { connectSocket } from '@/composables/socket';
+
 
 
   const props = defineProps<{
@@ -90,10 +92,22 @@
 
       // Save the token in sessionStorage
       sessionStorage.setItem('authToken', data.token);
+      sessionStorage.setItem('dormID', data.dormID.toString());
       if (data.dormID === 1) {
         sessionStorage.setItem('userRole', 'admin');
       } else {
         sessionStorage.setItem('userRole', 'user');
+      }
+
+      // After successful login
+      const socket = connectSocket(data.token);
+
+      if (socket) {
+        socket.on('connect', () => {
+          console.log('Socket connected with dorm ID:', data.dormID);
+        });
+      } else {
+        console.error('Failed to connect socket: socket is undefined.');
       }
 
       // Redirect to the tank view

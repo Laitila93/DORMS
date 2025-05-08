@@ -61,7 +61,8 @@
 <script setup lang="ts">
 import NavComponent from '@/components/NavComponent.vue';
 import { ref, onMounted, onUnmounted } from 'vue';
-import { socket } from '@/composables/socket';
+import { getSocket } from '@/composables/socket';
+const socket = getSocket(); // Import the socket instance from socket.ts
 
 // Reactive variables
 const navMenuType = ref('tank'); // Menu type for NavComponent
@@ -74,7 +75,6 @@ const waterData = ref(null); // Water data received from the server
 
 onMounted(() => {
   socket.on('DbWaterData', (data: any) => {
-    console.log('Water data received:', data);
     waterData.value = data; // Assign received data to waterData
   });
 });
@@ -88,9 +88,9 @@ const handleSubmit = () => {
     createUser();
   }
 };
-
+const dormID = sessionStorage.getItem('dormID');
 const getWaterData = () => {
-  socket.emit('getDbWaterData'); // Emit event to get water data from the server
+  socket.emit('getDbWaterData', dormID); // Emit event to get water data from the server
   console.log('Requesting water data...');
 }
 

@@ -95,7 +95,8 @@
 
 import { ref, onMounted } from 'vue';
 import NavComponent from '@/components/NavComponent.vue';
-import { socket } from '@/composables/socket';
+import { getSocket } from '@/composables/socket';
+const socket = getSocket(); // Import the socket instance from socket.ts
 import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 
 interface Unlock {

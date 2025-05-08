@@ -1,6 +1,7 @@
 import { ref, computed, watch } from 'vue';
 import { useShopData } from '@/composables/useShopData';
-import { socket } from '@/composables/socket';
+import { getSocket } from '@/composables/socket';
+const socket = getSocket(); // Import the socket instance from socket.ts
 
 export function useFishBehavior(props: {
   fishType: string;
@@ -10,7 +11,7 @@ export function useFishBehavior(props: {
   rockBounds: DOMRect | null;
   isBlurred: boolean;
 }) {
-  const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
+  const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData(socket);
 
   const fishX = ref(100);
   const fishY = ref(100);
@@ -24,15 +25,17 @@ export function useFishBehavior(props: {
   const showFishSelector = ref(false);
   const currentHatIndex = ref<number>(-1);
   const currentFishIndex = ref<number>(0);
+  const sortedFish = shopData.value?.fish.sort((a, b) => a.price - b.price) || [];
+  const sortedHats = shopData.value?.hats.sort((a, b) => a.price - b.price) || [];
 
   const currentHat = computed(() => {
     if (!shopData.value || !shopData.value.hats.length || currentHatIndex.value === -1) return null;
-    return shopData.value.hats[currentHatIndex.value];
+    return sortedHats[currentHatIndex.value];
   });
 
   const currentFish = computed(() => {
     if (!shopData.value || !shopData.value.fish.length || currentFishIndex.value === -1) return null;
-    return shopData.value.fish[currentFishIndex.value];
+    return sortedFish[currentFishIndex.value];
   });
 
   function toggleHatSelector() {

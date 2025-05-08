@@ -32,7 +32,7 @@
         :style="{
           top: '-15px',
           left: '50%', // Center the hat horizontally
-          transform: 'translateX(-50%)', // Adjust to center relative to the fish
+          transform: `translateX(-50%) ${isFlipped ? 'scaleX(-1)' : 'scaleX(1)'}`, // Adjust to center relative to the fish
         }"
       />
     </div>
@@ -52,6 +52,10 @@
           :src="currentHat.image"
           :alt="currentHat.name"
           class="h-24 object-contain"
+          :style="{
+            filter: isHatAvailable ? 'none' : 'grayscale(100%)',
+            opacity: isHatAvailable ? 1 : 0.6
+          }"
         />
         <div v-else class="text-gray-500 flex justify-center items-center w-24 h-24 font-bold">
           No hat
@@ -65,9 +69,15 @@
           {{ currentHat.name }}
         </p>
       </div>
-      <button v-if="isHatAvailable" @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+      <div v-if="isHatAvailable">
+        <button @click.stop="applyHat" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
         Select
-      </button>
+        </button>
+      </div>
+      <div v-else>
+        Unlocks at {{ currentHat?.price }} XP
+      </div>
+
     </div>
 
     <!-- Fish Selector Box -->
@@ -84,15 +94,25 @@
           :src="currentFish.image"
           :alt="currentFish.name"
           class="h-24 object-contain"
+          :style="{
+            filter: isFishAvailable ? 'none' : 'grayscale(100%)',
+            opacity: isFishAvailable ? 1 : 0.6
+          }"
         />
         <button @click.stop="nextFish" class="bg-blue-400 hover:bg-blue-500 text-white font-bold text-2x1 px-4 py-1 rounded-full shadow transition duration-300">→</button>
       </div>
       <p class="mt-2 text-sm font-semibold" v-if="currentFish">
         {{ currentFish.name }}
       </p>
-      <button v-if="isFishAvailable" @click.stop="applyFish" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+      <div v-if="isFishAvailable"> 
+        <button @click.stop="applyFish" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
         Select
-      </button>
+        </button>
+      </div>
+      <div v-else>
+        Unlocks at {{ currentFish?.price }} XP
+      </div>
+
     </div>
 
   </div>

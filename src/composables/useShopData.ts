@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue';
-import { socket } from './socket';
+
+
 import type { Ref } from 'vue';
 
 //used for testing water data integration. should be moved to server side later
@@ -7,6 +8,7 @@ import { convertToDailyConsumption } from '@/composables/dataConverterProto';
 import { calculateScore } from '@/composables/pointsPrototype';
 import { updateFeedbackScore } from '@/composables/feedbackScoreProto';
 import dummyData from '@/assets/raw_water_data.json';
+import type { Socket } from 'socket.io-client';
 //****************************************************************************
 
 export interface BaseShopItem {
@@ -52,13 +54,13 @@ const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
 const corridorId = 1; //should be set by the server, but for testing purposes we set it to 1
 
-const xpScore = ref(50); // dynamic score, should be fetched and calculated from the server w. emils functions.
+const xpScore = ref(400); // dynamic score, should be fetched and calculated from the server w. emils functions.
 const feedbackScore = ref(0); // dynamic score, should be fetched and calculated from the server w. emils functions.
 
 /*Lines below are for testing integrating Emils point algorithm and "real" water data. 
 Functionality should be moved to server side later*/
 
-const waterData = ref<{ id: number; room: string; type: string; amount: number; timestamp: string; }[] | null>(null); // Water data received from the server
+const waterData = ref<{ id: number; room: string; type: string; amount: number; timestamp: string; dorm_id: number }[] | null>(null); // Water data received from the server
 interface DailyConsumption {
   history: any[]; // Replace `any` with the actual type of the history elements if known
 }
@@ -67,41 +69,19 @@ const dailyConsumption = ref<DailyConsumption | null>(null); // Daily consumptio
 const dayIndex = ref(0); // Current day index for the simulation
 const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
 
-waterData.value = dummyData; // Replace with actual socket event listener
-dailyConsumption.value = convertToDailyConsumption(waterData.value);
-console.log('Daily consumption:', dailyConsumption);
 
-setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
-
-  const history = dailyConsumption.value?.history || [];
-  if (history.length < 30) return;
-  // Slice a moving 30-day window
-  const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
-  console.log("Window slice: ", windowSlice);
-  feedbackScore.value = updateFeedbackScore(windowSlice);
-  console.log("Feedback score: ", feedbackScore.value);
-  const score = calculateScore({
-    corridor: corridorId, //remove 1 after testing phase
-    history: windowSlice,
-  });
-  console.log("30 day window: ",[...windowSlice]);
-  console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
-  xpScore.value += score;
-  // Move window forward
-  if (dayIndex.value < maxWindowStart.value) {
-    dayIndex.value++;
-  } else {
-    console.log("End of simulation window reached.");
-  }
-}, 1000); // one day every second
 
 //******************************************************************************************** 
 
-export function useShopData() {
+export function useShopData(socket: Socket) {
   if (!isFetched.value) {
     const cachedShopData = sessionStorage.getItem('shopData');
     const cachedUnlocks = sessionStorage.getItem('shopUnlocks');
     const cachedEquippedData = sessionStorage.getItem('equippedData');
+    const dormID = sessionStorage.getItem('dormID');
+
+    socket.emit('getDbWaterData', dormID); // Emit event to get water data from the server
+    console.log('Requesting water data...');
 
     if (cachedShopData) {
       shopData.value = JSON.parse(cachedShopData);
@@ -153,7 +133,43 @@ export function useShopData() {
       sessionStorage.setItem('equippedData', JSON.stringify(normalized));
     });
 
+    socket.on('DbWaterData', (data: any) => {
+      waterData.value = data; // Assign received data to waterData
+    });
+    
+    if (waterData.value) {
+      dailyConsumption.value = convertToDailyConsumption(waterData.value);
+    } else {
+      console.warn('waterData is null, skipping conversion to daily consumption.');
+    }
+    console.log('Daily consumption:', dailyConsumption);
+    
+    setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
+    
+      const history = dailyConsumption.value?.history || [];
+      if (history.length < 30) return;
+      // Slice a moving 30-day window
+      const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
+      console.log("Window slice: ", windowSlice);
+      feedbackScore.value = updateFeedbackScore(windowSlice);
+      console.log("Feedback score: ", feedbackScore.value);
+      const score = calculateScore({
+        corridor: corridorId, //remove 1 after testing phase
+        history: windowSlice,
+      });
+      console.log("30 day window: ",[...windowSlice]);
+      console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
+      xpScore.value += score;
+      // Move window forward
+      if (dayIndex.value < maxWindowStart.value) {
+        dayIndex.value++;
+      } else {
+        console.log("End of simulation window reached.");
+      }
+    }, 1000); // one day every second
+    
     isFetched.value = true;
+
   }
 
   return {

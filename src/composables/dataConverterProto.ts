@@ -8,6 +8,7 @@ export interface RawReading {
   type: string,
   amount: number,
   timestamp: string // ISO format e.g. "2025-04-30T16:19:01:018Z"
+  dorm_id: number // not used in the current implementation, but could be useful for future features
 }
 
 export function convertToDailyConsumption(rawData: RawReading[]): ConsumptionHistory { //input should maybe be filtered by date range in the future
