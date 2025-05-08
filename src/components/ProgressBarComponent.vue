@@ -100,8 +100,9 @@ import { useShopData } from '@/composables/useShopData';
 import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 
-const { shopData, shopUnlocks, equippedData, corridorId, xpScore, feedbackScore } = useShopData(socket);
-
+const { shopData, shopUnlocks, equippedData, xpScore, feedbackScore } = useShopData(socket);
+console.log("xpScore", xpScore.value);
+console.log("feedbackScore", feedbackScore.value);
 
 const nextFish = computed(() => {
     const lockedFish = shopData.value?.fish

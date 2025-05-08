@@ -16,6 +16,7 @@ export function connectSocket(token: string) {
     transports: ['websocket']
   });
   useShopData(socket); // Call the useShopData function to fetch shop data
+  console.log("Socket connected to server:", serverIP);
   return socket;
 }
 

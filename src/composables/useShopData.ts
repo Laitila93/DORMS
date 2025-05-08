@@ -1,14 +1,7 @@
-import { ref, computed } from 'vue';
-
-
+import { ref } from 'vue';
 import type { Ref } from 'vue';
-
-//used for testing water data integration. should be moved to server side later
-import { convertToDailyConsumption } from '@/composables/dataConverterProto';
-import { calculateScore } from '@/composables/pointsPrototype';
-import { updateFeedbackScore } from '@/composables/feedbackScoreProto';
-import dummyData from '@/assets/raw_water_data.json';
 import type { Socket } from 'socket.io-client';
+
 //****************************************************************************
 
 export interface BaseShopItem {
@@ -52,24 +45,9 @@ const shopData: Ref<ShopData | null> = ref(null);
 const shopUnlocks: Ref<ShopUnlocks | null> = ref(null);
 const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
-const corridorId = 1; //should be set by the server, but for testing purposes we set it to 1
-
 const xpScore = ref(400); // dynamic score, should be fetched and calculated from the server w. emils functions.
 const feedbackScore = ref(0); // dynamic score, should be fetched and calculated from the server w. emils functions.
-
-/*Lines below are for testing integrating Emils point algorithm and "real" water data. 
-Functionality should be moved to server side later*/
-
-const waterData = ref<{ id: number; room: string; type: string; amount: number; timestamp: string; dorm_id: number }[] | null>(null); // Water data received from the server
-interface DailyConsumption {
-  history: any[]; // Replace `any` with the actual type of the history elements if known
-}
-
-const dailyConsumption = ref<DailyConsumption | null>(null); // Daily consumption data
-const dayIndex = ref(0); // Current day index for the simulation
-const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
-
-
+const dailyConsumption = ref(0); 
 
 //******************************************************************************************** 
 
@@ -80,6 +58,22 @@ export function useShopData(socket: Socket) {
     const cachedEquippedData = sessionStorage.getItem('equippedData');
     const dormID = sessionStorage.getItem('dormID');
 
+    socket.on('feedback:update', ({ feedbackScore }) => {
+      feedbackScore.value = Math.round(feedbackScore); // Update the feedback score with the new value
+      console.log("📥 Received updated feedback score:", feedbackScore);
+    });
+    
+    socket.on('xp:update', ({ updatedXP }) => {
+      console.log("📥 Received XP update:", updatedXP);
+      xpScore.value = updatedXP; // Update the XP score with the new value
+    });
+    
+    socket.on("stats:update", ({ stats }) => {
+      console.log("📥 Received stats update:", stats);
+      dailyConsumption.value = stats.consumptionStats24h; // Update the consumption stats with the new value
+
+    });
+    
     socket.emit('getDbWaterData', dormID); // Emit event to get water data from the server
     console.log('Requesting water data...');
 
@@ -92,14 +86,14 @@ export function useShopData(socket: Socket) {
     if (cachedUnlocks) {
       shopUnlocks.value = JSON.parse(cachedUnlocks);
     } else {
-      socket.emit('getUnlocks', corridorId);
+      socket.emit('getUnlocks', dormID);
     }
     if (cachedEquippedData) {
       equippedData.value = JSON.parse(cachedEquippedData);
       console.log('cached equippedData', equippedData.value);
     } else {
       console.log("no cached equipped, emmiting getEquipped");
-      socket.emit('getEquipped', corridorId);
+      socket.emit('getEquipped', dormID);
     }
 
     socket.off('shopData').on('shopData', (data) => {
@@ -121,6 +115,10 @@ export function useShopData(socket: Socket) {
       shopUnlocks.value = normalized;
       sessionStorage.setItem('shopUnlocks', JSON.stringify(normalized));
     });
+    socket.off("xp").on("xp", (data) => {
+      console.log("📥 Received XP data:", data);
+      xpScore.value = data.xp; // Update the XP score with the new value
+    });
 
     socket.off('equippedData').on('equippedData', (data) => {
       console.log('equippedData recieved from database', data);
@@ -132,42 +130,9 @@ export function useShopData(socket: Socket) {
       equippedData.value = normalized;
       sessionStorage.setItem('equippedData', JSON.stringify(normalized));
     });
-
-    socket.on('DbWaterData', (data: any) => {
-      waterData.value = data; // Assign received data to waterData
-    });
-    
-    if (waterData.value) {
-      dailyConsumption.value = convertToDailyConsumption(waterData.value);
-    } else {
-      console.warn('waterData is null, skipping conversion to daily consumption.');
-    }
-    console.log('Daily consumption:', dailyConsumption);
-    
-    setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
-    
-      const history = dailyConsumption.value?.history || [];
-      if (history.length < 30) return;
-      // Slice a moving 30-day window
-      const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
-      console.log("Window slice: ", windowSlice);
-      feedbackScore.value = updateFeedbackScore(windowSlice);
-      console.log("Feedback score: ", feedbackScore.value);
-      const score = calculateScore({
-        corridor: corridorId, //remove 1 after testing phase
-        history: windowSlice,
-      });
-      console.log("30 day window: ",[...windowSlice]);
-      console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
-      xpScore.value += score;
-      // Move window forward
-      if (dayIndex.value < maxWindowStart.value) {
-        dayIndex.value++;
-      } else {
-        console.log("End of simulation window reached.");
-      }
-    }, 1000); // one day every second
-    
+    socket.emit("getXp", dormID); // Emit event to get XP data from the server
+    console.log('Requesting XP data...with dormID:', dormID);
+    socket.emit("getFeedback", dormID); // Emit event to get feedback data from the server
     isFetched.value = true;
 
   }
@@ -176,8 +141,8 @@ export function useShopData(socket: Socket) {
     shopData,
     shopUnlocks,
     equippedData,
-    corridorId,
     xpScore,
     feedbackScore,
+    dailyConsumption,
   };
 }
