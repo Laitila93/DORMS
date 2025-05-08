@@ -93,7 +93,7 @@
   import NavComponent from '@/components/NavComponent.vue';
   import FishComponent from '@/components/FishComponent.vue';
   import { ref, onMounted } from 'vue';
-  import { getSocket } from './socket';
+  import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
   import { useShopData} from '@/composables/useShopData';
 

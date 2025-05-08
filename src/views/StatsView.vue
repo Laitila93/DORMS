@@ -180,7 +180,7 @@
     <script setup lang="ts">
     import { ref, onMounted, watch } from 'vue';
     import NavComponent from '@/components/NavComponent.vue';
-    import { getSocket } from './socket';
+    import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
     import { Chart, registerables } from 'chart.js';
     import ModalComponent from '@/components/ModalComponent.vue';

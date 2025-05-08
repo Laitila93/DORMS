@@ -1,6 +1,6 @@
 import { ref, computed, watch } from 'vue';
 import { useShopData } from '@/composables/useShopData';
-import { getSocket } from './socket';
+import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 
 export function useFishBehavior(props: {

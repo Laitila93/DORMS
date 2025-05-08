@@ -90,7 +90,7 @@
 
 import { ref, onMounted } from 'vue';
 import NavComponent from '@/components/NavComponent.vue';
-import { getSocket } from './socket';
+import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 
 interface Unlock {

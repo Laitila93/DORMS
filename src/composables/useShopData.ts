@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { getSocket } from './socket';
+import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 
 import type { Ref } from 'vue';
