@@ -1,6 +1,5 @@
 import { ref, computed } from 'vue';
-import { getSocket } from '@/composables/socket';
-const socket = getSocket(); // Import the socket instance from socket.ts
+
 
 import type { Ref } from 'vue';
 
@@ -9,6 +8,7 @@ import { convertToDailyConsumption } from '@/composables/dataConverterProto';
 import { calculateScore } from '@/composables/pointsPrototype';
 import { updateFeedbackScore } from '@/composables/feedbackScoreProto';
 import dummyData from '@/assets/raw_water_data.json';
+import type { Socket } from 'socket.io-client';
 //****************************************************************************
 
 export interface BaseShopItem {
@@ -70,44 +70,10 @@ const dayIndex = ref(0); // Current day index for the simulation
 const maxWindowStart = computed(() => (dailyConsumption.value?.history.length ?? 0) - 30);
 
 
-socket.on('DbWaterData', (data: any) => {
-  waterData.value = data; // Assign received data to waterData
-});
-
-if (waterData.value) {
-  dailyConsumption.value = convertToDailyConsumption(waterData.value);
-} else {
-  console.warn('waterData is null, skipping conversion to daily consumption.');
-}
-console.log('Daily consumption:', dailyConsumption);
-
-setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
-
-  const history = dailyConsumption.value?.history || [];
-  if (history.length < 30) return;
-  // Slice a moving 30-day window
-  const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
-  console.log("Window slice: ", windowSlice);
-  feedbackScore.value = updateFeedbackScore(windowSlice);
-  console.log("Feedback score: ", feedbackScore.value);
-  const score = calculateScore({
-    corridor: corridorId, //remove 1 after testing phase
-    history: windowSlice,
-  });
-  console.log("30 day window: ",[...windowSlice]);
-  console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
-  xpScore.value += score;
-  // Move window forward
-  if (dayIndex.value < maxWindowStart.value) {
-    dayIndex.value++;
-  } else {
-    console.log("End of simulation window reached.");
-  }
-}, 1000); // one day every second
 
 //******************************************************************************************** 
 
-export function useShopData() {
+export function useShopData(socket: Socket) {
   if (!isFetched.value) {
     const cachedShopData = sessionStorage.getItem('shopData');
     const cachedUnlocks = sessionStorage.getItem('shopUnlocks');
@@ -167,7 +133,43 @@ export function useShopData() {
       sessionStorage.setItem('equippedData', JSON.stringify(normalized));
     });
 
+    socket.on('DbWaterData', (data: any) => {
+      waterData.value = data; // Assign received data to waterData
+    });
+    
+    if (waterData.value) {
+      dailyConsumption.value = convertToDailyConsumption(waterData.value);
+    } else {
+      console.warn('waterData is null, skipping conversion to daily consumption.');
+    }
+    console.log('Daily consumption:', dailyConsumption);
+    
+    setInterval(() => { //simulates one day every second in a 30 day moving window of dummy file
+    
+      const history = dailyConsumption.value?.history || [];
+      if (history.length < 30) return;
+      // Slice a moving 30-day window
+      const windowSlice = history.slice(dayIndex.value, dayIndex.value + 30);
+      console.log("Window slice: ", windowSlice);
+      feedbackScore.value = updateFeedbackScore(windowSlice);
+      console.log("Feedback score: ", feedbackScore.value);
+      const score = calculateScore({
+        corridor: corridorId, //remove 1 after testing phase
+        history: windowSlice,
+      });
+      console.log("30 day window: ",[...windowSlice]);
+      console.log(`Score at window starting day ${dayIndex.value + 30}:`, score);
+      xpScore.value += score;
+      // Move window forward
+      if (dayIndex.value < maxWindowStart.value) {
+        dayIndex.value++;
+      } else {
+        console.log("End of simulation window reached.");
+      }
+    }, 1000); // one day every second
+    
     isFetched.value = true;
+
   }
 
   return {

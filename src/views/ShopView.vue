@@ -99,7 +99,7 @@ const socket = getSocket(); // Import the socket instance from socket.ts
 
   //const isAuthenticated = !!sessionStorage.getItem('authToken');
 
-  const { shopData, shopUnlocks } = useShopData();
+  const { shopData, shopUnlocks } = useShopData(socket);
 
   onMounted(() => {
     if (waterRef.value) { //sets bounds for movement 

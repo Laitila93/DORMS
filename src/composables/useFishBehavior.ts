@@ -11,7 +11,7 @@ export function useFishBehavior(props: {
   rockBounds: DOMRect | null;
   isBlurred: boolean;
 }) {
-  const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData();
+  const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData(socket);
 
   const fishX = ref(100);
   const fishY = ref(100);

@@ -1,5 +1,5 @@
 <template>
-  <NavComponent :socket="socket" :menu="menuType" />
+  <NavComponent :key="navKey" :socket="socket" :menu="menuType" />
   <div class="h-screen w-full p-[2%] pr-[3%]">
     <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
       <div class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center" ref= "waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
@@ -134,7 +134,7 @@ socket.on('connect', () => {
 
 const showNewsModal = ref(false);
 const waterLevel = ref(65); // Initial water level
-const { shopData, shopUnlocks, equippedData, corridorId } = useShopData();
+const { shopData, shopUnlocks, equippedData, corridorId } = useShopData(socket);
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
@@ -172,9 +172,28 @@ function blurFishes() {
   areFishesBlurred.value = !areFishesBlurred.value;
 
 }
+type MenuItem = {
+  name: string;
+  link: string;
+};
+const navKey = ref(0); // Reactive key for NavComponent
 
+const refreshNav = () => {
+  
+  navKey.value++; // Increment the key to force re-render
+};
 //Göra dessa reaktiva?
 onMounted(() => {
+  socket.emit("getMenuData", "en"); // Fetch menu items from server, switch between "sv" and "en" for desired language
+  socket.on("menuData", (labels: Record<string, MenuItem[]>) => {
+    localStorage.setItem("menuData", JSON.stringify(labels));
+    refreshNav(); // Refresh NavComponent when new menu data is received
+  });
+
+  // Handle errors
+  socket.on("error", (error: { message: string }) => {
+    console.error("Error from server:", error.message);
+  });
   if (waterRef.value) {
     waterBounds.value = waterRef.value.getBoundingClientRect();
   }

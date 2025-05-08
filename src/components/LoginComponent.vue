@@ -58,6 +58,7 @@
   import { connectSocket } from '@/composables/socket';
 
 
+
   const props = defineProps<{
       usernameID: string;
       usernamePlaceholder: string;
@@ -108,7 +109,7 @@
       } else {
         console.error('Failed to connect socket: socket is undefined.');
       }
-      
+
       // Redirect to the tank view
       router.push('/tank');
     } catch (error) {

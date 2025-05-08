@@ -1,4 +1,5 @@
 import { io, Socket } from 'socket.io-client';
+import { useShopData } from './useShopData';
 
 let socket: Socket | null = null;
 const serverIP = sessionStorage.getItem("serverIP") || "https://dorms-server.onrender.com";
@@ -14,7 +15,7 @@ export function connectSocket(token: string) {
     auth: { token },
     transports: ['websocket']
   });
-
+  useShopData(socket); // Call the useShopData function to fetch shop data
   return socket;
 }
 
