@@ -16,41 +16,47 @@
 
 <template>
   <div class="grid gap-8">
-<!-- Form -->
-<form @submit.prevent="login" class="w-full max-w-md">
+    <!-- Form -->
+    <form @submit.prevent="login" class="w-full max-w-md space-y-4">
+      
       <!-- Username Input -->
       <input
         type="text"
         :id="usernameID"
-        class="rounded p-2 w-full mb-4 border border-gray-300"
-        :placeholder="usernamePlaceholder"
         v-model="username"
+        :placeholder="usernamePlaceholder"
         autocomplete="off"
         required
+        class="w-full p-3 rounded border border-border text-text placeholder-text-light bg-background-light
+               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+               dark:bg-background-dark dark:text-text-dark dark:placeholder-text-dark dark:border-border-dark"
       />
 
       <!-- Password Input -->
       <input
         type="password"
         :id="passwordID"
-        class="rounded p-2 w-full mb-4 border border-gray-300"
-        :placeholder="passwordPlaceholder"
         v-model="password"
+        :placeholder="passwordPlaceholder"
         autocomplete="off"
         required
+        class="w-full p-3 rounded border border-border text-text placeholder-text-light bg-background-light
+               focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+               dark:bg-background-dark dark:text-text-dark dark:placeholder-text-dark dark:border-border-dark"
       />
 
-      <!-- Create User Button -->
+      <!-- Submit Button -->
       <button
         type="submit"
-        class="p-2 rounded block w-full text-center bg-primary dark:bg-primary-dark hover:bg-secondary dark:hover:bg-secondary-dark cursor-pointer text-white font-semibold"
+        class="w-full p-3 rounded font-semibold text-white bg-primary hover:bg-primary-light transition-colors
+               dark:bg-primary-dark dark:hover:bg-secondary-dark"
       >
         Login
       </button>
     </form>
-
   </div>
 </template>
+
 
 <script setup lang="ts">
   import { ref } from 'vue';

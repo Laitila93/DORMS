@@ -1,13 +1,20 @@
 <template>
   <NavComponent :key="navKey" :socket="socket" :menu="menuType" />
+  
   <div class="h-screen w-full p-[2%] pr-[3%]">
     <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
-      <div class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center" ref= "waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
+      
+      <!-- Background Image Section -->
+      <div class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center bg-background dark:bg-background-dark" ref="waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
+        
+        <!-- Progress Bar -->
         <div class="absolute top-4 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none">
-              <div style="width: 60%; pointer-events: auto;">
-              <ProgressBarComponent />
-              </div>
+          <div style="width: 60%; pointer-events: auto;">
+            <ProgressBarComponent />
+          </div>
         </div>
+
+        <!-- Fish Component -->
         <FishComponent
           v-for="(fish, index) in equippedFishWithHats"
           :key="fish.fishId"
@@ -16,82 +23,82 @@
           :socket="socket"
           :waterBounds="waterBounds"
           :position="index + 1"
-          :rockBounds = rockBounds
-          :isBlurred = areFishesBlurred
+          :rockBounds="rockBounds"
+          :isBlurred="areFishesBlurred"
         />
+
+        <!-- Rock Image -->
         <div 
           ref="rockRef" 
           class="absolute w-1/3 h-full flex items-end left-3/4 -translate-x-1/2"
           style="z-index:20"
-          >
-          <!--Rock, to be populated in database and fetched from there instead-->
-          <img 
-            src="../assets/rockFormationFinalCut.png"  
-            >
+        >
+          <img src="../assets/rockFormationFinalCut.png" />
         </div>
-        <!--Button for testing blur function is fishcomponent-->
+
+        <!-- Blur Button -->
         <button 
-          class="absolute bottom-0 left-0 flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white w-20 h-10 rounded.md" 
-          @click="() => {blurFishes();}">
-            Blur
+          class="absolute bottom-0 left-0 flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white w-20 h-10 rounded-md" 
+          @click="() => {blurFishes();}"
+        >
+          Blur
         </button>     
       </div>
+      
+      <!-- Sidebar Section -->
       <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
+        
+        <!-- News and Updates -->
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
-          <button @click="showNewsModal=true" class="text-text-headline">News and Updates</button>
-          <ul class="font-semibold text-l">
+          <button @click="showNewsModal=true" class="text-text-headline hover:text-primary">News and Updates</button>
+          <ul class="font-semibold text-l text-text dark:text-text-dark">
             <li> - Fire alarm maintenance between 12:00-16:30</li>
             <li> - Available dormrooms in corridor 5</li>
           </ul>
         </div>
+
+        <!-- Challenges Section -->
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
           <div class="swiper challenges-swiper">
-            <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
-              <!-- Slides -->
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <router-link to="/challenges" class="text-text-headline">Daily challenges</router-link>
-                <p class="font-semibold text-2xl ">Use less than 20L hot water</p>
+                <router-link to="/challenges" class="text-text-headline hover:text-primary">Daily challenges</router-link>
+                <p class="font-semibold text-2xl text-text dark:text-text-dark">Use less than 20L hot water</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/challenges" class="text-text-headline">Weekly challenges</router-link>
-                <p class="font-semibold text-2xl ">Use less water than corridor 4</p>
+                <router-link to="/challenges" class="text-text-headline hover:text-primary">Weekly challenges</router-link>
+                <p class="font-semibold text-2xl text-text dark:text-text-dark">Use less water than corridor 4</p>
               </div>
-              <div class="swiper-slide text-text-headline">
-                <router-link to="/challenges" class="text-text-headline">Weekly challenges</router-link>
+              <div class="swiper-slide">
+                <router-link to="/challenges" class="text-text-headline hover:text-primary">Weekly challenges</router-link>
               </div>
             </div>
-            <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
-            <!-- If we need navigation buttons -->
             <div class="">
               <div class="swiper-button-prev"></div>
               <div class="swiper-button-next"></div>
             </div>
           </div>
         </div>
+
+        <!-- Stats Section -->
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
-          <!-- Slider main container -->
           <div class="swiper stats-swiper">
-            <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
-              <!-- Slides -->
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <router-link to="/stats" class="text-text-headline">Average shower time</router-link>
-                <p class="font-semibold text-5xl ">8m 12s</p>
+                <router-link to="/stats" class="text-text-headline hover:text-primary">Average shower time</router-link>
+                <p class="font-semibold text-5xl text-text dark:text-text-dark">8m 12s</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/stats" class="text-text-headline">Yesterdays water consumption</router-link>
-                <p class="font-semibold text-5xl ">1230 litres</p>
+                <router-link to="/stats" class="text-text-headline hover:text-primary">Yesterday's water consumption</router-link>
+                <p class="font-semibold text-5xl text-text dark:text-text-dark">1230 litres</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/stats" class="text-text-headline">Average water temperature</router-link>
-                <p class="font-semibold text-5xl">25,7°C</p>
+                <router-link to="/stats" class="text-text-headline hover:text-primary">Average water temperature</router-link>
+                <p class="font-semibold text-5xl text-text dark:text-text-dark">25,7°C</p>
               </div>
             </div>
-            <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
-            <!-- If we need navigation buttons -->
             <div class="">
               <div class="swiper-button-prev"></div>
               <div class="swiper-button-next"></div>
@@ -99,19 +106,24 @@
           </div>
         </div>
       </div>
+
+      <!-- About Section -->
       <div class="col-span-2 row-start-2 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full">
         <p class="ml-2 text-text-headline">About</p>
-        <p class="ml-2 text-s">
+        <p class="ml-2 text-s text-text dark:text-text-dark">
           Welcome to the aquarium! Here you can see all of your fishes, decorations, and accessories. Click on a fish to start.
           Click on the side grids to see more detailed updates, challenges, and stats.
         </p>
       </div>
     </div>
   </div>
+  
+  <!-- Modal Component for News -->
   <ModalComponent v-model="showNewsModal">
     NEWS AND UPDATES
   </ModalComponent>
 </template>
+
 
 <script setup lang="ts">
 import NavComponent from '@/components/NavComponent.vue';
