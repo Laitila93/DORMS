@@ -99,12 +99,11 @@
       }
 
       // After successful login
-      const userId = "exampleUsername"; // Or from backend response
       const socket = connectSocket(data.token);
 
       if (socket) {
         socket.on('connect', () => {
-          console.log('Socket connected with user ID:', userId);
+          console.log('Socket connected with dorm ID:', data.dormID);
         });
       } else {
         console.error('Failed to connect socket: socket is undefined.');
