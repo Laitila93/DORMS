@@ -59,9 +59,9 @@ export function useShopData(socket: Socket) {
     const cachedEquippedData = sessionStorage.getItem('equippedData');
     dormID.value = sessionStorage.getItem('dormID');
 
-    socket.on('feedback:update', ({ feedbackScore }) => {
-      feedbackScore.value = Math.round(feedbackScore); // Update the feedback score with the new value
-      console.log("📥 Received updated feedback score:", feedbackScore);
+    socket.on('feedback:update', (updatedFeedbackScore) => {
+      feedbackScore.value = Math.round(updatedFeedbackScore); // Update the feedback score with the new value
+      console.log("📥 Received updated feedback score:", updatedFeedbackScore.feedbackScore); //BUG: this logs "undefined"
     });
     
     socket.on('xp:update', ({ updatedXP }) => {
@@ -116,6 +116,7 @@ export function useShopData(socket: Socket) {
       shopUnlocks.value = normalized;
       sessionStorage.setItem('shopUnlocks', JSON.stringify(normalized));
     });
+
     socket.off("xp").on("xp", (data) => {
       console.log("📥 Received XP data:", data);
       xpScore.value = data.xp; // Update the XP score with the new value
