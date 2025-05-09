@@ -146,7 +146,7 @@ socket.on('connect', () => {
 
 const showNewsModal = ref(false);
 const waterLevel = ref(65); // Initial water level
-const { shopData, shopUnlocks, equippedData } = useShopData(socket);
+const { shopData, equippedData } = useShopData(socket);
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
