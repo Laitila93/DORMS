@@ -11,7 +11,7 @@ export function useFishBehavior(props: {
   rockBounds: DOMRect | null;
   isBlurred: boolean;
 }) {
-  const { shopData, shopUnlocks, equippedData, corridorId, xpScore } = useShopData(socket);
+  const { shopData, shopUnlocks, equippedData, xpScore, feedbackScore, dailyConsumption, dormID } = useShopData(socket);
 
   const fishX = ref(100);
   const fishY = ref(100);
@@ -95,8 +95,8 @@ export function useFishBehavior(props: {
     if (!showFishSelector.value) {
       fishIsBeingStyled.value = false;
     }
-    socket.emit('updateHat', { hatID: currentHat.value?.hatID, position: props.position, corridorId: corridorId });
-    socket.emit('getEquipped', corridorId);
+    socket.emit('updateHat', { hatID: currentHat.value?.hatID, position: props.position, corridorId: dormID.value });
+    socket.emit('getEquipped', dormID.value);
   }
 
   function applyFish() {
@@ -105,8 +105,8 @@ export function useFishBehavior(props: {
     if (!showHatSelector.value) {
       fishIsBeingStyled.value = false;
     }
-    socket.emit('updateFish', { fishID: currentFish.value?.fishID, position: props.position, corridorId: corridorId });
-    socket.emit('getEquipped', corridorId);
+    socket.emit('updateFish', { fishID: currentFish.value?.fishID, position: props.position, corridorId: dormID.value });
+    socket.emit('getEquipped', dormID.value);
   }
 
   const isHatAvailable = computed(() => {

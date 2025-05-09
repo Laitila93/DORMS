@@ -47,7 +47,8 @@ const equippedData: Ref<EquippedData | null> = ref(null);
 const isFetched = ref(false);
 const xpScore = ref(400); // dynamic score, should be fetched and calculated from the server w. emils functions.
 const feedbackScore = ref(0); // dynamic score, should be fetched and calculated from the server w. emils functions.
-const dailyConsumption = ref(0); 
+const dailyConsumption = ref(0);
+const dormID = ref<string | null>(null); // dormID is now a Ref, initialized to null
 
 //******************************************************************************************** 
 
@@ -56,7 +57,7 @@ export function useShopData(socket: Socket) {
     const cachedShopData = sessionStorage.getItem('shopData');
     const cachedUnlocks = sessionStorage.getItem('shopUnlocks');
     const cachedEquippedData = sessionStorage.getItem('equippedData');
-    const dormID = sessionStorage.getItem('dormID');
+    dormID.value = sessionStorage.getItem('dormID');
 
     socket.on('feedback:update', ({ feedbackScore }) => {
       feedbackScore.value = Math.round(feedbackScore); // Update the feedback score with the new value
@@ -74,7 +75,7 @@ export function useShopData(socket: Socket) {
 
     });
     
-    socket.emit('getDbWaterData', dormID); // Emit event to get water data from the server
+    socket.emit('getDbWaterData', dormID.value); // Emit event to get water data from the server
     console.log('Requesting water data...');
 
     if (cachedShopData) {
@@ -86,14 +87,14 @@ export function useShopData(socket: Socket) {
     if (cachedUnlocks) {
       shopUnlocks.value = JSON.parse(cachedUnlocks);
     } else {
-      socket.emit('getUnlocks', dormID);
+      socket.emit('getUnlocks', dormID.value);
     }
     if (cachedEquippedData) {
       equippedData.value = JSON.parse(cachedEquippedData);
       console.log('cached equippedData', equippedData.value);
     } else {
       console.log("no cached equipped, emmiting getEquipped");
-      socket.emit('getEquipped', dormID);
+      socket.emit('getEquipped', dormID.value);
     }
 
     socket.off('shopData').on('shopData', (data) => {
@@ -130,9 +131,9 @@ export function useShopData(socket: Socket) {
       equippedData.value = normalized;
       sessionStorage.setItem('equippedData', JSON.stringify(normalized));
     });
-    socket.emit("getXp", dormID); // Emit event to get XP data from the server
-    console.log('Requesting XP data...with dormID:', dormID);
-    socket.emit("getFeedback", dormID); // Emit event to get feedback data from the server
+    socket.emit("getXp", dormID.value); // Emit event to get XP data from the server
+    console.log('Requesting XP data...with dormID:', dormID.value);
+    socket.emit("getFeedback", dormID.value); // Emit event to get feedback data from the server
     isFetched.value = true;
 
   }
@@ -144,5 +145,6 @@ export function useShopData(socket: Socket) {
     xpScore,
     feedbackScore,
     dailyConsumption,
+    dormID,
   };
 }
