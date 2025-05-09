@@ -60,7 +60,7 @@ export function useShopData(socket: Socket) {
     dormID.value = sessionStorage.getItem('dormID');
 
     socket.on('feedback:update', (updatedFeedbackScore) => {
-      feedbackScore.value = Math.round(updatedFeedbackScore); // Update the feedback score with the new value
+      feedbackScore.value = Math.round(updatedFeedbackScore.feedbackScore); // Update the feedback score with the new value
       console.log("📥 Received updated feedback score:", updatedFeedbackScore.feedbackScore); //BUG: this logs "undefined"
     });
     
@@ -119,7 +119,7 @@ export function useShopData(socket: Socket) {
 
     socket.off("xp").on("xp", (data) => {
       console.log("📥 Received XP data:", data);
-      xpScore.value = data.xp; // Update the XP score with the new value
+      xpScore.value = data; // Update the XP score with the new value
     });
 
     socket.off('equippedData').on('equippedData', (data) => {
