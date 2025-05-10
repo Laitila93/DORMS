@@ -62,18 +62,27 @@
           <div class="swiper challenges-swiper">
             <div class="swiper-wrapper">
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <router-link to="/challenges" class="text-text-headline hover:text-primary">Daily challenges</router-link>
-                <p class="font-semibold text-2xl text-text dark:text-text-dark">Use less than 20L hot water</p>
+                <h3>Keep It Short & Sweet</h3>
+                <p class="font-semibold text-2xl text-text dark:text-text-dark">Try a shorter shower today, every minute counts!</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/challenges" class="text-text-headline hover:text-primary">Weekly challenges</router-link>
-                <p class="font-semibold text-2xl text-text dark:text-text-dark">Use less water than corridor 4</p>
+                <h3>Pause While You Soap</h3>
+                <p class="font-semibold text-2xl text-text dark:text-text-dark">Turn off the water while you lather, it’s a small action with a big impact.</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/challenges" class="text-text-headline hover:text-primary">Weekly challenges</router-link>
+                <h3>Brush Smart</h3>
+                <p class="font-semibold text-2xl text-text dark:text-text-dark">Don't let the tap run while brushing your teeth, turn it off and save!</p>
+              </div>
+              <div class="swiper-slide">
+                <h3>Shower Together</h3>
+                <p class="font-semibold text-2xl text-text dark:text-text-dark">Shower with a friend, it’s fun and saves water!</p>
+              </div>
+              <div class="swiper-slide">
+                <h3>Cool Water, Smarter Way</h3>
+                <p class="font-semibold text-2xl text-text dark:text-text-dark">Keep a jug of water in the fridge instead of running the tap for cold water.</p>
               </div>
             </div>
-            <div class="swiper-pagination"></div>
+
             <div class="">
               <div class="swiper-button-prev"></div>
               <div class="swiper-button-next"></div>
