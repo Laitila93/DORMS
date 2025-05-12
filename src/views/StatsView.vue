@@ -181,9 +181,11 @@
     import { ref, onMounted, watch } from 'vue';
     import NavComponent from '@/components/NavComponent.vue';
     import { getSocket } from '@/composables/socket';
-const socket = getSocket(); // Import the socket instance from socket.ts
+    const socket = getSocket(); // Import the socket instance from socket.ts
     import { Chart, registerables } from 'chart.js';
+    import 'chartjs-adapter-date-fns';
     import ModalComponent from '@/components/ModalComponent.vue';
+    import { time } from 'console';
 
     Chart.register(...registerables);
 
@@ -207,10 +209,9 @@ const socket = getSocket(); // Import the socket instance from socket.ts
         totChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['13', '14', '15', '16', '17', '18', '19'],
                 datasets: [{
                     label: 'Total consumption',
-                    data: [65, 59, 84, 34, 55, 50, 70],
+                    data: [],
                     fill: false,
                     tension: 0.3,
                     borderWidth: 2,
@@ -225,8 +226,8 @@ const socket = getSocket(); // Import the socket instance from socket.ts
                     legend: {position: 'bottom'}
                 },
                 scales: {
-                    x: { title: {display: true, text: 'Hour'}},
-                    y: { title: {display: true, text: 'Total consumption'}, suggestedMin:0, suggestedMax: 100}  
+                    x: { type:'time', time: {unit: 'hour', displayFormats: {hour: 'HH'}  }, ticks: {stepSize: 1}, title:{display: true, text: 'Hour'}},
+                    y: { beginAtZero: true, title: {display: true, text: 'Total consumption'}, suggestedMin:0, suggestedMax: 100}  
                 }
             }
         });
@@ -244,10 +245,9 @@ const socket = getSocket(); // Import the socket instance from socket.ts
         warmChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['13', '14', '15', '16', '17', '18', '19'],
                 datasets: [{
                     label: 'Total warm water consumption',
-                    data: [65, 59, 84, 34, 55, 50, 70],
+                    data: [],
                     fill: false,
                     tension: 0.3,
                     borderWidth: 2,
@@ -279,9 +279,13 @@ const socket = getSocket(); // Import the socket instance from socket.ts
         setTimeout(initWarmChart, 0);
     });
 
-    function handleMenuSelect(option: string) {
-        selectedContent.value = option.toLowerCase() as any;
-    }
+    socket.on('hourlyTotConsumption', (array: HourlyTotConsumption[]) => {
+        totChart.data.datasets[0].data = array.map(item => ({
+            x: new Date(item.date),
+            y: item.amount,
+        }));
+        totChart.update();
+    });
     
     </script>
     

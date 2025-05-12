@@ -53,7 +53,6 @@
                           padding: 0.25rem"
                       alt="miniavatar"
                       class="mini-avatar">
-                  <<!--insert progressbar-->
                   <div class="progressContainer">
                     <div class="progressBar">
                       <div class="progress"><span>{{ progress.percentage }}</span></div>
@@ -74,19 +73,38 @@
                           padding: 0.25rem"
                       alt="miniavatar"
                       class="mini-avatar">
-                  <<!--insert progressbar-->
                   <div class="limitedTime">{{ limited.timeLeft }}</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="bg-gray-200 rounded-md col-start-2 row-start-2 text-gray-800 text-center">
-        <img src="https://i.imgur.com/wJlZ3MF.png" alt="lionlimited" class="rounded-md justify-center">
-        <!--Add animation fish, getfishdata-->
+      <div class="bg-gray-200 rounded-md col-start-2 row-start-2 h-full text-gray-800 text-center">
+          <div class="bg-secondary dark:bg-secondary-dark text-center h-full rounded-md p-4">
+          <div class="swiper limited-swiper h-full">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide flex flex-col items-center justify-center">
+                <img src="https://i.imgur.com/wJlZ3MF.png" alt="lionlimited" class="rounded-md justify-center">
+                <!--Add animation fish, getfishdata-->
+              </div>
+              <div class="swiper-slide">
+                Another limited
+              </div>
+              <div class="swiper-slide">
+                Yet another
+              </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="">
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        
       </div>
       <div class="bg-gray-200 rounded-md col-start-2 row-start-3 text-gray-800 text-center">
         CHALLENGES
+      </div>
       </div>
       </div>
 </template>
@@ -98,6 +116,9 @@ import NavComponent from '@/components/NavComponent.vue';
 import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
+import Swiper from 'swiper/bundle';
+import 'swiper/css/bundle';
+import '@/assets/custom-swiper.css'
 
 interface Unlock {
   name: string;
@@ -124,11 +145,34 @@ const currentLevel = ref(1); // Example initial value for currentLevel
 onMounted(async () => {
   const res = await fetch('/data/unlocks.json')
   unlocks.value = await res.json()
+
+  new Swiper('.limited-swiper', {
+    loop: true,
+    autoplay: {
+      delay: 15000,
+      disableOnInteraction: false,
+    },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+  autoHeight: true,
+
+  }) 
 })
 
 function handleMenuSelect(option: string) {
     selectedContent.value = option;
   }
+
 </script>
 
 <style scoped>
@@ -212,6 +256,12 @@ function handleMenuSelect(option: string) {
   height: 40px;
   width: 40px;
   border-radius: 50%;
+}
+
+.limited-swiper,
+.limited-swiper .swiper-wrapper,
+.limited-swiper .swiper-slide {
+  height: 100%;
 }
 
 </style>

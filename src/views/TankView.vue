@@ -2,10 +2,10 @@
   <NavComponent :key="navKey" :socket="socket" :menu="menuType" />
   
   <div class="h-screen w-full p-[2%] pr-[3%]">
-    <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[85%_15%] h-full">
+    <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[15%_85%] h-full">
       
       <!-- Background Image Section -->
-      <div class="row-start-1 col-start-1 relative w-full h-full border-2 bg-cover bg-center bg-background dark:bg-background-dark" ref="waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
+      <div class="row-start-2 col-start-1 relative w-full h-full border-2 bg-cover bg-center bg-background dark:bg-background-dark" ref="waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
         
         <!-- Progress Bar -->
         <div class="absolute top-4 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none">
@@ -46,7 +46,7 @@
       </div>
       
       <!-- Sidebar Section -->
-      <div class="row-start-1 col-start-2 grid grid-rows-3 gap-4 h-full"> 
+      <div class="row-start-2 col-start-2 grid grid-rows-3 gap-4 h-full"> 
         
         <!-- News and Updates -->
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
@@ -108,12 +108,19 @@
       </div>
 
       <!-- About Section -->
-      <div class="col-span-2 row-start-2 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full">
-        <p class="ml-2 text-text-headline">About</p>
-        <p class="ml-2 text-s text-text dark:text-text-dark">
+      <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full flex">
+        <div>
+        <p class="ml-2 text-text-headline text-xl">Corridor 3's tank</p>
+        <p class="ml-2 text-s text-text mb-2 dark:text-text-dark">
           Welcome to the aquarium! Here you can see all of your fishes, decorations, and accessories. Click on a fish to start.
-          Click on the side grids to see more detailed updates, challenges, and stats.
+          Click on the side grids to see more detailed updates, challenges, and stats. (INSERT LEVEL AND XP BAR)
         </p>
+        </div>
+        <div class="mt-2 hover:opacity-50">
+          <button @click="showAboutModal=true">
+            <img src="https://cdn-icons-png.flaticon.com/512/1/1176.png" alt="Info" width="50" height="50">
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -121,6 +128,9 @@
   <!-- Modal Component for News -->
   <ModalComponent v-model="showNewsModal">
     NEWS AND UPDATES
+  </ModalComponent>
+  <ModalComponent v-model="showAboutModal">
+    About
   </ModalComponent>
 </template>
 
@@ -145,6 +155,7 @@ socket.on('connect', () => {
 });
 
 const showNewsModal = ref(false);
+const showAboutModal = ref(false);
 const waterLevel = ref(65); // Initial water level
 const { shopData, shopUnlocks, equippedData } = useShopData(socket);
 
