@@ -34,15 +34,7 @@
           style="z-index:20"
         >
           <img src="../assets/rockFormationFinalCut.png" />
-        </div>
-
-        <!-- Blur Button -->
-        <button 
-          class="absolute bottom-0 left-0 flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white w-20 h-10 rounded-md" 
-          @click="() => {blurFishes();}"
-        >
-          Blur
-        </button>     
+        </div>     
       </div>
       
       <!-- Sidebar Section -->
@@ -141,12 +133,12 @@ import FishComponent from '@/components/FishComponent.vue';
 import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 import { useShopData} from '@/composables/useShopData';
-import RockComponent from '@/components/RockComponent.vue';
 import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'
 import ModalComponent from '@/components/ModalComponent.vue';
+import { feedbackScore } from '@/composables/scoreState';
 
 const menuType = ref('tank');
 socket.on('connect', () => {
@@ -154,7 +146,6 @@ socket.on('connect', () => {
 });
 
 const showNewsModal = ref(false);
-const waterLevel = ref(65); // Initial water level
 const { shopData, equippedData } = useShopData(socket);
 
 const waterRef = ref<HTMLElement | null>(null);
@@ -264,7 +255,10 @@ onMounted(() => {
     el: '.swiper-pagination',
     clickable: true,
   },
-  }) 
+  })
+  if (feedbackScore.value > 80) {
+    blurFishes();
+  }
 });
 
 </script>
