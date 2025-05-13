@@ -1,5 +1,6 @@
 import { ref, computed, watch } from 'vue';
 import { useShopData } from '@/composables/useShopData';
+import { useScoreData } from '@/composables/useScoreData';
 import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 
@@ -11,7 +12,8 @@ export function useFishBehavior(props: {
   rockBounds: DOMRect | null;
   isBlurred: boolean;
 }) {
-  const { shopData, shopUnlocks, equippedData, xpScore, feedbackScore, dailyConsumption, dormID } = useShopData(socket);
+  const { shopData, shopUnlocks, dormID } = useShopData(socket);
+  const { xpScore } = useScoreData(socket);
 
   const fishX = ref(100);
   const fishY = ref(100);

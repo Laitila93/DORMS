@@ -75,7 +75,10 @@
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Login failed');
+        const errorMessage = typeof errorData.error === 'string' 
+          ? errorData.error 
+          : JSON.stringify(errorData.error || 'Login failed');
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();

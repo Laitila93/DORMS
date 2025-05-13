@@ -98,9 +98,11 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useShopData } from '@/composables/useShopData';
 import { getSocket } from '@/composables/socket';
+import { useScoreData } from '@/composables/useScoreData';
 const socket = getSocket(); // Import the socket instance from socket.ts
 
-const { shopData, shopUnlocks, equippedData, xpScore, feedbackScore, dailyConsumption, dormID } = useShopData(socket);
+const { shopData } = useShopData(socket);
+const { xpScore, feedbackScore } = useScoreData(socket);
 console.log("xpScore", xpScore.value);
 console.log("feedbackScore", feedbackScore.value);
 

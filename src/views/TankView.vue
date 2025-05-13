@@ -34,15 +34,7 @@
           style="z-index:20"
         >
           <img src="../assets/rockFormationFinalCut.png" />
-        </div>
-
-        <!-- Blur Button -->
-        <button 
-          class="absolute bottom-0 left-0 flex items-center justify-center p-2 bg-red-600 hover:bg-red-700 text-white w-20 h-10 rounded-md" 
-          @click="() => {blurFishes();}"
-        >
-          Blur
-        </button>     
+        </div>     
       </div>
       
       <!-- Sidebar Section -->
@@ -50,7 +42,7 @@
         
         <!-- News and Updates -->
         <div class="bg-secondary dark:bg-secondary-dark text-center rounded-md p-4">
-          <button @click="showNewsModal=true" class="text-text-headline hover:text-primary">News and Updates</button>
+          <button @click="showNewsModal=true" class="text-text-headline hover:text-primary text-xl">News and Updates</button>
           <ul class="font-semibold text-l text-text dark:text-text-dark">
             <li> - Fire alarm maintenance between 12:00-16:30</li>
             <li> - Available dormrooms in corridor 5</li>
@@ -62,18 +54,27 @@
           <div class="swiper challenges-swiper">
             <div class="swiper-wrapper">
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <router-link to="/challenges" class="text-text-headline hover:text-primary">Daily challenges</router-link>
-                <p class="font-semibold text-2xl text-text dark:text-text-dark">Use less than 20L hot water</p>
+                <h3 class="text-xl text-text-headline">Keep It Short & Sweet</h3>
+                <p class="font-semibold  text-text dark:text-text-dark">Try a shorter shower today, every minute counts!</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/challenges" class="text-text-headline hover:text-primary">Weekly challenges</router-link>
-                <p class="font-semibold text-2xl text-text dark:text-text-dark">Use less water than corridor 4</p>
+                <h3 class="text-xl text-text-headline">Pause While You Soap</h3>
+                <p class="font-semibold  text-text dark:text-text-dark">Turn off the water while you lather, it’s a small action with a big impact.</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/challenges" class="text-text-headline hover:text-primary">Weekly challenges</router-link>
+                <h3 class="text-xl text-text-headline">Brush Smart</h3>
+                <p class="font-semibold  text-text dark:text-text-dark">Don't let the tap run while brushing your teeth, turn it off and save!</p>
+              </div>
+              <div class="swiper-slide">
+                <h3 class="text-xl text-text-headline">Shower Together</h3>
+                <p class="font-semibold  text-text dark:text-text-dark">Shower with a friend, it’s fun and saves water!</p>
+              </div>
+              <div class="swiper-slide">
+                <h3 class="text-xl text-text-headline">Cool Water, Smarter Way</h3>
+                <p class="font-semibold  text-text dark:text-text-dark">Keep a jug of water in the fridge instead of running the tap for cold water.</p>
               </div>
             </div>
-            <div class="swiper-pagination"></div>
+
             <div class="">
               <div class="swiper-button-prev"></div>
               <div class="swiper-button-next"></div>
@@ -86,15 +87,15 @@
           <div class="swiper stats-swiper">
             <div class="swiper-wrapper">
               <div class="swiper-slide flex flex-col items-center justify-center">
-                <router-link to="/stats" class="text-text-headline hover:text-primary">Average shower time</router-link>
+                <router-link to="/stats" class="text-text-headline hover:text-primary text-xl">Average shower time</router-link>
                 <p class="font-semibold text-5xl text-text dark:text-text-dark">8m 12s</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/stats" class="text-text-headline hover:text-primary">Yesterday's water consumption</router-link>
+                <router-link to="/stats" class="text-text-headline hover:text-primary text-xl">Yesterday's water consumption</router-link>
                 <p class="font-semibold text-5xl text-text dark:text-text-dark">1230 litres</p>
               </div>
               <div class="swiper-slide">
-                <router-link to="/stats" class="text-text-headline hover:text-primary">Average water temperature</router-link>
+                <router-link to="/stats" class="text-text-headline hover:text-primary text-xl">Average water temperature</router-link>
                 <p class="font-semibold text-5xl text-text dark:text-text-dark">25,7°C</p>
               </div>
             </div>
@@ -142,12 +143,12 @@ import FishComponent from '@/components/FishComponent.vue';
 import { getSocket } from '@/composables/socket';
 const socket = getSocket(); // Import the socket instance from socket.ts
 import { useShopData} from '@/composables/useShopData';
-import RockComponent from '@/components/RockComponent.vue';
 import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'
 import ModalComponent from '@/components/ModalComponent.vue';
+import { feedbackScore } from '@/composables/scoreState';
 
 const menuType = ref('tank');
 socket.on('connect', () => {
@@ -156,8 +157,7 @@ socket.on('connect', () => {
 
 const showNewsModal = ref(false);
 const showAboutModal = ref(false);
-const waterLevel = ref(65); // Initial water level
-const { shopData, shopUnlocks, equippedData } = useShopData(socket);
+const { shopData, equippedData } = useShopData(socket);
 
 const waterRef = ref<HTMLElement | null>(null);
 const waterBounds = ref<DOMRect | null>(null);
@@ -266,7 +266,10 @@ onMounted(() => {
     el: '.swiper-pagination',
     clickable: true,
   },
-  }) 
+  })
+  if (feedbackScore.value > 80) {
+    blurFishes();
+  }
 });
 
 </script>
