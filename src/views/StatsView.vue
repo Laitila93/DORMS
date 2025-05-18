@@ -213,12 +213,12 @@
             totChart.destroy();
         }
 
-        totChart = new Chart<'line', {x: string; y: number}[]> (ctx, {
+        totChart = new Chart<'line'> (ctx, {
             type: 'line',
             data: {
                 datasets: [{
                     label: 'Total consumption',
-                    data: [] as {x: string; y: number}[],
+                    data: [] as any,
                     fill: false,
                     tension: 0.3,
                     borderWidth: 2,
@@ -288,7 +288,7 @@
 
     socket.on('dailyConsumption', (arr: DailyConsumption[]) => {
         if (!totChart) return;
-        (totChart.data.datasets[0].data as {x: string; y: number}[]) = arr.map(item => ({
+        (totChart.data.datasets[0].data as unknown as {x: string; y: number}[]) = arr.map(item => ({
             x: item.date,
             y: item.amount,
         }));
