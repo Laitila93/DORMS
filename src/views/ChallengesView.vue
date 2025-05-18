@@ -102,7 +102,7 @@
           </div>
         
       </div>
-      <div class="bg-gray-200 rounded-md col-start-2 row-start-3 text-gray-800 text-center">
+      <div class="bg-gray-200 rounded-md col-start-2 row-start-2 text-gray-800 text-center">
         CHALLENGES
       </div>
       </div>
