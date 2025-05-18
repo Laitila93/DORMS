@@ -178,6 +178,12 @@
     </template>
     
     <script setup lang="ts">
+    //interface DailyConsumption {
+    //    date: string;
+    //    amount: number;
+    //}
+
+
     import { ref, onMounted, watch } from 'vue';
     import NavComponent from '@/components/NavComponent.vue';
     import { getSocket } from '@/composables/socket';
@@ -186,6 +192,7 @@
     import 'chartjs-adapter-date-fns';
     import ModalComponent from '@/components/ModalComponent.vue';
     import { time } from 'console';
+    import type { DailyConsumption } from '@/composables/prototypes/pointsPrototype';
 
     Chart.register(...registerables);
 
@@ -206,12 +213,12 @@
             totChart.destroy();
         }
 
-        totChart = new Chart(ctx, {
+        totChart = new Chart<'line', {x: string; y: number}[]> (ctx, {
             type: 'line',
             data: {
                 datasets: [{
                     label: 'Total consumption',
-                    data: [],
+                    data: [] as {x: string; y: number}[],
                     fill: false,
                     tension: 0.3,
                     borderWidth: 2,
@@ -226,7 +233,7 @@
                     legend: {position: 'bottom'}
                 },
                 scales: {
-                    x: { type:'time', time: {unit: 'hour', displayFormats: {hour: 'HH'}  }, ticks: {stepSize: 1}, title:{display: true, text: 'Hour'}},
+                    x: { type:'time', time: {parser: "yyyy-MM-dd'T'HH:mm:ssXXX", unit: 'hour', displayFormats: {hour: 'HH:mm'}, tooltipFormat: 'HH:mm'  }, ticks: {stepSize: 1}, title:{display: true, text: 'Hour'}},
                     y: { beginAtZero: true, title: {display: true, text: 'Total consumption'}, suggestedMin:0, suggestedMax: 100}  
                 }
             }
@@ -279,9 +286,10 @@
         setTimeout(initWarmChart, 0);
     });
 
-    socket.on('hourlyTotConsumption', (array: HourlyTotConsumption[]) => {
-        totChart.data.datasets[0].data = array.map(item => ({
-            x: new Date(item.date),
+    socket.on('dailyConsumption', (arr: DailyConsumption[]) => {
+        if (!totChart) return;
+        (totChart.data.datasets[0].data as {x: string; y: number}[]) = arr.map(item => ({
+            x: item.date,
             y: item.amount,
         }));
         totChart.update();
