@@ -10,6 +10,12 @@
           <p class="text-xl text-text-headline">Unlockables & Challenges</p>
           <p class="text-s text-text dark:text-text-dark">
             Track your achievements and complete fun challenges to save water and earn rewards.
+              <!-- Progress Bar -->
+          <div class="absolute top-5 left-3/4 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
+            <div style="width: 60%; pointer-events: auto;">
+              <ProgressBarComponent/>
+            </div>
+          </div>
           </p>
         </div>
         <div class="hover:opacity-50">
@@ -71,6 +77,7 @@ import { ref } from 'vue';
 import { getSocket } from '@/composables/socket';
 import NavComponent from '@/components/NavComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
+import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
 const socket = getSocket(); // Import the socket instance from socket.ts
 const menuType = ref("tank");
 
