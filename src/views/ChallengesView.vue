@@ -1,267 +1,129 @@
-<!--View where user can see all daily, weekly, monthly, and special
-     challenges. Current, completed, and future challenges can be
-     viewed.
-    Total collected points and a direct link to the shop is available.
-    There is also a function for the user to change daily challenges.-->
 <template>
-    <NavComponent :menu="navMenuType" :socket="socket" />
-    <div class="text-2xl justify-center mt-4 ml-4">Unlockables and challenges</div>
-    <div class="grid gap-4 m-2 ml-4" :class="['grid-cols-[67%_27%]','grid-rows-[100px_145px_300px]']">
-      <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
-        Progress bar, XP required to next level
-        <div class="absolute top-4 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none">
-              <div style="width: 60%; pointer-events: auto;">
-              <ProgressBarComponent />
-              </div>
+  <NavComponent :socket="socket" :menu="menuType" />
+
+  <div class="h-screen w-full p-[2%] pr-[3%]">
+    <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[15%_85%] h-full">
+      
+      <!-- About / Header Section -->
+      <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full flex justify-between items-center">
+        <div>
+          <p class="text-xl text-text-headline">Unlockables & Challenges</p>
+          <p class="text-s text-text dark:text-text-dark">
+            Track your achievements and complete fun challenges to save water and earn rewards.
+          </p>
+        </div>
+        <div class="hover:opacity-50">
+          <button @click="showAboutModal = true">
+            <img src="https://cdn-icons-png.flaticon.com/512/1/1176.png" alt="Info" width="50" height="50" />
+          </button>
         </div>
       </div>
-      <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
-        Current level: 10
-      </div>
-      <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
-      <div class="p-4 overflow-y-auto space-y-6">
-          <div v-if="selectedContent === 'unlockables'">
-            <p class="text-lg font-semibold mb-2 m-4">Unlockables</p>
-            <div class="unlockList">
-              <div v-for="unlock in unlocks" :key="unlock.name" class="unlockBox">
-                <div class="unlockName">{{unlock.name}}</div>
-                  <div class="unlockDescription">{{ unlock.desc }}</div>
-                  <div class="unlockLevel">{{ unlock.level }}</div>
-                  <img :src="unlock.image"
-                      style="
-                          height: 4rem;
-                          width: 4rem;
-                          padding: 0.25rem"
-                      alt="miniavatar"
-                      class="mini-avatar">
-              </div>
-            </div>
-            <p class="text-lg font-semibold mb-2 m-4">Current level</p>
-            <p class="text-lg font-semibold mb-2 m-4">{{ currentLevel }}</p>
 
-          </div>
-          <div v-else-if="selectedContent === 'challenges'">
-            <p class="text-lg font-semibold mb-2 m-4">Special challenges</p>
-            <div class="challengesList">
-              <div v-for="challenge in challenges" :key="challenge.name" class="challengesBox">
-                <div class="challengesName">{{challenge.name}}</div>
-                  <div class="challengesDescription">{{ challenge.desc }}</div>
-                  <img :src="challenge.image"
-                      style="
-                          height: 4rem;
-                          width: 4rem;
-                          padding: 0.25rem"
-                      alt="miniavatar"
-                      class="mini-avatar">
-                  <div class="progressContainer">
-                    <div class="progressBar">
-                      <div class="progress"><span>{{ progress.percentage }}</span></div>
-                    </div>
-
-                  </div>
-              </div>
-            </div>
-            <p class="text-lg font-semibold mb-2 m-4">Limited time challenges</p>
-            <div class="limitedList">
-              <div v-for="limited in limiteds" :key="limited.name" class="limitedBox">
-                <div class="limitedName">{{limited.name}}</div>
-                  <div class="limitedDescription">{{ limited.desc }}</div>
-                  <img :src="limited.image"
-                      style="
-                          height: 4rem;
-                          width: 4rem;
-                          padding: 0.25rem"
-                      alt="miniavatar"
-                      class="mini-avatar">
-                  <div class="limitedTime">{{ limited.timeLeft }}</div>
-              </div>
+      <!-- Unlockables Section -->
+      <div class="row-start-2 col-start-1 bg-secondary dark:bg-secondary-dark rounded-md p-4 overflow-y-auto">
+        <p class="text-xl text-text-headline mb-2">Your Unlockables</p>
+        <div class="text-lg font-semibold flex flex-col gap-2 h-fill overflow-y-scroll overflow-x-hidden">
+          <div
+            v-for="(unlock, index) in unlockables"
+            :key="index"
+            class="flex justify-between items-center bg-offWhite rounded-md font-inter shadow-md p-2"
+          >
+            <img :src="unlock.icon" alt="miniavatar" class="w-28 h-28 rounded-lg" />
+            <div class="flex flex-col justify-center ml-4">
+              <p class="text-text text-base">{{ unlock.name }}</p>
+              <p class="text-text-dark text-sm">{{ unlock.description }}</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="bg-gray-200 rounded-md col-start-2 row-start-2 h-full text-gray-800 text-center">
-          <div class="bg-secondary dark:bg-secondary-dark text-center h-full rounded-md p-4">
-          <div class="swiper limited-swiper h-full">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide flex flex-col items-center justify-center">
-                <img src="https://i.imgur.com/wJlZ3MF.png" alt="lionlimited" class="rounded-md justify-center">
-                <!--Add animation fish, getfishdata-->
-              </div>
-              <div class="swiper-slide">
-                Another limited
-              </div>
-              <div class="swiper-slide">
-                Yet another
-              </div>
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="">
-              <div class="swiper-button-prev"></div>
-              <div class="swiper-button-next"></div>
+
+      <!-- Challenges Section -->
+      <div class="row-start-2 col-start-2 bg-secondary dark:bg-secondary-dark rounded-md p-4">
+        <p class="text-xl text-text-headline mb-2 text-center">Daily Challenges</p>
+        <div class="swiper challenges-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide flex flex-col items-center justify-center" v-for="(challenge, i) in challenges" :key="i">
+              <h3 class="text-xl text-text-headline">{{ challenge.title }}</h3>
+              <p class="font-semibold text-text dark:text-text-dark text-center">{{ challenge.description }}</p>
             </div>
           </div>
-        
+          <div class="swiper-pagination mt-2"></div>
+          <div class="flex justify-between mt-2">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        </div>
       </div>
-      <div class="bg-gray-200 rounded-md col-start-2 row-start-2 text-gray-800 text-center">
-        CHALLENGES
-      </div>
-      </div>
-      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <ModalComponent v-model="showAboutModal">
+    <template #header>About</template>
+    <template #body>
+      <p>This section tracks your unlockables and water-saving challenges. Come back every day to check your progress!</p>
+    </template>
+  </ModalComponent>
 </template>
 
-<script setup lang="ts">
-
-import { ref, onMounted } from 'vue';
-import NavComponent from '@/components/NavComponent.vue';
+<script setup>
+import { ref } from 'vue';
 import { getSocket } from '@/composables/socket';
+import NavComponent from '@/components/NavComponent.vue';
+import ModalComponent from '@/components/ModalComponent.vue';
 const socket = getSocket(); // Import the socket instance from socket.ts
-import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
-import Swiper from 'swiper/bundle';
-import 'swiper/css/bundle';
-import '@/assets/custom-swiper.css'
+const menuType = ref("tank");
 
-interface Unlock {
-  name: string;
-  desc: string;
-  level: number;
-  image: string;
-}
+// Reactive State
+const showAboutModal = ref(false);
 
-const unlocks = ref<Unlock[]>([]);
-const challenges = ref([
-  { name: 'Special Challenge 1', desc: 'Special Description 1', image: '' },
-  { name: 'Special Challenge 2', desc: 'Special Description 2', image: '' }
-]);
-
-const limiteds = ref([
-  { name: 'Challenge 1', desc: 'Description 1', image: '', timeLeft: '2 days' },
-  { name: 'Challenge 2', desc: 'Description 2', image: '', timeLeft: '5 days' }
-]);
-const navMenuType = ref('tank');
-const selectedContent = ref('active');
-const progress = ref({ percentage: '50%' }); // Example progress data
-const currentLevel = ref(1); // Example initial value for currentLevel
-
-onMounted(async () => {
-  const res = await fetch('/data/unlocks.json')
-  unlocks.value = await res.json()
-
-  new Swiper('.limited-swiper', {
-    loop: true,
-    autoplay: {
-      delay: 15000,
-      disableOnInteraction: false,
-    },
-
-  // Navigation arrows
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
+const unlockables = ref([
+  {
+    name: "Eco Showerhead",
+    description: "Reduces water flow without compromising pressure.",
+    icon: "https://cdn-icons-png.flaticon.com/512/883/883407.png"
   },
-
-  // If we need pagination
-  pagination: {
-    el: '.swiper-pagination',
-    clickable: true,
+  {
+    name: "Smart Timer",
+    description: "Lets you time showers effectively.",
+    icon: "https://cdn-icons-png.flaticon.com/512/2910/2910791.png"
   },
-  autoHeight: true,
-
-  }) 
-})
-
-function handleMenuSelect(option: string) {
-    selectedContent.value = option;
+  {
+    name: "Water Badge",
+    description: "Earned for 5 consecutive days of saving water.",
+    icon: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
   }
+]);
 
+const challenges = ref([
+  {
+    title: "Keep It Short & Sweet",
+    description: "Try a shorter shower today, every minute counts!"
+  },
+  {
+    title: "Pause While You Soap",
+    description: "Turn off the water while you lather—it’s a small action with a big impact."
+  },
+  {
+    title: "Brush Smart",
+    description: "Don’t let the tap run while brushing your teeth—turn it off and save!"
+  },
+  {
+    title: "Shower Together",
+    description: "Shower with a friend—it’s fun and saves water!"
+  },
+  {
+    title: "Cool Water, Smarter Way",
+    description: "Keep a jug of water in the fridge instead of running the tap for cold water."
+  }
+]);
 </script>
 
 <style scoped>
-.unlockList{
-  font-size: large;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-  padding: 0;
-  height: 18rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  gap:8px;
+.bg-offWhite {
+  background-color: #f8f8f8;
 }
-
-.unlockName{
-  width: 9rem;
-  box-shadow: inset 0px -5px 0px #e0be36;
-  margin-top: 1rem;
-  height: 0.5rem;
-  display:flex;
-  align-items: center;
-  padding:1rem;
-  text-overflow: ellipsis;
+.font-inter {
+  font-family: 'Inter', sans-serif;
 }
-
-.unlockLevel {
-  width: 8rem;
-  box-shadow: inset 0px -5px 0px 0px #e0be36;
-  margin-top: 1rem;
-  height: 0.5rem;
-  display:flex;
-  align-items: center;
-  padding:1rem;
-  text-overflow: ellipsis;
-}
-
-.mini-avatar{
-  width: 7rem;
-  height: 7rem;
-  border: none;
-  border-radius: 1rem;
-}
-
-.unlockBox {
-  display: flex;
-  text-align: center;
-  justify-content: space-around;
-  background-color: var(--p-offWhite);
-  border-radius: 8px;
-  font-family: "Inter", sans-serif;
-  margin-right: 1rem;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-  border-bottom: 1px var(--p-offWhite) solid;
-
-}
-
-.progressContainer {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.progressBar {
-  width: 600px;
-  height: 10x;
-  border-radius: 5px
-}
-
-.progressBar div {
-  height: 10px;
-  border-radius: 5px;
-  width: 50%;
-  background: green;
-}
-
-.progressBar div span {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-}
-
-.limited-swiper,
-.limited-swiper .swiper-wrapper,
-.limited-swiper .swiper-slide {
-  height: 100%;
-}
-
 </style>
