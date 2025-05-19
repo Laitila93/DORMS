@@ -23,7 +23,7 @@ export default {
           light: '#6B9080',      // Soft muted green - secondary/caption text
           DEFAULT: '#2F3E46',    // Slate gray - primary body text
           dark: '#DAD7CD',       // Light sage - readable on dark backgrounds
-          headline: '#B54708', // New dark amber - used for headings
+          headline: '#F8F9FA ', 
         },
         border: {
           DEFAULT: '#D6D3CD',    // Neutral gray - for subtle borders
