@@ -20,7 +20,25 @@
     </div>
     <!-- Feedback bar, no color atm, partially AI-generated-->
      <div class="relative flex-1 h-12 border-2 border-black rounded overflow-hidden">
-     <div :style="{ width: feedbackScore + '%', background: feedbackScore <= 50 ? 'green' :`linear-gradient(to right, green 0%, green \${(50/feedbackScore) * 100}%, yellow \${(75/feedbackScore) * 100}%, red 100%)`}" class="absolute inset-y-0 left-0"></div>
+      <div
+        :style="{
+          width: feedbackScore + '%',
+          height: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 1,
+          background: feedbackScore <= 50
+            ? 'green'
+            : `linear-gradient(
+                to right,
+                green 0%,
+                green ${(50 / feedbackScore) * 100}%,
+                yellow ${(75 / feedbackScore) * 100}%,
+                red 100%
+              )`
+        }"
+      ></div>
      <div class="absolute inset-0 flex items-center justify-between px-2 text-white text-sm">
       <span>Low</span>
       <span>High</span>
