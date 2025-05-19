@@ -105,14 +105,12 @@
       <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full flex relative">
         <div>
         <p class="ml-2 mt-2 text-text-headline text-5xl">Corridor 3's tank</p>
-        <p class="ml-2 text-s text-text mb-2 dark:text-text-dark">
           <!-- Progress Bar -->
         <div class="absolute top-0.5 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
           <div style="width: 60%; pointer-events: auto;">
             <ProgressBarComponent />
           </div>
         </div>
-        </p>
         </div>
         <div class="absolute mt-2 mr-3 hover:opacity-50 right-1">
           <button @click="showAboutModal=true">

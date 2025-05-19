@@ -1,6 +1,6 @@
 <template>
 <div class="barWrapper flex flex-col items-center gap-2">
-<div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+
   <!-- Top row: image, text, etc. -->
   <div 
     v-if="nextItem"
@@ -20,7 +20,7 @@
     </div>
     <!-- Feedback bar, no color atm, partially AI-generated-->
      <div class="relative flex-1 h-12 border-2 border-black rounded overflow-hidden">
-     <div :style="{ width: feedbackScore + '%', background: feedbackScore <= 50 ? 'green' :'linear-gradient(to right, green 0%, green \${(50/feedbackScore) * 100}%, yellow \${(75/feedbackScore) * 100}%, red 100%)'}" class="absolute inset-y-0 left-0"></div>
+     <div :style="{ width: feedbackScore + '%', background: feedbackScore <= 50 ? 'green' :`linear-gradient(to right, green 0%, green \${(50/feedbackScore) * 100}%, yellow \${(75/feedbackScore) * 100}%, red 100%)`}" class="absolute inset-y-0 left-0"></div>
      <div class="absolute inset-0 flex items-center justify-between px-2 text-white text-sm">
       <span>Low</span>
       <span>High</span>
@@ -28,7 +28,6 @@
     </div>
   </div>
 
-</div>
 </div>
 
 </template>
