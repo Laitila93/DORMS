@@ -1,5 +1,5 @@
 <template>
-  <NavComponent :socket="socket" :menu="navMenuType" />
+  <NavComponent :socket="socket" :menu="navMenuType" class="fixed top-4 right-4"/>
   
   <div class="flex flex-col justify-center items-center h-screen px-4">
 

@@ -1,43 +1,34 @@
 <template>
-  <NavComponent :socket="socket" :menu="menuType" />
-
   <div class="h-screen w-full p-[2%] pr-[3%]">
-    <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[15%_85%] h-full">
+    <div class="grid gap-4 grid-cols-[75%_25%] grid-rows-[8%_92%] h-full">
       
-      <!-- About / Header Section -->
-      <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full flex justify-between items-center">
-        <div>
-          <p class="text-xl text-text-headline">Unlockables & Challenges</p>
-          <p class="text-s text-text dark:text-text-dark">
-            Track your achievements and complete fun challenges to save water and earn rewards.
-              <!-- Progress Bar -->
-          <div class="absolute top-5 left-3/4 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
-            <div style="width: 60%; pointer-events: auto;">
-              <ProgressBarComponent/>
-            </div>
+      <!-- About / Header Section -->  
+      <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md pt-2 h-full flex relative">
+          <!-- Progress Bar -->
+        <div class="absolute  left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
+          <div style="width: 60%; pointer-events: auto;">
+            <ProgressBarComponent />
           </div>
-          </p>
         </div>
-        <div class="hover:opacity-50">
-          <button @click="showAboutModal = true">
-            <img src="https://cdn-icons-png.flaticon.com/512/1/1176.png" alt="Info" width="50" height="50" />
+          <button @click="showAboutModal=true" class="absolute hover:opacity-50 pt-1 left-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/1/1176.png" alt="Info" width="40" height="40">
           </button>
-        </div>
+          <NavComponent :key="navKey" :socket="socket" :menu="menuType" class="absolute pt-2 right-4"/>
       </div>
 
       <!-- Unlockables Section -->
       <div class="row-start-2 col-start-1 bg-secondary dark:bg-secondary-dark rounded-md p-4 overflow-y-auto">
         <p class="text-xl text-text-headline mb-2">Your Unlockables</p>
-        <div class="text-lg font-semibold flex flex-col gap-2 h-fill overflow-y-scroll overflow-x-hidden">
+        <div class="text-lg font-semibold flex flex-col gap-2 h-fill overflow-x-hidden">
           <div
             v-for="(unlock, index) in unlockables"
             :key="index"
-            class="flex justify-between items-center bg-offWhite rounded-md font-inter shadow-md p-2"
+            class="flex items-center bg-background-light dark:bg-background-dark rounded-md font-inter shadow-md p-2"
           >
             <img :src="unlock.icon" alt="miniavatar" class="w-28 h-28 rounded-lg" />
-            <div class="flex flex-col justify-center ml-4">
-              <p class="text-text text-base">{{ unlock.name }}</p>
-              <p class="text-text-dark text-sm">{{ unlock.description }}</p>
+            <div class="flex flex-col ml-4 text-text dark:text-text-dark">
+              <p class="text-base text-headline">{{ unlock.name }}</p>
+              <p class="text-sm">{{ unlock.description }}</p>
             </div>
           </div>
         </div>
@@ -99,7 +90,22 @@ const unlockables = ref([
     name: "Water Badge",
     description: "Earned for 5 consecutive days of saving water.",
     icon: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-  }
+  },
+    {
+    name: "Smart Timer",
+    description: "Lets you time showers effectively.",
+    icon: "https://cdn-icons-png.flaticon.com/512/2910/2910791.png"
+  },
+    {
+    name: "Smart Timer",
+    description: "Lets you time showers effectively.",
+    icon: "https://cdn-icons-png.flaticon.com/512/2910/2910791.png"
+  },
+    {
+    name: "Smart Timer",
+    description: "Lets you time showers effectively.",
+    icon: "https://cdn-icons-png.flaticon.com/512/2910/2910791.png"
+  },
 ]);
 
 const challenges = ref([

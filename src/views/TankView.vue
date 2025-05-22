@@ -1,8 +1,6 @@
 <template>
-  <NavComponent :key="navKey" :socket="socket" :menu="menuType" />
-  
   <div class="h-screen w-full p-[2%] pr-[3%]">
-    <div class="grid gap-4 grid-cols-[75%_20%] grid-rows-[17%_83%] h-full">
+    <div class="grid gap-4 grid-cols-[80%_20%] grid-rows-[8%_92%] h-full">
       
       <!-- Background Image Section -->
       <div class="row-start-2 col-start-1 relative w-full h-full border-2 bg-cover bg-center bg-background dark:bg-background-dark" ref="waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
@@ -102,21 +100,17 @@
       </div>
 
       <!-- About Section -->
-      <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md p-4 h-full flex relative">
-        <div>
-        <p class="ml-2 mt-2 text-text-headline text-5xl">Corridor 3's tank</p>
+      <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md pt-2 h-full flex relative">
           <!-- Progress Bar -->
-        <div class="absolute top-0.5 left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
-          <div style="width: 60%; pointer-events: auto;">
+        <div class="absolute  left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
+          <div style="width: 80%; pointer-events: auto;">
             <ProgressBarComponent />
           </div>
         </div>
-        </div>
-        <div class="absolute mt-2 mr-3 hover:opacity-50 right-1">
-          <button @click="showAboutModal=true">
-            <img src="https://cdn-icons-png.flaticon.com/512/1/1176.png" alt="Info" width="50" height="50">
+          <button @click="showAboutModal=true" class="absolute hover:opacity-50 pt-1 left-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/1/1176.png" alt="Info" width="40" height="40">
           </button>
-        </div>
+          <NavComponent :key="navKey" :socket="socket" :menu="menuType" class="absolute pt-2 right-4"/>
       </div>
     </div>
   </div>

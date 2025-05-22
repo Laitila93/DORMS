@@ -31,7 +31,7 @@ graphic component. This component is named 'RaceComponent'which presents the wat
       <RaceComponent :data="leaderboardData" />
     </main>
     
-    <NavComponent :socket="socket" :menu="menuType" />
+    <NavComponent :socket="socket" :menu="menuType" class="fixed top-4 right-4"/>
   
   </div>
   

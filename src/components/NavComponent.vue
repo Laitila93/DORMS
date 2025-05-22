@@ -3,7 +3,7 @@
     <!-- Hamburger Icon -->
     <button
       @click="toggleMenu()"
-      class="fixed top-4 right-4 z-50 flex flex-col justify-between w-8 h-6 cursor-pointer"
+      class="z-50 flex flex-col justify-between w-8 h-6 cursor-pointer"
       aria-label="Toggle menu"
     >
       <span :class="barClass(1)"></span>

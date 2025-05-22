@@ -4,51 +4,45 @@
 
 <template>
     <div class="flex justify-center content-center space-x-2 mb-2 mt-1">
-        <button @click="selectedContent='hourly'" 
-            :class="['px-4 py-2 rounded-md', selectedContent==='hourly' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
-            Hourly
-        </button>
-    
-        <button @click="selectedContent='daily'" 
-            :class="['px-4 py-2 rounded-md', selectedContent==='daily' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
-            Daily
-        </button>
-        <button @click="selectedContent='weekly'" 
-            :class="['px-4 py-2 rounded-md', selectedContent==='weekly' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
-            Weekly
-        </button>
-        <button @click="selectedContent='monthly'" 
-            :class="['px-4 py-2 rounded-md', selectedContent==='monthly' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-white hover:bg-gray-300']">
-            Monthly
+        <button
+            v-for="option in contentOptions"
+            :key="option.value"
+            @click="selectedContent = option.value"
+            class="items-center gap-2 cursor-pointer py-2 px-4 rounded-xl font-semibold transition-colors duration-300"
+            :class="selectedContent === option.value
+                ? 'bg-primary text-white dark:bg-primary-dark'
+                : 'bg-text-dark text-gray-800 dark:bg-secondary-dark dark:text-text-dark hover:bg-primary-dark dark:hover:bg-primary'"
+        >
+            {{ option.label }}
         </button>
     </div>
-    <NavComponent :menu="navMenuType" :socket="socket" />
+    <NavComponent :menu="navMenuType" :socket="socket" class="fixed top-4 right-4"/>
     
         <!-- Main Content Area -->
         <div class="p-4 overflow-y-auto space-y-6">
         <div v-if="selectedContent === 'hourly'">
             <p class="text-lg font-semibold mb-2">Hourly Stats</p>
             <div class="grid gap-4" :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']">
-                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-1 row-start-1 text-gray-800 text-center">
                     Total water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-2 row-start-1 text-gray-800 text-center">
                     Total warm water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-1 text-gray-800 text-center">
                     Total cold water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
                 </div>
                 <div
-                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
+                class="bg-text-dark rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
                 >
                     Warm water graph
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-2 text-gray-800 text-center">
                     Average shower time
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-3 text-gray-800 text-center">
                     You could have saved this many bananas
                 </div>
             </div>
@@ -60,29 +54,29 @@
                 class="grid gap-4"
                 :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']"
             >
-                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-1 row-start-1 text-gray-800 text-center">
                 <p>Total water consumption</p>
                 <div class="text-6xl justify-center mt-4">500 litres</div>
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-2 row-start-1 text-gray-800 text-center">
                 <p>Total warm water consumption</p>
                 <div class="text-6xl justify-center mt-4">500 litres</div>
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-1 text-gray-800 text-center">
                 Total cold water consumption
                 <div class="flex-1 flex items-center justify-center">
-                    <span class="text-5xl mt-6">500 litres</span>
+                    <span class="text-5xl mt-6">1000 litres</span>
                 </div>
                 </div>
 
-                <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
                     <div class="totGraph w-full h-60">
                         <canvas id="totGraph"></canvas>
                         <button @click="showTotGraphModal = true">Expand</button>
                     </div>
                 </div>
                 <div
-                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
+                class="bg-text-dark rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
                 >
                 <div class="warmGraph w-full h-60">
                         <canvas id="warmGraph"></canvas>
@@ -90,12 +84,12 @@
                     </div>
                 </div>
 
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-2 text-gray-800 text-center">
                 Average shower time
                 <div class="text-5xl justify-center mt-6">8m 15s</div>
                 </div>
 
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-3 text-gray-800 text-center">
                 You could have saved this many bananas
                 <div class="text-5xl justify-center mt-6">7,000,000</div>
                 </div>
@@ -105,33 +99,33 @@
         <div v-else-if="selectedContent === 'weekly'">
             <p class="text-lg font-semibold mb-2">Weekly Stats</p>
             <div class="grid gap-4" :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']">
-                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-1 row-start-1 text-gray-800 text-center">
                     Total water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-2 row-start-1 text-gray-800 text-center">
                     Total warm water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-1 text-gray-800 text-center">
                     Total cold water consumption
                 </div>
                 <div
-                class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-center"
+                class="bg-text-dark rounded-md col-start-1 row-start-2 row-span-2 text-center"
                 >
                 <div class="totGraph">
                  <canvas id="totGraph" class="w-full h-60"></canvas>
                 </div>
                 </div>
                 <div
-                class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
+                class="bg-text-dark rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center"
                 >
                 Warm water graph
                 </div>
 
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-2 text-gray-800 text-center">
                 Average shower time
                 </div>
 
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-3 text-gray-800 text-center">
                 You could have saved this many bananas
                 </div>
             </div>
@@ -142,24 +136,24 @@
             <div
                 class="grid gap-4"
                 :class="['grid-cols-[35%_35%_25%]','grid-rows-[150px_150px_150px]']">
-                <div class="bg-gray-200 rounded-md col-start-1 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-1 row-start-1 text-gray-800 text-center">
                     Total water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-2 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-2 row-start-1 text-gray-800 text-center">
                     Total warm water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-1 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-1 text-gray-800 text-center">
                     Total cold water consumption
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-1 row-start-2 row-span-2 text-gray-800 text-center">
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-2 row-start-2 row-span-2 text-gray-800 text-center">
                     Warm water graph
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-2 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-2 text-gray-800 text-center">
                     Average shower time
                 </div>
-                <div class="bg-gray-200 rounded-md col-start-3 row-start-3 text-gray-800 text-center">
+                <div class="bg-text-dark rounded-md col-start-3 row-start-3 text-gray-800 text-center">
                     You could have saved this many bananas
                 </div>
             </div>
@@ -200,6 +194,13 @@
     const showTotGraphModal = ref(false);
     const navMenuType = ref('tank');
     const selectedContent = ref('daily');
+
+    const contentOptions = [
+        { label: 'Hourly', value: 'hourly' },
+        { label: 'Daily', value: 'daily' },
+        { label: 'Weekly', value: 'weekly' },
+        { label: 'Monthly', value: 'monthly' }
+    ];
 
     let totChart: Chart|null = null;
     let warmChart: Chart|null = null;

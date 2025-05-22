@@ -4,7 +4,7 @@
   <!-- Top row: image, text, etc. -->
   <div 
     v-if="nextItem"
-    style="display: flex; align-items: center; gap: 8px; color: white"
+    style="display: flex; align-items: center; gap: 8px; color: white "
   >
     <span>Next: {{ nextItem.price }} XP</span>
     <img :src="nextItem.image" style="width: 40px; height: 40px; object-fit: contain;" />
