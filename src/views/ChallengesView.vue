@@ -6,7 +6,7 @@
       <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md pt-2 h-full flex relative">
           <!-- Progress Bar -->
         <div class="absolute  left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
-          <div style="width: 60%; pointer-events: auto;">
+          <div style="width: 85%; pointer-events: auto;">
             <ProgressBarComponent />
           </div>
         </div>

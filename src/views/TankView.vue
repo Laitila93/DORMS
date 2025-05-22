@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen w-full p-[2%] pr-[3%]">
-    <div class="grid gap-4 grid-cols-[80%_20%] grid-rows-[8%_92%] h-full">
-      
+  <div class="h-screen w-full p-[1rem]">
+    <div class="grid gap-4 grid-cols-[80%_18%] grid-rows-[8%_90%] h-full">
+
       <!-- Background Image Section -->
       <div class="row-start-2 col-start-1 relative w-full h-full border-2 bg-cover bg-center bg-background dark:bg-background-dark" ref="waterRef" style="background-image: url('https://i.imgur.com/9T34bA9.png')">
 
@@ -102,8 +102,8 @@
       <!-- About Section -->
       <div class="col-span-2 row-start-1 bg-secondary dark:bg-secondary-dark rounded-md pt-2 h-full flex relative">
           <!-- Progress Bar -->
-        <div class="absolute  left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden mb-1">
-          <div style="width: 80%; pointer-events: auto;">
+        <div class="absolute  left-1/2 -translate-x-1/2 z-0 w-full flex justify-center pointer-events-none overflow-hidden">
+          <div style="width: 85%; height: 100%; pointer-events: auto;">
             <ProgressBarComponent />
           </div>
         </div>
