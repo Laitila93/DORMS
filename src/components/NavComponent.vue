@@ -99,8 +99,7 @@ const closeMenu = () => (isOpen.value = false)
 const role = sessionStorage.getItem('userRole')
 const router = useRouter()
 const logout = () => {
-  sessionStorage.removeItem('authToken')
-  sessionStorage.removeItem('userRole')
+  sessionStorage.clear()
   router.push({ name: 'home' })
 }
 
