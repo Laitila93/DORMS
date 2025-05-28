@@ -56,10 +56,7 @@
 
   <!-- About Modal -->
   <ModalComponent v-model="showAboutModal">
-    <template #header>About</template>
-    <template #body>
-      <p>This section tracks your unlockables and water-saving challenges. Come back every day to check your progress!</p>
-    </template>
+{{ aboutChallenges.text }}
   </ModalComponent>
 </template>
 
@@ -69,6 +66,7 @@ import { getSocket } from '@/composables/socket';
 import NavComponent from '@/components/NavComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
+import aboutChallenges from '@/assets/about-challenges.json';
 const socket = getSocket(); // Import the socket instance from socket.ts
 const menuType = ref("tank");
 
