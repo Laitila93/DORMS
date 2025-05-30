@@ -1,33 +1,66 @@
-# DORMS
+# DORMS Water Consumption Dashboard
 
-This template should help get you started developing with Vue 3 in Vite.
+A Vue 3 web application for visualizing and tracking water consumption statistics, including XP progress, feedback, and unlockable items.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- View water consumption stats (hourly, daily, weekly, monthly)
+- Interactive graphs and progress bars
+- XP and feedback tracking
+- Unlockable items (fish, hats, etc.)
+- Responsive design
 
-## Type Support for `.vue` Imports in TS
+## Tech Stack
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- [Vue 3](https://vuejs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Chart.js](https://www.chartjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-## Customize configuration
+## Installation
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/yourusername/dorms-dashboard.git
+   cd dorms-dashboard
+   ```
 
-## Project Setup
+2. **Install dependencies:**
+   ```sh
+   npm install
+   ```
 
-```sh
-npm install
-```
+3. **Run the development server:**
+   ```sh
+   npm run dev
+   ```
 
-### Compile and Hot-Reload for Development
+4. **Build for production:**
+   ```sh
+   npm run build
+   ```
 
-```sh
-npm run dev
-```
+## Usage
 
-### Type-Check, Compile and Minify for Production
+- Select a time range (hourly, daily, weekly, monthly) to view stats.
+- View XP progress and feedback bars.
+- Unlock new items as you gain XP.
 
-```sh
-npm run build
-```
+## Folder Structure
+
+- `src/views/StatsView.vue` — Main statistics dashboard
+- `src/components/ProgressBarComponent.vue` — XP and feedback progress bars
+- `src/components/NavComponent.vue` — Navigation menu
+- `src/views/TankView.vue` — Main view
+
+## Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Contact
+
+For questions or feedback, please contact [joakim.kilbo@gmail.com](mailto:joakim.kilbo@gmail.com).
