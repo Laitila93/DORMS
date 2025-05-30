@@ -120,7 +120,7 @@
     NEWS AND UPDATES
   </ModalComponent>
   <ModalComponent v-model="showAboutModal">
-    About
+    {{ aboutSeascape.text }}
   </ModalComponent>
 </template>
 
@@ -138,6 +138,8 @@ import 'swiper/css/bundle';
 import '@/assets/custom-swiper.css'
 import ModalComponent from '@/components/ModalComponent.vue';
 import { feedbackScore } from '@/composables/scoreState';
+import aboutSeascape from '@/assets/about-seascape.json';
+
 
 const menuType = ref('tank');
 socket.on('connect', () => {

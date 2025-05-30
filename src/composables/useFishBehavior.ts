@@ -15,8 +15,8 @@ export function useFishBehavior(props: {
   const { shopData, shopUnlocks, dormID } = useShopData(socket);
   const { xpScore } = useScoreData(socket);
 
-  const fishX = ref(100);
-  const fishY = ref(100);
+  const fishX = ref(800); // Hard coded initial posistion, behind the rock x pos
+  const fishY = ref(400); // Hard coded initial position, behind the rock y pos
   const fishZ = ref(20);
   const randomScale = ref(1);
   const isFlipped = ref(false);
