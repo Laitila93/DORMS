@@ -45,67 +45,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useShopData } from '@/composables/useShopData';
 import { getSocket } from '@/composables/socket';
 import { useScoreData } from '@/composables/useScoreData';
+import { useProgressData } from '@/composables/useProgressData';
+import type { ShopData } from "@/composables/shopTypes";
+
 const socket = getSocket();
 
 const { shopData } = useShopData(socket);
 const { xpScore, feedbackScore } = useScoreData(socket);
-
-const nextFish = computed(() => {
-  const lockedFish = shopData.value?.fish
-    .filter(fish => fish.price > xpScore.value)
-    .sort((a, b) => a.price - b.price);
-  return lockedFish?.[0];
-});
-
-const nextHat = computed(() => {
-  const lockedHats = shopData.value?.hats
-    .filter(hat => hat.price > xpScore.value)
-    .sort((a, b) => a.price - b.price);
-  return lockedHats?.[0];
-});
-
-const nextItem = computed(() => {
-  const fish = nextFish.value;
-  const hat = nextHat.value;
-  if (!fish) return hat;
-  if (!hat) return fish;
-  return fish.price < hat.price ? fish : hat;
-});
-
-const lastFish = computed(() => {
-  const unlockedFish = shopData.value?.fish
-    .filter(fish => fish.price <= xpScore.value)
-    .sort((a, b) => b.price - a.price);
-  return unlockedFish?.[0];
-});
-
-const lastHat = computed(() => {
-  const unlockedHats = shopData.value?.hats
-    .filter(hat => hat.price <= xpScore.value)
-    .sort((a, b) => b.price - a.price);
-  return unlockedHats?.[0];
-});
-
-const lastItem = computed(() => {
-  const fish = lastFish.value;
-  const hat = lastHat.value;
-  if (!fish) return hat;
-  if (!hat) return fish;
-  return fish.price > hat.price ? fish : hat;
-});
-
-const progressPercentage = computed(() => {
-  if (!nextItem.value || !lastItem.value) {
-    return 100;
-  }
-  const totalDiff = nextItem.value.price - lastItem.value.price;
-  if (totalDiff <= 0) return 100;
-  return 100 * ((xpScore.value - lastItem.value.price) / totalDiff);
-});
+const { nextItem, progressPercentage } = useProgressData(shopData.value as ShopData, xpScore.value);
 </script>
 
 <style scoped>

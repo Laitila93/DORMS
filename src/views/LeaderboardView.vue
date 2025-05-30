@@ -53,7 +53,6 @@ const socket = getSocket(); // Import the socket instance from socket.ts
     socket.emit("getWaterData"); 
     socket.on("waterData", (records: Record<string, WaterLogItem[]>) => {
       mainWaterLog.value = records; //fetch water consumption data from server
-      console.log("Received water data:", mainWaterLog.value);
       for (const dorm in mainWaterLog.value) {
         const dormObject: WaterLogItem = mainWaterLog.value[dorm][0]; //get the first object in the array for each dorm
         const today = dormObject.today;

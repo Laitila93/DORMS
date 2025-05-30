@@ -18,7 +18,6 @@
   const props = defineProps<{
     data: DormScore[];
   }>();
-  console.log(props.data);
 
   type DormScore = {
     dormName: string;

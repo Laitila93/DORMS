@@ -157,19 +157,14 @@ const rockBounds = ref<DOMRect | null>(null); // Bounds of the rock
 const areFishesBlurred = ref(false) //Fishes are not blurred by default
 
 const equippedFishWithHats = computed(() => { //problem is likely here, logs return inconsistent w. database, but somewhat consistent w screen
-  console.log("equippedFish: ", equippedData.value?.fish);
-  console.log("equippedHats: ", equippedData.value?.hats);
   if (!equippedData.value?.fish || !shopData.value?.fish || !shopData.value?.hats) {
-    console.log("equippedFishWithHats did not recieve data");
     return []; // Still loading
   }
 
   return equippedData.value.fish.map((equippedFish, index) => { 
     const fishData = shopData.value?.fish.find(f => f.fishID === equippedFish);
     const hatEquip = equippedData.value?.hats[index]; //use index to get the correct hat for the fish instead oh hatID
-    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;
-    console.log("try hat: ", hatData?.name);                                            
-    console.log("try fish: ", fishData?.name);                                            
+    const hatData = hatEquip ? shopData.value?.hats.find(h => h.hatID === hatEquip) : null;                                           
     return {
       fishId: equippedFish,
       fishType: fishData?.name || 'unknown',

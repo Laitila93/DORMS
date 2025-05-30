@@ -88,7 +88,6 @@ const handleSubmit = () => {
 const dormID = sessionStorage.getItem('dormID');
 const getWaterData = () => {
   socket.emit('getDbWaterData', dormID); // Emit event to get water data from the server
-  console.log('Requesting water data...');
 }
 
 // Function to create a new user

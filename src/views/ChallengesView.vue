@@ -13,7 +13,7 @@
           <button @click="showAboutModal=true" class="absolute hover:opacity-50 pt-1 left-3">
             <img src="https://cdn-icons-png.flaticon.com/512/1/1176.png" alt="Info" width="40" height="40">
           </button>
-          <NavComponent :key="navKey" :socket="socket" :menu="menuType" class="absolute pt-2 right-4"/>
+          <NavComponent :socket="socket" :menu="menuType" class="absolute pt-2 right-4"/>
       </div>
 
       <!-- Unlockables Section -->
@@ -21,33 +21,39 @@
         <p class="text-xl text-text-headline mb-2">Your Unlockables</p>
         <div class="text-lg font-semibold flex flex-col gap-2 h-fill overflow-x-hidden">
           <div
-            v-for="(unlock, index) in unlockables"
-            :key="index"
-            class="flex items-center bg-background-light dark:bg-background-dark rounded-md font-inter shadow-md p-2"
+            v-for="item in sortedItems"
+            :key="item.id"
+            class="flex items-center gap-4 bg-background-light dark:bg-background-dark rounded-md font-inter shadow-md p-2"
+              :style="{
+                filter: item.price > xpScore ? 'grayscale(100%)' : 'none',
+                opacity: item.price > xpScore ? 0.6 : 1
+              }"
           >
-            <img :src="unlock.icon" alt="miniavatar" class="w-28 h-28 rounded-lg" />
-            <div class="flex flex-col ml-4 text-text dark:text-text-dark">
-              <p class="text-base text-headline">{{ unlock.name }}</p>
-              <p class="text-sm">{{ unlock.description }}</p>
+            <img :src="item.image" class="w-16 h-16 object-contain rounded" />
+            <div class="min-w-0">
+              <h3 class="text-lg font-bold truncate">{{ item.name }}</h3>
+              <p class="text-sm truncate">{{ item.description }}</p>
+              <p class="text-sm text-yellow-400">Unlocked at: {{ item.price }} XP</p>
+
             </div>
-          </div>
+          </div>  
         </div>
       </div>
 
       <!-- Challenges Section -->
-      <div class="row-start-2 col-start-2 bg-secondary dark:bg-secondary-dark rounded-md p-4">
-        <p class="text-xl text-text-headline mb-2 text-center">Daily Challenges</p>
-        <div class="swiper challenges-swiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide flex flex-col items-center justify-center" v-for="(challenge, i) in challenges" :key="i">
-              <h3 class="text-xl text-text-headline">{{ challenge.title }}</h3>
-              <p class="font-semibold text-text dark:text-text-dark text-center">{{ challenge.description }}</p>
+      <div class="row-start-2 col-start-2 bg-secondary dark:bg-secondary-dark rounded-md p-4 overflow-y-auto">
+        <p class="text-xl text-text-headline mb-2 text-center">Challenges</p>
+        <div class="text-lg font-semibold flex flex-col gap-2 h-fill overflow-x-hidden">
+          <div
+            v-for="(challenge, index) in challenges"
+            :key="index"
+            class="flex items-center bg-background-light dark:bg-background-dark rounded-md font-inter shadow-md p-2"
+          >
+            <img :src="challenge.icon" alt="miniavatar" class="w-28 h-28 rounded-lg" />
+            <div class="flex flex-col ml-4 text-text dark:text-text-dark">
+              <p class="text-base text-headline">{{ challenge.name }}</p>
+              <p class="text-sm">{{ challenge.description }}</p>
             </div>
-          </div>
-          <div class="swiper-pagination mt-2"></div>
-          <div class="flex justify-between mt-2">
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
           </div>
         </div>
       </div>
@@ -64,18 +70,63 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { getSocket } from '@/composables/socket';
 import NavComponent from '@/components/NavComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import ProgressBarComponent from '@/components/ProgressBarComponent.vue';
-const socket = getSocket(); // Import the socket instance from socket.ts
-const menuType = ref("tank");
+import { useShopData } from '@/composables/useShopData';
+import { useScoreData } from '@/composables/useScoreData';
 
-// Reactive State
+const socket = getSocket(); // Import the socket instance from socket.ts
+const { shopData } = useShopData(socket);
+const menuType = ref("tank");
+const { xpScore } = useScoreData(socket);
 const showAboutModal = ref(false);
 
-const unlockables = ref([
+// Flatten and normalize all items with a common shape
+const sortedItems = computed(() => {
+  const data = shopData.value;
+
+  if (!data) {
+    return [];
+  }
+
+  const fishItems = (data.fish || []).map(fish => ({
+    id: `fish-${fish.fishID}`,
+    name: fish.name,
+    description: fish.description,
+    price: fish.price,
+    image: fish.image,
+    rarity: fish.rarity,
+    type: "Fish"
+  }));
+
+  const hatItems = (data.hats || []).map(hat => ({
+    id: `hat-${hat.hatID}`,
+    name: hat.name,
+    description: hat.description,
+    price: hat.price,
+    image: hat.image,
+    type: "Hat"
+  }));
+
+  const specialItems = (data.specials || []).map(special => ({
+    id: `special-${special.specialID}`,
+    name: special.name,
+    description: special.description,
+    price: special.price,
+    image: special.image,
+    type: "Special"
+  }));
+
+  const allItems = [...fishItems, ...hatItems, ...specialItems];
+
+  return allItems.sort((a, b) => a.price - b.price);
+});
+
+
+const challenges = ref([
   {
     name: "Eco Showerhead",
     description: "Reduces water flow without compromising pressure.",
@@ -108,7 +159,7 @@ const unlockables = ref([
   },
 ]);
 
-const challenges = ref([
+const tips = ref([
   {
     title: "Keep It Short & Sweet",
     description: "Try a shorter shower today, every minute counts!"

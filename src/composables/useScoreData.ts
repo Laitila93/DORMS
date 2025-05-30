@@ -36,7 +36,7 @@ export function useScoreData(socket: Socket) {
   if (cachedXp === null) {
     socket.emit('getXp', dormID.value);
     socket.off('xp').on('xp', (data) => {
-      console.log('📥 Received XP data:', data);
+
       xpScore.value = data;
       setSessionData('xpScore', data);
     });
@@ -47,7 +47,6 @@ export function useScoreData(socket: Socket) {
     socket.off('feedback:update').on('feedback:update', (updatedFeedbackScore) => {
       const roundedScore = Math.round(updatedFeedbackScore.feedbackScore);
       feedbackScore.value = roundedScore;
-      console.log('📥 Received updated feedback score:', updatedFeedbackScore.feedbackScore);
       setSessionData('feedbackScore', roundedScore);
     });
   }
@@ -55,14 +54,12 @@ export function useScoreData(socket: Socket) {
   if (cachedConsumption === null) {
     socket.emit('getDbWaterData', dormID.value);
     socket.off('stats:update').on('stats:update', ({ stats }) => {
-      console.log('📥 Received stats update:', stats);
+
       const data = stats.consumptionStats24h;
       dailyConsumption.value = data;
       setSessionData('dailyConsumption', data);
     });
   }
-
-  console.log('Initialized score data with dormID:', dormID.value);
 
   return {
     xpScore,
