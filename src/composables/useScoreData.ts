@@ -1,8 +1,12 @@
 import type { Socket } from 'socket.io-client';
 import { xpScore, feedbackScore, dailyConsumption } from './scoreState';
 import { dormID } from './shopState';
+import { ref } from 'vue';
+import type { Ref } from 'vue';
+import type { HourlyConsumption} from './statsTypes';
 
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
+const stats: Ref<HourlyConsumption[]> = ref([]);
 
 function isDataFresh(key: string): boolean {
   const timestamp = sessionStorage.getItem(`${key}_timestamp`);
@@ -52,18 +56,16 @@ export function useScoreData(socket: Socket) {
   }
 
   if (cachedConsumption === null) {
-    socket.emit('getDbWaterData', dormID.value);
-    socket.off('stats:update').on('stats:update', ({ stats }) => {
-
-      const data = stats.consumptionStats24h;
-      dailyConsumption.value = data;
-      setSessionData('dailyConsumption', data);
+    socket.emit('getStats', dormID.value);
+    socket.off('stats:update').on('stats:update', ({ stats24h }) => {
+      stats.value = stats24h;
+      setSessionData('dailyConsumption', stats.value);
     });
   }
 
   return {
     xpScore,
     feedbackScore,
-    dailyConsumption,
+    stats
   };
 }
