@@ -2,6 +2,7 @@ import { ref, computed, watch } from 'vue';
 import { useShopData } from '@/composables/useShopData';
 import { useScoreData } from '@/composables/useScoreData';
 import { getSocket } from '@/composables/socket';
+import { equippedData } from './shopState';
 const socket = getSocket(); // Import the socket instance from socket.ts
 
 export function useFishBehavior(props: {
@@ -12,7 +13,7 @@ export function useFishBehavior(props: {
   rockBounds: DOMRect | null;
   isBlurred: boolean;
 }) {
-  const { shopData, shopUnlocks, dormID } = useShopData(socket);
+  const { shopData, shopUnlocks, equippedData, dormID } = useShopData(socket);
   const { xpScore } = useScoreData(socket);
 
   const fishX = ref(800); // Hard coded initial posistion, behind the rock x pos
@@ -22,11 +23,37 @@ export function useFishBehavior(props: {
   const isFlipped = ref(false);
   const fish = ref(shopData.value?.fish.find(f => f.name === props.fishType) || null);
   const hat = ref(shopData.value?.hats.find(h => h.name === props.hatType) || null);
+
   const fishIsBeingStyled = ref(false);
   const showHatSelector = ref(false);
   const showFishSelector = ref(false);
   const currentHatIndex = ref<number>(-1);
   const currentFishIndex = ref<number>(0);
+  
+  // Watch for shopData and hat to initialize the selector index
+  watch([shopData, hat], () => {
+    if (!shopData.value || !hat.value) return;
+  
+    const idx = shopData.value.hats.findIndex(h => h.hatID === hat.value?.hatID);
+    if (idx !== -1) currentHatIndex.value = idx;
+  }, { immediate: true });
+  
+  // Watch currentHatIndex to update the selected hat
+  watch(currentHatIndex, (newIdx) => {
+    if (shopData.value && shopData.value.hats[newIdx]) {
+      hat.value = shopData.value.hats[newIdx];
+    }
+  });
+
+  watch([shopData, fish], () => {
+    if (!shopData.value || !fish.value) return;
+
+    const idx = shopData.value.fish.findIndex(f => f.fishID === fish.value?.fishID);
+    if (idx !== -1) currentFishIndex.value = idx;
+  }, { immediate: true });
+
+
+  
   const sortedFish = shopData.value?.fish.sort((a, b) => a.price - b.price) || [];
   const sortedHats = shopData.value?.hats.sort((a, b) => a.price - b.price) || [];
 
