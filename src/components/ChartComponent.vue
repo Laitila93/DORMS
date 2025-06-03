@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, watch , onMounted, onBeforeUnmount } from 'vue';
+    import { ref, watch , onMounted, onBeforeUnmount, computed } from 'vue';
     import { Chart, registerables } from 'chart.js';
     import 'chartjs-adapter-date-fns';
 
@@ -22,6 +22,32 @@
 
     let chart: Chart<'line', ConsumptionData[]> | null = null;
     
+    const timeUnit = computed<'hour' | 'day' | 'week' | 'month'>(() => {
+        if (props.timeRange <= 24) {
+            return 'hour';
+        } else if (props.timeRange <= 24*7) {
+            return 'day';
+        } else if (props.timeRange <= 24*30) {
+            return 'week';
+        } else {
+            return 'month';
+        }
+    });
+
+    const displayFormats = {
+        hour: 'HH:mm',
+        day: 'yyyy-MM-dd',
+        week: "yyyy-'W'II",
+        month: 'yyyy-MM'
+    };
+
+    const tooltipFormats = {
+        hour: 'HH:mm',
+        day: 'yyyy-MM-dd',
+        week: "yyyy-'W'II",
+        month: 'yyyy-MM'
+    };
+
     function initChart() {
         const ctx = (document.getElementById(props.chartId) as HTMLCanvasElement).getContext('2d')!;
         if (chart) chart.destroy();
@@ -53,13 +79,22 @@
                         type: 'time',
                         time: {
                             parser: "yyyy-MM-dd'T'HH:mm:ssXXX",
-                            unit: 'hour',
-                            displayFormats: {hour: 'HH:mm'},
-                            tooltipFormat: 'HH:mm'
+                            unit: timeUnit.value,
+                            displayFormats: {[timeUnit.value]: displayFormats[timeUnit.value]},
+                            tooltipFormat: tooltipFormats[timeUnit.value]
                         },
                         min: windowStart,
                         max: now,
-                        title: {display: true, text: 'Time'}
+                        title: {
+                            display: true,
+                            text: (() => {
+                                switch (timeUnit.value) {
+                                    case 'hour': return 'Time (hour)';
+                                    case 'day': return 'Date';
+                                    case 'week': return 'Week';
+                                    case 'month': return 'Month';
+                                }
+                            })()}
                     },
                     y: {
                         beginAtZero: true,
