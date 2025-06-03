@@ -39,8 +39,8 @@ export function useScoreData(socket: Socket) {
   // If any of the data is missing or outdated, emit events and update sessionStorage
   if (cachedXp === null) {
     socket.emit('getXp', dormID.value);
-    socket.off('xp:update').on('xp:update', (data) => {
-
+    socket.off('xp').on('xp', (data) => {
+      console.log('XP update received:', data);
       xpScore.value = data;
       setSessionData('xpScore', data);
     });
