@@ -1,6 +1,7 @@
 # DORMS Water Consumption Dashboard
 
 A Vue 3 web application for visualizing and tracking water consumption statistics, including XP progress, feedback, and unlockable items.
+Part of a bachebachelor's project with the report available at: https://www.diva-portal.org/smash/record.jsf?pid=diva2:1964288
 
 ## Features
 
